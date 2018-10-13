@@ -1,0 +1,27 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '/assets/css/bootstrap.css';
+@import '/assets/css/font-awesome.css';
+@import '/assets/js/morris/morris-0.4.3.min.css';
+@import '/assets/css/custom.css';
+
+
+
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.router-link-exact-active{
+	background-color: turquoise !important;
+}
+.help-block{
+	color:red;
+	text-transform: capitalize;
+}

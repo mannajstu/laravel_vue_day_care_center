@@ -1,0 +1,15 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(/assets/css/bootstrap.css);@import url(/assets/css/font-awesome.css);@import url(/assets/js/morris/morris-0.4.3.min.css);@import url(/assets/css/custom.css);.navbar-laravel {
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.router-link-exact-active {
+  background-color: turquoise !important;
+}
+
+.help-block {
+  color: red;
+  text-transform: capitalize;
+}
+
