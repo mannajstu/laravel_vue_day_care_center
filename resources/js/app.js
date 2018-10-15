@@ -27,10 +27,7 @@ window.swal = swal;
 //common vue methods
 require('./mixins');
 
-//vue select 
-import vSelect from 'vue-select'
 
-Vue.component('v-select', vSelect)
 
 
 Vue.use(VueRouter)
@@ -54,6 +51,17 @@ let routes = [
    { path: '/addroom', component: require('./components/room/AddRoom.vue'),name: 'addroom',},
   { path: '/room/:id', component: require('./components/room/SingleRoom.vue'),name: 'singleroom',},
  { path: '/room/edit/:id', component: require('./components/room/AddRoom.vue'),name: 'editroom',},
+
+ //docor route
+ { path: '/doctor/', component: require('./components/doctor/Doctor.vue'),name: 'doctor',},
+   { path: '/adddoctor', component: require('./components/doctor/AddDoctor.vue'),name: 'adddoctor',},
+  { path: '/doctor/:id', component: require('./components/doctor/SingleDoctor.vue'),name: 'singledoctor',},
+ { path: '/doctor/edit/:id', component: require('./components/doctor/AddDoctor.vue'),name: 'editdoctor',},
+ //tacher route
+ { path: '/teacher/', component: require('./components/teacher/Teacher.vue'),name: 'teacher',},
+   { path: '/addteacher', component: require('./components/teacher/AddTeacher.vue'),name: 'addteacher',},
+  { path: '/teacher/:id', component: require('./components/teacher/SingleTeacher.vue'),name: 'singleteacher',},
+ { path: '/teacher/edit/:id', component: require('./components/teacher/AddTeacher.vue'),name: 'editteacher',},
 
 ]
 

@@ -69,10 +69,10 @@
                                             <td>{{ child.gender }}</td>
                                         </tr><tr>
                                             <th>Doctor Name</th>
-                                            <td>{{ child.doctor_name }}</td>
+                                            <td>{{ child.doctor.doctor_name }}</td>
                                         </tr><tr>
                                             <th>Teacher Name</th>
-                                            <td>{{ child.teacher_name }}</td>
+                                            <td>{{ child.teacher.teacher_name }}</td>
                                         </tr><tr>
                                             <th>Room No</th>
                                             <td>{{ child.room_number }}</td>

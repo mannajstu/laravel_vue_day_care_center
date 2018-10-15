@@ -10,7 +10,7 @@ class Room extends Model
         'room_number','room_capacity','room_description'
     ];
 
-    public function childrooms()
+    public function childinfos()
     {
         return $this->hasMany('App\ChildInfo','room_number','room_number');
     }

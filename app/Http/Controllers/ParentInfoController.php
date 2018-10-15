@@ -101,7 +101,7 @@ class ParentInfoController extends Controller
             
         ]);
 
-          $parent                  =ParentInfo::findOrfail($id);
+            $parent                =ParentInfo::findOrfail($id);
             $parent->mother_name     = $request->mother_name;
             $parent->father_name     = $request->father_name;
             $parent->contact_number  = $request->contact_number;

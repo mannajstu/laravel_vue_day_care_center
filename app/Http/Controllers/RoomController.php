@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Room;
+use App\ChildInfo;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -78,7 +79,7 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        $room = Room::where('room_number', $id)->with('childrooms')->first();
+        $room = Room::where('room_number', $id)->with('childinfos')->first();
 
         return $room ;
     }
@@ -101,9 +102,28 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            
+            'room_number'     => 'required|numeric',
+            'room_capacity'     => 'required|numeric',
+            'room_description'  => 'required',
+            
+            
+        ]);
+
+                    $room = Room::where('id', $id)->with('childinfos')->first();
+                    
+                    
+                    $room->room_number     =$request->room_number;
+                    $room->room_capacity     =$request->room_capacity;
+                    $room->room_description  =$request->room_description;
+
+                    $room->save();
+                    
+
+                    return $room ;
     }
 
     /**

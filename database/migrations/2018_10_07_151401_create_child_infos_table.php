@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateChildInfosTable extends Migration
 {
@@ -16,28 +16,30 @@ class CreateChildInfosTable extends Migration
         Schema::create('child_infos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('child_name');
+
             $table->integer('parentid')->unsigned();
-           
-           
+
             $table->string('birth_date');
             $table->string('birth_reg_no');
             $table->string('gender');
-            $table->string('doctor_name');
-            $table->string('teacher_name');
-            $table->integer('room_number')->unsigned();
+            
+            $table->integer('doctorid')->unsigned()->nullable();
+
+            $table->integer('teacherid')->unsigned()->nullable();
+            
+            $table->integer('room_number')->unsigned()->nullable();
 
             $table->foreign('parentid')->references('id')->on('parent_infos')
-             ->onDelete('cascade');
-             
-               $table->foreign('room_number')->references('room_number')->on('rooms')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->foreign('room_number')->references('room_number')->on('rooms')->onUpdate('cascade')->onDelete('set null');
+
+            $table->foreign('doctorid')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('set null');
+              $table->foreign('teacherid')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
 
             $table->timestamps();
         });
     }
-
-  
-       
-        
 
     /**
      * Reverse the migrations.

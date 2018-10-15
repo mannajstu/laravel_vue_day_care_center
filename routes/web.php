@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
@@ -21,6 +19,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('childinfo', 'ChildInfoController');
 Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');
-Route::get('/roomnumber', 'RoomController@roomnumber');
+
+Route::resource('doctorinfo', 'DoctorController');
+Route::resource('teacherinfo', 'TeacherController');
+
 
 Route::get('{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');

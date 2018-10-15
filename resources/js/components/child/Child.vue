@@ -99,6 +99,7 @@ axios.get('/childinfo')
         .then(({ data }) => 
         { 
            this.children=data;
+           console.log(data);
             
         }
         )

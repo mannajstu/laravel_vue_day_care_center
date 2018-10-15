@@ -16,6 +16,12 @@
                       <li>
                         <router-link to="/room"   ><i class="fa fa-dashboard fa-3x"></i> Room</router-link>
                     </li>
+                     <li>
+                        <router-link to="/doctor"   ><i class="fa fa-dashboard fa-3x"></i> Doctor</router-link>
+                    </li>
+                     <li>
+                        <router-link to="/teacher"   ><i class="fa fa-dashboard fa-3x"></i> Teacher</router-link>
+                    </li>
                                          
                          
                 </ul>

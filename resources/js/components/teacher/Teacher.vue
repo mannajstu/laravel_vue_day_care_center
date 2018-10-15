@@ -6,8 +6,8 @@
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
                                     
-                                    <router-link :to="{ name: 'addroom'}" tag='button' class="btn btn-primary">Add Room</router-link>
-                                    <h4 class="card-title">Room Information</h4>
+                                    <router-link :to="{ name: 'addteacher'}" tag='button' class="btn btn-primary">Add Teacher</router-link>
+                                    <h4 class="card-title">Teacher Information</h4>
                                     </div>
 
                                 <div class="card-body table-full-width table-responsive">
@@ -15,27 +15,30 @@
                         <thead>
                         <tr>
                                                
-                        <th>Room Number</th>
-                        <th>Room Capacity</th> 
-                        <th>Room Description</th>
+                        <th>Teacher Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Contact Address</th>
+                      
                         
                         <th>Action</th>
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="room in rooms">
+                    <tr v-for="teacher in teachers">
                         
                    
                    
-                    <td>{{ room.room_number }}</td>
-                    <td>{{ room.room_capacity }}</td>
-                    <td>{{ room.room_description }}</td>
+                    <td>{{ teacher.teacher_name }}</td>
+                    <td>{{ teacher.teacher_email}}</td>
+                    <td>{{ teacher.contact_number }}</td>
+                    <td>{{ teacher.contact_address }}</td>
                    
  
                    <td>
-                    <router-link :to="{ name: 'singleroom', params: { id: room.room_number }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
+                    <router-link :to="{ name: 'singleteacher', params: { id: teacher.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
 
-                    <router-link :to="{ name: 'editroom', params: { id: room.room_number }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
+                    <router-link :to="{ name: 'editteacher', params: { id: teacher.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
 
                     <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
@@ -64,16 +67,16 @@
         data () {
     return {
       // Create a new form instance
-      rooms:{},
+      teachers:{},
       
     }
   },
   methods: {
-          loadrooms(){
-          axios.get('/roominfo')
+          loadteachers(){
+          axios.get('/teacherinfo')
             .then(({ data }) => 
             { 
-               this.rooms=data;
+               this.teachers=data;
                console.log(data);
                 
             }
@@ -82,8 +85,9 @@
   
     
   },
+  //method end
         created() {
-            this.loadrooms();
+            this.loadteachers();
            
         },
   //       computed: {

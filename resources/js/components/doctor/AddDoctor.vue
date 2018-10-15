@@ -3,7 +3,7 @@
                     <div>
                     <div class="row">
  
-                    <form @submit.prevent="editmode ? updateroom() : addroom()" @keydown="form.onKeydown($event)" >
+                    <form @submit.prevent="editmode ? updatedoctor() : adddoctor()" @keydown="form.onKeydown($event)" >
 
                 
 
@@ -11,28 +11,35 @@
                     <div class="col-md-12">
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                    <h3>Room Information</h3>
+                    <h3>Doctor Information</h3>
                      
                     </div> 
                     <div class="panel-body">  
                     <div class="form-group col-md-4">
-                    <label>Room Number</label>
-                    <input v-model="form.room_number" type="number" name="room_number"
+                    <label>Doctor Name</label>
+                    <input v-model="form.doctor_name" type="text" name="doctor_name"
                     class="form-control" :class="{ 'is-invalid': form.errors.has('room_number') }">
-                    <has-error :form="form" field="room_number"></has-error>
+                    <has-error :form="form" field="doctor_name"></has-error>
                     </div>
                   
                     <div class="form-group col-md-4">
-                    <label>Room Capacity</label>
-                    <input v-model="form.room_capacity" type="text" name="room_capacity"
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('room_capacity') }">
-                    <has-error :form="form" field="room_capacity"></has-error>
+                    <label>Doctor Email</label>
+                    <input v-model="form.doctor_email" type="email" name="doctor_email"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('doctor_email') }">
+                    <has-error :form="form" field="doctor_email"></has-error>
                     </div>
                     <div class="form-group col-md-4">
-                    <label>Room Description</label>
-                    <input v-model="form.room_description" type="text" name="room_description"
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('room_description') }">
-                    <has-error :form="form" field="room_description"></has-error>
+                    <label>Contact Number</label>
+                    <input v-model="form.contact_number" type="number" name="contact_number"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
+                    <has-error :form="form" field="contact_number"></has-error>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                    <label>Contact Address</label>
+                    <input v-model="form.contact_address" type="text" name="contact_address"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('contact_address') }">
+                    <has-error :form="form" field="contact_address"></has-error>
                     </div>
 
                     
@@ -69,49 +76,46 @@ rooms:{},
 form: new Form({
 
 id:'',
-room_number: '',
-room_capacity: '',
-room_description: '',
-
-
-
-
+doctor_name: '',
+doctor_email: '',
+contact_number: '',
+contact_address: '',
 })
 }
 },
 methods: {
-        addroom () {
+        adddoctor () {
         // Submit the form via a POST request
-        this.form.post('/roominfo')
+        this.form.post('/doctorinfo')
         .then(({ data }) => 
         { 
 
         this.restform();
         this.successmsg();
-        this.$router.push('/room');
+        this.$router.push('/doctor');
         
 }
         )
         },
 
         
-updateroom () {
+updatedoctor () {
 // Submit the form via a POST request
-this.form.put('/roominfo/'+this.form.id)
+this.form.put('/doctorinfo/'+this.form.id)
 .then(({ data }) => 
 { 
 this.successmsg();
-this.$router.push('/room');
+this.$router.push('/doctor');
 
 }
 )
 
 // console.log("")
 },
-loadroom(){
+loaddoctor(){
 let id=this.$route.params.id;
 if(id){
-this.form.get('/roominfo/'+id)
+this.form.get('/doctorinfo/'+id)
   .then(({ data }) => 
   { 
     this.editmode=true;
@@ -129,7 +133,7 @@ this.form.get('/roominfo/'+id)
 },
 created() {
     
-       this.loadroom(); 
+       this.loaddoctor(); 
 
 },
 // watch: {

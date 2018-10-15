@@ -45,7 +45,10 @@
 
                     <div class="form-group col-md-4">
                     <label>Room Number</label>
-                 <v-select v-model="form.room_number" :options="rooms"></v-select>                 
+                 <select class="form-control" v-model='form.room_number'>
+                        <option v-for='room in rooms' :value="room.room_number">{{ room.room_number }}</option>
+                        
+                    </select>                   
                     <has-error :form="form" field="room_number"></has-error>
                     </div>
 
@@ -102,18 +105,25 @@
                     </div> 
                     <div class="panel-body">  
 
-                    <div class="form-group col-md-4">
-      <label>Doctor Name</label>
-      <input v-model="form.doctor_name" type="text" name="doctor_name"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('doctor_name') }">
-      <has-error :form="form" field="doctor_name"></has-error>
-    </div>
+                <div class="form-group col-md-4">
+                    <label>Doctor Name</label>
+                  
+                            <select class="form-control" v-model='form.doctorid' :class="{ 'is-invalid': form.errors.has('doctorid') }">
+                            <option v-for='doctor in doctors' :value="doctor.id">{{ doctor.doctor_name }}</option>
+
+                            </select>               
+                    <has-error :form="form" field="doctor_id"></has-error>
+                    </div>
+
     <div class="form-group col-md-4">
       <label>Teacher Name</label>
-      <input v-model="form.teacher_name" type="text" name="teacher_name"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('teacher_name') }">
-      <has-error :form="form" field="teacher_name"></has-error>
+                <select class="form-control" v-model='form.teacherid' :class="{ 'is-invalid': form.errors.has('teacherid') }">
+                <option v-for='teacher in teachers' :value="teacher.id">{{ teacher.teacher_name }}</option>
+
+                </select>
+      <has-error :form="form" field="teacherid"></has-error>
     </div>
+    <!-- //col-md-4 end -->
                     </div>
                     </div>
                     </div>
@@ -143,6 +153,8 @@ children:{},
 oldparent:false,
 roominfo:{},
 rooms:{},
+doctors:{},
+teachers:{},
 form: new Form({
 
 id:'',
@@ -154,8 +166,8 @@ contact_address:'',
 birth_date: '',
 birth_reg_no: '',
 gender:'',
-doctor_name:'',
-teacher_name: '',
+doctorid:'',
+teacherid: '',
 room_number: '',
 
 
@@ -192,7 +204,6 @@ this.$router.push('/child/');
 
 }
 )
-
 // console.log("")
 },
 loadchild(){
@@ -208,15 +219,17 @@ this.form.get('/childinfo/'+id)
     this.form.birth_date=data.birth_date;
     this.form.birth_reg_no=data.birth_reg_no;
     this.form.gender=data.gender;
-    this.form.doctor_name=data.doctor_name;
-    this.form.doctor_name=data.doctor_name;
-    this.form.teacher_name=data.teacher_name;
-    this.form.room_number=data.room_number;
-
+    
     this.form.mother_name=data.parentinfo.mother_name;
     this.form.father_name=data.parentinfo.father_name;
     this.form.contact_number=data.parentinfo.contact_number;
     this.form.contact_address=data.parentinfo.contact_address;
+
+    this.form.doctorid=data.doctorid;
+    this.form.teacherid=data.teacherid;
+    this.form.room_number=data.room_number;
+
+    
     
   
   }
@@ -227,7 +240,7 @@ this.form.get('/childinfo/'+id)
 
 },
 loadrooms(){
-    this.form.get('/roomnumber')
+    this.form.get('/roominfo')
         .then(({ data }) => 
         { 
             
@@ -237,10 +250,30 @@ console.log(data);
 
         }
         );
-       
+},
+loaddoctors(){
+    this.form.get('/doctorinfo')
+        .then(({ data }) => 
+        { 
+            
+this.doctors=data;
+console.log(data);
 
-        
 
+        }
+        );
+},
+loadteachers(){
+    this.form.get('/teacherinfo')
+        .then(({ data }) => 
+        { 
+            
+this.teachers=data;
+console.log(data);
+
+
+        }
+        );
 },
 
 // method end
@@ -249,6 +282,8 @@ created() {
     
        this.loadchild(); 
        this.loadrooms();
+       this.loaddoctors();
+       this.loadteachers();
 
 },
 watch: {

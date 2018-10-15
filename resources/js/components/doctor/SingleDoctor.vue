@@ -13,9 +13,9 @@
                         
                         <div class="panel-heading">
 
-                        <router-link to='/room' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link to='/doctor' tag='button' class='btn btn-primary'>Back</router-link>
                     
-                           <h3>Room Information</h3> 
+                           <h3>Doctor Information</h3> 
                             
                         </div>
                     
@@ -26,20 +26,25 @@
                                     
                                     <tbody>
                                         <tr>
-                                            <th>Room Number</th>
-                                            <td>{{ room.room_number }}</td>
+                                            <th>Doctor Name</th>
+                                            <td>{{ doctor.doctor_name }}</td>
                                             
                                         </tr>
                                         
                                         <tr>
-                                            <th>Room Capacity</th>
-                                            <td>{{ room.room_capacity }}</td>
+                                            <th>Email</th>
+                                            <td>{{ doctor.doctor_email }}</td>
                                         </tr>
 
                                 <tr>
-                                      <th>Room Description</th>
-                                      <td>{{ room.room_description }}</td>
+                                      <th>Contact Number</th>
+                                      <td>{{ doctor.contact_number }}</td>
                                 </tr>
+                                <tr>
+                                      <th>Contact Address</th>
+                                      <td>{{ doctor.contact_address }}</td>
+                                </tr>
+
 
 
                                         
@@ -116,20 +121,20 @@
     return {
       // Create a new form instance
       
-      room:{},
+      doctor:{},
       children:{},
      
       
     }
   },
   methods: {
-    singleroom () {
+    singledoctor () {
       // Submit the form via a POST request
       let id=this.$route.params.id;
-      axios.get('/roominfo/'+id)
+      axios.get('/doctorinfo/'+id)
         .then(({ data }) => 
         { 
-           this.room=data;
+           this.doctor=data;
            this.children=data.childinfos;
 
            console.log(data);
@@ -139,7 +144,7 @@
    
   },
         created() {
-            this.singleroom()
+            this.singledoctor()
         },
      
 
