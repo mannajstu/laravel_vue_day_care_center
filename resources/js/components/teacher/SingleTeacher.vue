@@ -27,18 +27,18 @@
                                     <tbody>
                                         <tr>
                                             <th>Teacher Name</th>
-                                            <td>{{ teacher.teacher_name }}</td>
+                                            <td>{{ teacher.user.name }}</td>
                                             
                                         </tr>
                                         
                                         <tr>
                                             <th>Email</th>
-                                            <td>{{ teacher.teacher_email }}</td>
+                                            <td>{{ teacher.user.email }}</td>
                                         </tr>
 
                                 <tr>
                                       <th>Contact Number</th>
-                                      <td>{{ teacher.contact_number }}</td>
+                                      <td>{{ teacher.user.contact_number }}</td>
                                 </tr>
                                 <tr>
                                       <th>Contact Address</th>

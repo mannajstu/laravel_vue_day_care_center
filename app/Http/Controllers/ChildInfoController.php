@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\ChildInfo;
 use App\ParentInfo;
+use App\User;
+use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ChildInfoController extends Controller
 {
@@ -20,9 +23,9 @@ class ChildInfoController extends Controller
     }
     public function index()
     {
-        return ChildInfo::with('parentinfo')->get();
+        $child= ChildInfo::with('parentinfo.user')->get();
+        return $child;
 
-        
     }
 
     /**
@@ -44,60 +47,61 @@ class ChildInfoController extends Controller
     public function store(Request $request)
     {
 
-        $oldparent = ParentInfo::where('contact_number', $request->contact_number)->first();
+        
+        $this->validate($request, [
 
-        if (!empty($oldparent)) {
-            $parentid = $oldparent->id;
-            $this->validate($request, [
-                'child_name'     => 'required',
-                'contact_number' => 'required',
+            'mother_name'     => 'required',
+            'father_name'     => 'required',
+            'email'           => 'required',
 
-                'birth_date'     => 'required',
-                'birth_reg_no'   => 'required',
-                'gender'         => 'required',
-                'doctorid'    => 'required',
-                'teacherid'   => 'required',
-                'room_number'    => 'required',
+            'contact_address' => 'required',
+            'child_name'      => 'required',
+            'contact_number'  => 'required',
 
-            ]);
+            'birth_date'      => 'required',
+            'birth_reg_no'    => 'required',
+            'gender'          => 'required',
+            'doctorid'        => 'required',
+            'teacherid'       => 'required',
+            'room_number'     => 'required',
 
-        } else {
-            $this->validate($request, [
+        ]);
+        $user = new User;
 
-                'mother_name'     => 'required',
-                'father_name'     => 'required',
+        $user->name           = $request->father_name;
+        $user->email          = $request->email;
+        $user->password       = Hash::make('password');
+        $user->contact_number = $request->contact_number;
+        $user->save();
 
-                'contact_address' => 'required',
-                'child_name'     => 'required',
-                'contact_number' => 'required',
-
-                'birth_date'     => 'required',
-                'birth_reg_no'   => 'required',
-                'gender'         => 'required',
-                'doctorid'    => 'required',
-                'teacherid'   => 'required',
-                'room_number'    => 'required',
-
-            ]);
-            $parent                  = new ParentInfo;
-            $parent->mother_name     = $request->mother_name;
-            $parent->father_name     = $request->father_name;
-            $parent->contact_number  = $request->contact_number;
-            $parent->contact_address = $request->contact_address;
-            $parent->save();
-            $parentid = $parent->id;
+        $role = Role::where('name', 'parent')->first();
+        // return $role;
+        if (empty($role)) {
+            $role       = new Role;
+            $role->name = "parent";
+            $role->save();
         }
+        $user->roles()->attach( $role->id);
+
+        $parent = new ParentInfo;
+
+        $parent->mother_name     = $request->mother_name;
+        $parent->contact_address = $request->contact_address;
+        $parent->userid          = $user->id;
+        $parent->save();
+
+        // }
 
         $child = new ChildInfo;
 
         $child->child_name = $request->child_name;
-        $child->parentid   = $parentid;
+        $child->parentid   = $parent->id;
 
         $child->birth_date   = $request->birth_date;
         $child->birth_reg_no = $request->birth_reg_no;
         $child->gender       = $request->gender;
-        $child->doctorid = $request->doctorid;
-        $child->teacherid = $request->teacherid;
+        $child->doctorid     = $request->doctorid;
+        $child->teacherid    = $request->teacherid;
         $child->room_number  = $request->room_number;
         $child->save();
 
@@ -112,10 +116,10 @@ class ChildInfoController extends Controller
     public function show($id)
     {
         $child = ChildInfo::where('id', $id)
-        ->with('parentinfo')
-        ->with('doctor')
-        ->with('teacher')
-        ->first();
+            ->with('parentinfo.user')
+            ->with('doctor.user')
+            ->with('teacher.user')
+            ->firstOrFail();
 
         return $child;
     }
@@ -144,32 +148,41 @@ class ChildInfoController extends Controller
             'child_name'      => 'required',
             'mother_name'     => 'required',
             'father_name'     => 'required',
+            'email'     => 'required',
             'contact_number'  => 'required',
             'contact_address' => 'required',
             'birth_date'      => 'required',
             'birth_reg_no'    => 'required',
             'gender'          => 'required',
-            'doctorid'     => 'required',
-            'teacherid'    => 'required',
+            'doctorid'        => 'required',
+            'teacherid'       => 'required',
             'room_number'     => 'required',
         ]);
 
-        $child             = ChildInfo::where('id', $id)->with('parentinfo')->first();
+        $child             = ChildInfo::where('id', $id)
+                            ->with('parentinfo.user')
+                            ->first();
+
+
         $child->child_name = $request->child_name;
 
         $child->birth_date   = $request->birth_date;
         $child->birth_reg_no = $request->birth_reg_no;
         $child->gender       = $request->gender;
-        $child->doctorid  = $request->doctorid;
-        $child->teacherid = $request->teacherid;
+        $child->doctorid     = $request->doctorid;
+        $child->teacherid    = $request->teacherid;
         $child->room_number  = $request->room_number;
 
         $child->parentinfo->mother_name     = $request->mother_name;
-        $child->parentinfo->father_name     = $request->father_name;
-        $child->parentinfo->contact_number  = $request->contact_number;
         $child->parentinfo->contact_address = $request->contact_address;
+        
+        $child->parentinfo->user->name     = $request->father_name;
+        $child->parentinfo->user->email     = $request->email;
+        $child->parentinfo->user->contact_number  = $request->contact_number;
+        
         $child->save();
         $child->parentinfo->save();
+        $child->parentinfo->user->save();
 //         $child->parentinfo()->update(['mother_name' =>$request->mother_name,
 
 // 'father_name' => $request->father_name,

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ParentInfo extends Model
 {
      protected $fillable = [
-        'mother_name','father_name','contact_number','contact_address'
+        'mother_name',
     ];
 
     /**
@@ -18,5 +18,9 @@ class ParentInfo extends Model
      public function childinfos()
     {
         return $this->hasMany('App\ChildInfo','parentid');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\User','userid','id');
     }
 }

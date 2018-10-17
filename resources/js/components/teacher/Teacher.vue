@@ -29,9 +29,9 @@
                         
                    
                    
-                    <td>{{ teacher.teacher_name }}</td>
-                    <td>{{ teacher.teacher_email}}</td>
-                    <td>{{ teacher.contact_number }}</td>
+                    <td>{{ teacher.user.name }}</td>
+                    <td>{{ teacher.user.email}}</td>
+                    <td>{{ teacher.user.contact_number }}</td>
                     <td>{{ teacher.contact_address }}</td>
                    
  

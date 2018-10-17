@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Teacher;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return Teacher::all();
+        return Teacher::with('user')->get();
     }
 
     /**
@@ -35,22 +43,38 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-         $this->validate($request, [
-            
+        $this->validate($request, [
+
             'teacher_name'    => 'required',
-            'teacher_email'     => 'required',
+            'teacher_email'   => 'required',
             'contact_number'  => 'required',
             'contact_address' => 'required',
-            
+
         ]);
 
-           $teacher   = new Teacher;
-            $teacher->teacher_name     = $request->teacher_name;
-            $teacher->teacher_email     = $request->teacher_email;
-            $teacher->contact_number  = $request->contact_number;
-            $teacher->contact_address = $request->contact_address;
-            $teacher->save();
-             return $teacher;
+        $user = new User;
+
+        $user->name           = $request->teacher_name;
+        $user->email          = $request->teacher_email;
+        $user->password       = Hash::make('password');
+        $user->contact_number = $request->contact_number;
+        $user->save();
+
+        $role = Role::where('name', 'teacher')->first();
+        // return $role;
+        if (empty($role)) {
+            $role       = new Role;
+            $role->name = "teacher";
+            $role->save();
+        }
+        $user->roles()->attach($role->id);
+
+        $teacher = new Teacher;
+
+        $teacher->contact_address = $request->contact_address;
+        $teacher->userid = $user->id;
+        $teacher->save();
+        return $teacher;
     }
 
     /**
@@ -61,7 +85,10 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-         $teacher =Teacher::where('id', $id)->with('childinfos')->first();
+        $teacher = Teacher::where('id', $id)
+        ->with('childinfos')
+        ->with('user')
+        ->first();
 
         return $teacher;
     }
@@ -84,9 +111,27 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+
+            'teacher_name'    => 'required',
+            'teacher_email'   => 'required',
+            'contact_number'  => 'required',
+            'contact_address' => 'required',
+
+        ]);
+
+         $teacher                =Teacher::findOrfail($id);
+            
+            $teacher->user->email     = $request->teacher_email;
+            $teacher->user->name     = $request->teacher_name;
+            $teacher->user->contact_number  = $request->contact_number;
+            $teacher->contact_address = $request->contact_address;
+            $teacher->save();
+            $teacher->user->save();
+            return $teacher  ;
+
     }
 
     /**

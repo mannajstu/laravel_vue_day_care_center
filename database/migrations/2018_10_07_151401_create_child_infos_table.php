@@ -35,7 +35,7 @@ class CreateChildInfosTable extends Migration
             $table->foreign('room_number')->references('room_number')->on('rooms')->onUpdate('cascade')->onDelete('set null');
 
             $table->foreign('doctorid')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('set null');
-              $table->foreign('teacherid')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('teacherid')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
 
             $table->timestamps();
         });

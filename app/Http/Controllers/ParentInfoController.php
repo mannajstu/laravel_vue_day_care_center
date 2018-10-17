@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ParentInfo;
+use App\User;
+use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ParentInfoController extends Controller
 {
@@ -20,7 +23,7 @@ class ParentInfoController extends Controller
      */
     public function index()
     {
-        return ParentInfo::all();
+        return ParentInfo::with('user')->get();
     }
 
     /**
@@ -46,17 +49,35 @@ class ParentInfoController extends Controller
             'mother_name'     => 'required',
             'father_name'     => 'required',
             'contact_number'  => 'required',
+            'email'  => 'required',
             'contact_address' => 'required',
             
         ]);
 
-         $parent                  = new ParentInfo;
-            $parent->mother_name     = $request->mother_name;
-            $parent->father_name     = $request->father_name;
-            $parent->contact_number  = $request->contact_number;
-            $parent->contact_address = $request->contact_address;
-            $parent->save();
-            return $parent;
+         $user = new User;
+
+        $user->name           = $request->father_name;
+        $user->email          = $request->email;
+        $user->password       = Hash::make('password');
+        $user->contact_number = $request->contact_number;
+        $user->save();
+
+        $role = Role::where('name', 'parent')->first();
+        // return $role;
+        if (empty($role)) {
+            $role       = new Role;
+            $role->name = "parent";
+            $role->save();
+        }
+        $user->roles()->attach( $role->id);
+
+        $parent = new ParentInfo;
+
+        $parent->mother_name     = $request->mother_name;
+        $parent->contact_address = $request->contact_address;
+        $parent->userid          = $user->id;
+        $parent->save();
+        return $parent;
     }
 
     /**
@@ -67,7 +88,10 @@ class ParentInfoController extends Controller
      */
     public function show($id)
     {
-        $parent = ParentInfo::where('id', $id)->with('childinfos')->first();
+        $parent = ParentInfo::where('id', $id)
+        ->with('childinfos')
+        ->with('user')
+        ->first();
 
         return $parent;
     }
@@ -98,15 +122,18 @@ class ParentInfoController extends Controller
             'father_name'     => 'required',
             'contact_number'  => 'required',
             'contact_address' => 'required',
+            'email' => 'required',
             
         ]);
 
             $parent                =ParentInfo::findOrfail($id);
             $parent->mother_name     = $request->mother_name;
-            $parent->father_name     = $request->father_name;
-            $parent->contact_number  = $request->contact_number;
+            $parent->user->email     = $request->email;
+            $parent->user->name     = $request->father_name;
+            $parent->user->contact_number  = $request->contact_number;
             $parent->contact_address = $request->contact_address;
             $parent->save();
+            $parent->user->save();
             return $parent;
     }
     

@@ -119,7 +119,13 @@ this.form.get('/doctorinfo/'+id)
   .then(({ data }) => 
   { 
     this.editmode=true;
-    this.form.fill(data);
+    this.form.id=data.id;
+    
+
+    this.form.doctor_name=data.user.name;
+    this.form.doctor_email=data.user.email;
+    this.form.contact_number=data.user.contact_number;
+    this.form.contact_address=data.contact_address;
     console.log(data);
   }
   )

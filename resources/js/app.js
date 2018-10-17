@@ -36,17 +36,22 @@ Vue.use(VueRouter)
 let routes = [
  
   { path: '/', component: require('./components/Dashboard.vue'),name: 'home',},
-
-  { path: '/parent', component: require('./components/parent/Parent.vue'),name: 'parent',},
+//user /admin route
+  { path: '/user', component: require('./components/user/User.vue'),name: 'user',},
+  { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',},
+   { path: '/user/:id', component: require('./components/user/SingleUser.vue'),name: 'singleuser',},
+   { path: '/user/edit/:id', component: require('./components/user/AddUser.vue'),name: 'edituser',},
+//parent route
+   { path: '/parent', component: require('./components/parent/Parent.vue'),name: 'parent',},
   { path: '/addparent', component: require('./components/parent/AddParent.vue'),name: 'addparent',},
    { path: '/parent/:id', component: require('./components/parent/SingleParent.vue'),name: 'singleparent',},
    { path: '/parent/edit/:id', component: require('./components/parent/AddParent.vue'),name: 'editparent',},
    
-  
+  //child route
   { path: '/child/', component: require('./components/child/Child.vue'),name: 'child',},
   { path: '/child/:id', component: require('./components/child/SingleChild.vue'),name: 'singlechild',},
   { path: '/child/edit/:id', component: require('./components/Dashboard.vue'),name: 'editchild',},
-
+//room route
   { path: '/room/', component: require('./components/room/Room.vue'),name: 'room',},
    { path: '/addroom', component: require('./components/room/AddRoom.vue'),name: 'addroom',},
   { path: '/room/:id', component: require('./components/room/SingleRoom.vue'),name: 'singleroom',},

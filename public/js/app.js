@@ -14272,7 +14272,16 @@ __webpack_require__(48);
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
-var routes = [{ path: '/', component: __webpack_require__(13), name: 'home' }, { path: '/parent', component: __webpack_require__(51), name: 'parent' }, { path: '/addparent', component: __webpack_require__(14), name: 'addparent' }, { path: '/parent/:id', component: __webpack_require__(56), name: 'singleparent' }, { path: '/parent/edit/:id', component: __webpack_require__(14), name: 'editparent' }, { path: '/child/', component: __webpack_require__(59), name: 'child' }, { path: '/child/:id', component: __webpack_require__(62), name: 'singlechild' }, { path: '/child/edit/:id', component: __webpack_require__(13), name: 'editchild' }, { path: '/room/', component: __webpack_require__(65), name: 'room' }, { path: '/addroom', component: __webpack_require__(15), name: 'addroom' }, { path: '/room/:id', component: __webpack_require__(70), name: 'singleroom' }, { path: '/room/edit/:id', component: __webpack_require__(15), name: 'editroom' },
+var routes = [{ path: '/', component: __webpack_require__(13), name: 'home' },
+//user /admin route
+{ path: '/user', component: __webpack_require__(98), name: 'user' }, { path: '/adduser', component: __webpack_require__(97), name: 'adduser' }, { path: '/user/:id', component: __webpack_require__(103), name: 'singleuser' }, { path: '/user/edit/:id', component: __webpack_require__(97), name: 'edituser' },
+//parent route
+{ path: '/parent', component: __webpack_require__(51), name: 'parent' }, { path: '/addparent', component: __webpack_require__(14), name: 'addparent' }, { path: '/parent/:id', component: __webpack_require__(56), name: 'singleparent' }, { path: '/parent/edit/:id', component: __webpack_require__(14), name: 'editparent' },
+
+//child route
+{ path: '/child/', component: __webpack_require__(59), name: 'child' }, { path: '/child/:id', component: __webpack_require__(62), name: 'singlechild' }, { path: '/child/edit/:id', component: __webpack_require__(13), name: 'editchild' },
+//room route
+{ path: '/room/', component: __webpack_require__(65), name: 'room' }, { path: '/addroom', component: __webpack_require__(15), name: 'addroom' }, { path: '/room/:id', component: __webpack_require__(70), name: 'singleroom' }, { path: '/room/edit/:id', component: __webpack_require__(15), name: 'editroom' },
 
 //docor route
 { path: '/doctor/', component: __webpack_require__(73), name: 'doctor' }, { path: '/adddoctor', component: __webpack_require__(16), name: 'adddoctor' }, { path: '/doctor/:id', component: __webpack_require__(78), name: 'singledoctor' }, { path: '/doctor/edit/:id', component: __webpack_require__(16), name: 'editdoctor' },
@@ -55115,6 +55124,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
         data: function data() {
@@ -55135,6 +55150,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 mother_name: '',
                                 father_name: '',
                                 contact_number: '',
+                                email: '',
                                 contact_address: '',
                                 birth_date: '',
                                 birth_reg_no: '',
@@ -55195,13 +55211,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                         _this3.form.gender = data.gender;
 
                                         _this3.form.mother_name = data.parentinfo.mother_name;
-                                        _this3.form.father_name = data.parentinfo.father_name;
-                                        _this3.form.contact_number = data.parentinfo.contact_number;
+                                        _this3.form.father_name = data.parentinfo.user.name;
+                                        _this3.form.email = data.parentinfo.user.email;
+                                        _this3.form.contact_number = data.parentinfo.user.contact_number;
                                         _this3.form.contact_address = data.parentinfo.contact_address;
 
                                         _this3.form.doctorid = data.doctorid;
                                         _this3.form.teacherid = data.teacherid;
                                         _this3.form.room_number = data.room_number;
+                                        console.log(data);
                                 });
                         }
                 },
@@ -55224,6 +55242,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
                                 _this5.doctors = data;
+
                                 console.log(data);
                         });
                 },
@@ -55235,6 +55254,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
                                 _this6.teachers = data;
+
                                 console.log(data);
                         });
                 }
@@ -55598,6 +55618,42 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group col-md-4" },
+                  [
+                    _c("label", [_vm._v("Email Address")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("email") },
+                      attrs: { type: "email", name: "email" },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "email" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
                 !_vm.oldparent
                   ? _c("div", [
                       _c(
@@ -55783,7 +55839,7 @@ var render = function() {
                         return _c(
                           "option",
                           { domProps: { value: doctor.id } },
-                          [_vm._v(_vm._s(doctor.doctor_name))]
+                          [_vm._v(_vm._s(doctor.user.name))]
                         )
                       })
                     ),
@@ -55840,7 +55896,7 @@ var render = function() {
                         return _c(
                           "option",
                           { domProps: { value: teacher.id } },
-                          [_vm._v(_vm._s(teacher.teacher_name))]
+                          [_vm._v(_vm._s(teacher.user.name))]
                         )
                       })
                     ),
@@ -56110,11 +56166,11 @@ var render = function() {
                     return _c("tr", [
                       _c("td", [_vm._v(_vm._s(parent.id))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(parent.father_name))]),
+                      _c("td", [_vm._v(_vm._s(parent.user.name))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(parent.mother_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(parent.contact_number))]),
+                      _c("td", [_vm._v(_vm._s(parent.user.contact_number))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(parent.contact_address))]),
                       _vm._v(" "),
@@ -56278,6 +56334,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -56295,6 +56358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 mother_name: '',
                                 father_name: '',
                                 contact_number: '',
+                                email: '',
                                 contact_address: ''
 
                         })
@@ -56337,7 +56401,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                         var data = _ref3.data;
 
                                         _this3.editmode = true;
-                                        _this3.form.fill(data);
+                                        _this3.form.id = data.id;
+                                        _this3.form.mother_name = data.mother_name;
+
+                                        _this3.form.father_name = data.user.name;
+                                        _this3.form.email = data.user.email;
+                                        _this3.form.contact_number = data.user.contact_number;
+                                        _this3.form.contact_address = data.contact_address;
+
+                                        console.log(data);
                                 });
                         }
                 }
@@ -56414,6 +56486,42 @@ var render = function() {
                     _vm._v(" "),
                     _c("has-error", {
                       attrs: { form: _vm.form, field: "contact_number" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group col-md-4" },
+                  [
+                    _c("label", [_vm._v("Contact Email")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("email") },
+                      attrs: { type: "email", name: "email" },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "email" }
                     })
                   ],
                   1
@@ -56774,6 +56882,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -56855,7 +56967,7 @@ var render = function() {
                     _c("tr", [
                       _c("th", [_vm._v("Father Name")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.parent.father_name))])
+                      _c("td", [_vm._v(_vm._s(_vm.parent.user.name))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -56867,7 +56979,13 @@ var render = function() {
                     _c("tr", [
                       _c("th", [_vm._v("Contact Number")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.parent.contact_number))])
+                      _c("td", [_vm._v(_vm._s(_vm.parent.user.contact_number))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Contact Email")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.parent.user.email))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -57223,12 +57341,12 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(child.child_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(child.parentinfo.father_name))]),
+                      _c("td", [_vm._v(_vm._s(child.parentinfo.user.name))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(child.parentinfo.mother_name))]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(child.parentinfo.contact_number))
+                        _vm._v(_vm._s(child.parentinfo.user.contact_number))
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(child.birth_reg_no))]),
@@ -57471,6 +57589,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -57555,9 +57674,7 @@ var render = function() {
                     _c("tr", [
                       _c("th", [_vm._v("Father Name")]),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm.child.parentinfo.father_name))
-                      ])
+                      _c("td", [_vm._v(_vm._s(_vm.child.parentinfo.user.name))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -57584,7 +57701,7 @@ var render = function() {
                       _c("th", [_vm._v("Contact Number")]),
                       _vm._v(" "),
                       _c("td", [
-                        _vm._v(_vm._s(_vm.child.parentinfo.contact_number))
+                        _vm._v(_vm._s(_vm.child.parentinfo.user.contact_number))
                       ])
                     ]),
                     _vm._v(" "),
@@ -57601,15 +57718,16 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(_vm.child.gender))])
                     ]),
+                    _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Doctor Name")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.child.doctor.doctor_name))])
+                      _c("td", [_vm._v(_vm._s(_vm.child.doctor.user.name))])
                     ]),
                     _c("tr", [
                       _c("th", [_vm._v("Teacher Name")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.child.teacher.teacher_name))])
+                      _c("td", [_vm._v(_vm._s(_vm.child.teacher.user.name))])
                     ]),
                     _c("tr", [
                       _c("th", [_vm._v("Room No")]),
@@ -58832,11 +58950,11 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.doctors, function(doctor) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(doctor.doctor_name))]),
+                      _c("td", [_vm._v(_vm._s(doctor.user.name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(doctor.doctor_email))]),
+                      _c("td", [_vm._v(_vm._s(doctor.user.email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(doctor.contact_number))]),
+                      _c("td", [_vm._v(_vm._s(doctor.user.contact_number))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(doctor.contact_address))]),
                       _vm._v(" "),
@@ -59054,7 +59172,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                         var data = _ref3.data;
 
                                         _this3.editmode = true;
-                                        _this3.form.fill(data);
+                                        _this3.form.id = data.id;
+
+                                        _this3.form.doctor_name = data.user.name;
+                                        _this3.form.doctor_email = data.user.email;
+                                        _this3.form.contact_number = data.user.contact_number;
+                                        _this3.form.contact_address = data.contact_address;
                                         console.log(data);
                                 });
                         }
@@ -59567,19 +59690,19 @@ var render = function() {
                     _c("tr", [
                       _c("th", [_vm._v("Doctor Name")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.doctor.doctor_name))])
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.name))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Email")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.doctor.doctor_email))])
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.email))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Contact Number")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.doctor.contact_number))])
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.contact_number))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -59910,11 +60033,11 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.teachers, function(teacher) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(teacher.teacher_name))]),
+                      _c("td", [_vm._v(_vm._s(teacher.user.name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(teacher.teacher_email))]),
+                      _c("td", [_vm._v(_vm._s(teacher.user.email))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(teacher.contact_number))]),
+                      _c("td", [_vm._v(_vm._s(teacher.user.contact_number))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(teacher.contact_address))]),
                       _vm._v(" "),
@@ -60075,71 +60198,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-        data: function data() {
-                return {
-                        // Create a new form instance
+  data: function data() {
+    return {
+      // Create a new form instance
 
-                        editmode: false,
-                        teachers: {},
+      editmode: false,
+      teachers: {},
 
-                        form: new Form({
+      form: new Form({
 
-                                id: '',
-                                teacher_name: '',
-                                teacher_email: '',
-                                contact_number: '',
-                                contact_address: ''
-                        })
-                };
-        },
+        id: '',
+        teacher_name: '',
+        teacher_email: '',
+        contact_number: '',
+        contact_address: ''
+      })
+    };
+  },
 
-        methods: {
-                addteacher: function addteacher() {
-                        var _this = this;
+  methods: {
+    addteacher: function addteacher() {
+      var _this = this;
 
-                        // Submit the form via a POST request
-                        this.form.post('/teacherinfo').then(function (_ref) {
-                                var data = _ref.data;
+      // Submit the form via a POST request
+      this.form.post('/teacherinfo').then(function (_ref) {
+        var data = _ref.data;
 
 
-                                _this.restform();
-                                _this.successmsg();
-                                _this.$router.push('/teacher');
-                                console.log(data);
-                        });
-                },
-                updateteacher: function updateteacher() {
-                        var _this2 = this;
+        _this.restform();
+        _this.successmsg();
+        _this.$router.push('/teacher');
+        console.log(data);
+      });
+    },
+    updateteacher: function updateteacher() {
+      var _this2 = this;
 
-                        // Submit the form via a POST request
-                        this.form.put('/teacherinfo/' + this.form.id).then(function (_ref2) {
-                                var data = _ref2.data;
+      // Submit the form via a POST request
+      this.form.put('/teacherinfo/' + this.form.id).then(function (_ref2) {
+        var data = _ref2.data;
 
-                                _this2.successmsg();
-                                _this2.$router.push('/teacher');
-                        });
+        _this2.successmsg();
+        _this2.$router.push('/teacher');
+      });
 
-                        // console.log("")
-                },
-                loadteacher: function loadteacher() {
-                        var _this3 = this;
+      // console.log("")
+    },
+    loadteacher: function loadteacher() {
+      var _this3 = this;
 
-                        var id = this.$route.params.id;
-                        if (id) {
-                                this.form.get('/teacherinfo/' + id).then(function (_ref3) {
-                                        var data = _ref3.data;
+      var id = this.$route.params.id;
+      if (id) {
+        this.form.get('/teacherinfo/' + id).then(function (_ref3) {
+          var data = _ref3.data;
 
-                                        _this3.editmode = true;
-                                        _this3.form.fill(data);
-                                        console.log(data);
-                                });
-                        }
-                }
-        },
-        created: function created() {
+          _this3.editmode = true;
+          _this3.form.id = data.id;
 
-                this.loadteacher();
-        }
+          _this3.form.teacher_name = data.user.name;
+          _this3.form.teacher_email = data.user.email;
+          _this3.form.contact_number = data.user.contact_number;
+          _this3.form.contact_address = data.contact_address;
+          console.log(data);
+        });
+      }
+    }
+  },
+  created: function created() {
+
+    this.loadteacher();
+  }
 });
 
 /***/ }),
@@ -60647,19 +60775,21 @@ var render = function() {
                     _c("tr", [
                       _c("th", [_vm._v("Teacher Name")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.teacher.teacher_name))])
+                      _c("td", [_vm._v(_vm._s(_vm.teacher.user.name))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Email")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.teacher.teacher_email))])
+                      _c("td", [_vm._v(_vm._s(_vm.teacher.user.email))])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Contact Number")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(_vm.teacher.contact_number))])
+                      _c("td", [
+                        _vm._v(_vm._s(_vm.teacher.user.contact_number))
+                      ])
                     ]),
                     _vm._v(" "),
                     _c("tr", [
@@ -60900,6 +61030,1346 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(101)
+/* template */
+var __vue_template__ = __webpack_require__(102)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/user/AddUser.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2fa2fd1a", Component.options)
+  } else {
+    hotAPI.reload("data-v-2fa2fd1a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(99)
+/* template */
+var __vue_template__ = __webpack_require__(100)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/user/User.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-28427674", Component.options)
+  } else {
+    hotAPI.reload("data-v-28427674", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      // Create a new form instance
+      users: {}
+
+    };
+  },
+
+  methods: {
+    loadusers: function loadusers() {
+      var _this = this;
+
+      axios.get('/userinfo').then(function (_ref) {
+        var data = _ref.data;
+
+        _this.users = data;
+        console.log(data);
+      });
+    }
+  },
+  created: function created() {
+    this.loadusers();
+  }
+});
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "card strpied-tabled-with-hover" }, [
+          _c(
+            "div",
+            { staticClass: "card-header " },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { to: { name: "adduser" }, tag: "button" }
+                },
+                [_vm._v("Add Admin")]
+              ),
+              _vm._v(" "),
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v("All User Information")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body table-full-width table-responsive" },
+            [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-hover table-striped table-bordered"
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.users, function(user) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(user.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.contact_number))]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          _vm._l(user.roles, function(role) {
+                            return _c(
+                              "tr",
+                              { staticClass: "alert alert-danger " },
+                              [
+                                _vm._v(
+                                  "\n                     " +
+                                    _vm._s(role.name) +
+                                    "\n                     "
+                                )
+                              ]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: {
+                                  to: {
+                                    name: "singleuser",
+                                    params: { id: user.id }
+                                  },
+                                  tag: "button"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "btn btn-info",
+                                attrs: {
+                                  to: {
+                                    name: "edituser",
+                                    params: { id: user.id }
+                                  },
+                                  tag: "button"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(1, true)
+                          ],
+                          1
+                        )
+                      ])
+                    })
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Contact Number")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Role")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-28427674", module.exports)
+  }
+}
+
+/***/ }),
+/* 101 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+        data: function data() {
+                return {
+                        // Create a new form instance
+
+                        editmode: false,
+                        users: {},
+
+                        form: new Form({
+
+                                id: '',
+                                name: '',
+                                email: '',
+                                contact_number: '',
+
+                                role: []
+                        })
+                };
+        },
+
+        methods: {
+                adduser: function adduser() {
+                        var _this = this;
+
+                        // Submit the form via a POST request
+                        this.form.post('/userinfo').then(function (_ref) {
+                                var data = _ref.data;
+
+
+                                _this.restform();
+                                _this.successmsg();
+                                _this.$router.push('/user');
+                        });
+                },
+                updateuser: function updateuser() {
+                        var _this2 = this;
+
+                        // Submit the form via a POST request
+                        this.form.put('/userinfo/' + this.form.id).then(function (_ref2) {
+                                var data = _ref2.data;
+
+                                _this2.successmsg();
+                                _this2.$router.push('/user');
+                        });
+
+                        // console.log("")
+                },
+                loaduser: function loaduser() {
+                        var _this3 = this;
+
+                        var id = this.$route.params.id;
+                        if (id) {
+                                this.form.get('/userinfo/' + id).then(function (_ref3) {
+                                        var data = _ref3.data;
+
+                                        _this3.editmode = true;
+
+                                        _this3.form.id = data.id;
+                                        _this3.form.name = data.name;
+                                        _this3.form.email = data.email;
+                                        _this3.form.contact_number = data.contact_number;
+                                        for (var i = 0; i < data.roles.length; i++) {
+                                                _this3.form.role.push(data.roles[i].name);
+                                        };
+
+                                        console.log(data);
+                                });
+                        }
+                }
+        },
+        created: function created() {
+
+                this.loaduser();
+        }
+});
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.editmode ? _vm.updateuser() : _vm.adduser()
+            },
+            keydown: function($event) {
+              _vm.form.onKeydown($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "panel panel-default" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "panel-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "form-group col-md-4" },
+                  [
+                    _c("label", [_vm._v("User Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("name") },
+                      attrs: { type: "text", name: "name" },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "name" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group col-md-4" },
+                  [
+                    _c("label", [_vm._v("User Email")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("email") },
+                      attrs: { type: "email", name: "email" },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "email" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group col-md-4" },
+                  [
+                    _c("label", [_vm._v("Contact Number")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.contact_number,
+                          expression: "form.contact_number"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: {
+                        "is-invalid": _vm.form.errors.has("contact_number")
+                      },
+                      attrs: { type: "number", name: "contact_number" },
+                      domProps: { value: _vm.form.contact_number },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "contact_number",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "contact_number" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.editmode
+                  ? _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("User Roles")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-check" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.role,
+                                expression: "form.role"
+                              }
+                            ],
+                            attrs: { type: "checkbox", value: "admin" },
+                            domProps: {
+                              checked: Array.isArray(_vm.form.role)
+                                ? _vm._i(_vm.form.role, "admin") > -1
+                                : _vm.form.role
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.form.role,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = "admin",
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.form, "role", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", [_vm._v("Admin")]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.role,
+                                expression: "form.role"
+                              }
+                            ],
+                            attrs: { type: "checkbox", value: "parent" },
+                            domProps: {
+                              checked: Array.isArray(_vm.form.role)
+                                ? _vm._i(_vm.form.role, "parent") > -1
+                                : _vm.form.role
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.form.role,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = "parent",
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.form, "role", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", [_vm._v("Parent")]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.role,
+                                expression: "form.role"
+                              }
+                            ],
+                            attrs: { type: "checkbox", value: "teacher" },
+                            domProps: {
+                              checked: Array.isArray(_vm.form.role)
+                                ? _vm._i(_vm.form.role, "teacher") > -1
+                                : _vm.form.role
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.form.role,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = "teacher",
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.form, "role", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", [_vm._v("Teacher")]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.role,
+                                expression: "form.role"
+                              }
+                            ],
+                            attrs: { type: "checkbox", value: "doctor" },
+                            domProps: {
+                              checked: Array.isArray(_vm.form.role)
+                                ? _vm._i(_vm.form.role, "doctor") > -1
+                                : _vm.form.role
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.form.role,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = "doctor",
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "role",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.form, "role", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("label", [_vm._v("Doctor")])
+                        ]),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "contact_number" }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.editmode,
+                      expression: "!editmode"
+                    }
+                  ],
+                  staticClass: "btn btn-primary btn-lg btn-block",
+                  attrs: { disabled: _vm.form.busy, type: "submit" }
+                },
+                [_vm._v("Add User")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.editmode,
+                      expression: "editmode"
+                    }
+                  ],
+                  staticClass: "btn btn-primary btn-lg btn-block",
+                  attrs: { disabled: _vm.form.busy, type: "submit" }
+                },
+                [_vm._v("Update User")]
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v(" User Information")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2fa2fd1a", module.exports)
+  }
+}
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(104)
+/* template */
+var __vue_template__ = __webpack_require__(105)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/user/SingleUser.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3d5c661c", Component.options)
+  } else {
+    hotAPI.reload("data-v-3d5c661c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      // Create a new form instance
+
+      doctor: {},
+      children: {}
+
+    };
+  },
+
+  methods: {
+    singledoctor: function singledoctor() {
+      var _this = this;
+
+      // Submit the form via a POST request
+      var id = this.$route.params.id;
+      axios.get('/doctorinfo/' + id).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.doctor = data;
+        _this.children = data.childinfos;
+
+        console.log(data);
+      });
+    }
+  },
+  created: function created() {
+    this.singledoctor();
+  }
+});
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row " }, [
+    _c("div", { attrs: { "col-md-12": "" } }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { to: "/doctor", tag: "button" }
+                },
+                [_vm._v("Back")]
+              ),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Doctor Information")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("Doctor Name")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.name))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Email")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.email))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Contact Number")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.user.contact_number))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Contact Address")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.contact_address))])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { to: "/child", tag: "button" }
+                },
+                [_vm._v("All Child")]
+              ),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Child Information")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-body table-full-width table-responsive" },
+            [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.children, function(child) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(child.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(child.child_name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(child.birth_reg_no))]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: {
+                                  to: {
+                                    name: "singlechild",
+                                    params: { id: child.id }
+                                  },
+                                  tag: "button"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "router-link",
+                              {
+                                staticClass: "btn btn-info",
+                                attrs: {
+                                  to: {
+                                    name: "editchild",
+                                    params: { id: child.id }
+                                  },
+                                  tag: "button"
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-eye" })]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(1, true)
+                          ],
+                          1
+                        )
+                      ])
+                    })
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Child Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Birth Reg No")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3d5c661c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -36,9 +36,9 @@
                         
                     <td>{{ child.id }}</td>
                     <td>{{ child.child_name }}</td>
-                    <td>{{ child.parentinfo.father_name }}</td>
+                    <td>{{ child.parentinfo.user.name }}</td>
                     <td>{{ child.parentinfo.mother_name }}</td>
-                    <td>{{ child.parentinfo.contact_number }}</td>
+                    <td>{{ child.parentinfo.user.contact_number }}</td>
 
                     <td>{{ child.birth_reg_no }}</td>
 

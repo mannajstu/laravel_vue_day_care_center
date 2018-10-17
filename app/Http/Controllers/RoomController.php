@@ -113,7 +113,7 @@ class RoomController extends Controller
             
         ]);
 
-                    $room = Room::where('id', $id)->with('childinfos')->first();
+                    $room = Room::where('id', $id)->first();
                     
                     
                     $room->room_number     =$request->room_number;

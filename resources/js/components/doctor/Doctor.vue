@@ -29,9 +29,9 @@
                         
                    
                    
-                    <td>{{ doctor.doctor_name }}</td>
-                    <td>{{ doctor.doctor_email}}</td>
-                    <td>{{ doctor.contact_number }}</td>
+                    <td>{{ doctor.user.name }}</td>
+                    <td>{{ doctor.user.email}}</td>
+                    <td>{{ doctor.user.contact_number }}</td>
                     <td>{{ doctor.contact_address }}</td>
                    
  

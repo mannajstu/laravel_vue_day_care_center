@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Doctor;
-use App\Role;
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class DoctorController extends Controller
+class UserController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +16,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        return Doctor::with('user')->get();
+        return User::with('roles')->get();
     }
 
     /**
@@ -43,62 +37,47 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-
-        $this->validate($request, [
-
-            'doctor_name'     => 'required',
-            'doctor_email'    => 'required',
-            'contact_number'  => 'required',
-            'contact_address' => 'required',
-
-        ]);
-
         $user = new User;
 
-        $user->name           = $request->doctor_name;
-        $user->email          = $request->doctor_email;
+        $user->name           = $request->name;
+        $user->email          = $request->email;
         $user->password       = Hash::make('password');
         $user->contact_number = $request->contact_number;
         $user->save();
 
-        $role = Role::where('name', 'doctor')->first();
+        $role = Role::where('name', 'admin')->first();
         // return $role;
         if (empty($role)) {
             $role       = new Role;
-            $role->name = "doctor";
+            $role->name = "admin";
             $role->save();
         }
         $user->roles()->attach($role->id);
-        $doctor = new Doctor;
-
-        $doctor->contact_address = $request->contact_address;
-        $doctor->userid          = $user->id;
-        $doctor->save();
+        return $user;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Doctor  $doctor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $doctor = Doctor::where('id', $id)
-        ->with('childinfos')
-        ->with('user')
+        $user = User::where('id', $id)
+        ->with('roles')
         ->first();
 
-        return $doctor;
+        return $user;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Doctor  $doctor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Doctor $doctor)
+    public function edit($id)
     {
         //
     }
@@ -107,39 +86,43 @@ class DoctorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Doctor  $doctor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-
     {
         $this->validate($request, [
 
-            'doctor_name'     => 'required',
-            'doctor_email'    => 'required',
+            'name'     => 'required',
+            'email'    => 'required',
             'contact_number'  => 'required',
-            'contact_address' => 'required',
+          
 
         ]);
-        $doctor                =Doctor::findOrfail($id);
+        $user                =User::findOrfail($id);
             
-            $doctor->user->email     = $request->doctor_email;
-            $doctor->user->name     = $request->doctor_name;
-            $doctor->user->contact_number  = $request->contact_number;
-            $doctor->contact_address = $request->contact_address;
-            $doctor->save();
-            $doctor->user->save();
-            return $doctor;
+            $user->email     = $request->email;
+            $user->name     = $request->name;
+            $user->contact_number  = $request->contact_number;
+            
+            $user->save();
+            $user->roles()->detach();
 
+
+            $roles = Role::whereIn('name',$request->role )->get();
+             $user->roles()->attach($roles);    
+
+            
+            return $roles;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Doctor  $doctor
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy($id)
     {
         //
     }

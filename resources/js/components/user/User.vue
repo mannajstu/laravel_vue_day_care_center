@@ -6,37 +6,45 @@
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
                                     
-                                    <router-link :to="{ name: 'addparent'}" tag='button' class="btn btn-primary">Add Parent</router-link>
-                                    <h4 class="card-title">Parent Information</h4>
+                                    <router-link :to="{ name: 'adduser'}" tag='button' class="btn btn-primary">Add Admin</router-link>
+                                    <h4 class="card-title">All User Information</h4>
                                     </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
+                                               
                         <th>ID</th>
-                        
-                        <th>Father Name</th>
-                        <th>Mother Name</th> 
+                        <th>Name</th>
+                        <th>Email</th>
                         <th>Contact Number</th>
-                        <th>Contact Address</th>
+                        <th>Role</th>
                         <th>Action</th>
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="parent in parents">
+                    <tr v-for="user in users">
                         
-                    <td>{{ parent.id }}</td>
                    
-                    <td>{{ parent.user.name }}</td>
-                    <td>{{ parent.mother_name }}</td>
-                    <td>{{ parent.user.contact_number }}</td>
-                    <td>{{ parent.contact_address }}</td>
+                   
+                    <td>{{user.id }}</td>
+                    <td>{{user.name }}</td>
+                    <td>{{ user.email}}</td>
+                    <td>{{user.contact_number }}</td>
+                    <td>
+
+                        <tr class="alert alert-danger " v-for="role in user.roles">
+                        {{ role.name }}
+                        </tr>
+                  </td>
+                    
+                   
  
                    <td>
-                    <router-link :to="{ name: 'singleparent', params: { id: parent.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
+                    <router-link :to="{ name: 'singleuser', params: { id: user.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
 
-                    <router-link :to="{ name: 'editparent', params: { id: parent.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
+                    <router-link :to="{ name: 'edituser', params: { id: user.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
 
                     <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
@@ -65,17 +73,18 @@
         data () {
     return {
       // Create a new form instance
-      parents:{},
+      users:{},
       
     }
   },
   methods: {
-          loadparents(){
-          axios.get('/parentinfo')
+          loadusers(){
+          axios.get('/userinfo')
             .then(({ data }) => 
             { 
-               this.parents=data;
+               this.users=data;
                console.log(data);
+                
             }
             )
           },
@@ -83,7 +92,7 @@
     
   },
         created() {
-            this.loadparents();
+            this.loadusers();
            
         },
   //       computed: {

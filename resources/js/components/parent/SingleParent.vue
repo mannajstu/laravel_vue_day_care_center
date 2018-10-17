@@ -33,7 +33,7 @@
                                         
                                         <tr>
                                             <th>Father Name</th>
-                                            <td>{{ parent.father_name }}</td>
+                                            <td>{{ parent.user.name }}</td>
                                         </tr>
 
 <tr>
@@ -44,7 +44,11 @@
 
 <tr>
                                             <th>Contact Number</th>
-                                            <td>{{ parent.contact_number }}</td>
+                                            <td>{{ parent.user.contact_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contact Email</th>
+                                            <td>{{ parent.user.email }}</td>
                                         </tr>
 
 <tr>

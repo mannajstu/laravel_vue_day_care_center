@@ -36,7 +36,7 @@
                                         </tr>
                                         <tr>
                                             <th>Father Name</th>
-                                            <td>{{ child.parentinfo.father_name }}</td>
+                                            <td>{{ child.parentinfo.user.name }}</td>
                                         </tr>
 
 <tr>
@@ -56,7 +56,7 @@
 
 <tr>
                                             <th>Contact Number</th>
-                                            <td>{{ child.parentinfo.contact_number }}</td>
+                                            <td>{{ child.parentinfo.user.contact_number }}</td>
                                         </tr>
 
 <tr>
@@ -67,12 +67,13 @@
 <tr>
                                             <th>Gender</th>
                                             <td>{{ child.gender }}</td>
-                                        </tr><tr>
+                                        </tr>
+                                        <tr>
                                             <th>Doctor Name</th>
-                                            <td>{{ child.doctor.doctor_name }}</td>
+                                            <td>{{ child.doctor.user.name }}</td>
                                         </tr><tr>
                                             <th>Teacher Name</th>
-                                            <td>{{ child.teacher.teacher_name }}</td>
+                                            <td>{{ child.teacher.user.name }}</td>
                                         </tr><tr>
                                             <th>Room No</th>
                                             <td>{{ child.room_number }}</td>

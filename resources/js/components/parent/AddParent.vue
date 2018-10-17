@@ -24,6 +24,13 @@
                     class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
                     <has-error :form="form" field="contact_number"></has-error>
                     </div>
+
+                    <div class="form-group col-md-4">
+                    <label>Contact Email</label>
+                    <input v-model="form.email" type="email" name="email"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                    <has-error :form="form" field="email"></has-error>
+                    </div>
                   
                     <div class="form-group col-md-4">
                     <label>Father Name</label>
@@ -81,6 +88,7 @@ id:'',
 mother_name: '',
 father_name: '',
 contact_number: '',
+email: '',
 contact_address:'',
 
 
@@ -126,7 +134,17 @@ this.form.get('/parentinfo/'+id)
   .then(({ data }) => 
   { 
     this.editmode=true;
-    this.form.fill(data);
+    this.form.id=data.id;
+    this.form.mother_name=data.mother_name;
+
+    this.form.father_name=data.user.name;
+    this.form.email=data.user.email;
+    this.form.contact_number=data.user.contact_number;
+    this.form.contact_address=data.contact_address;
+    
+    
+    
+    console.log(data);
   }
   )
 }

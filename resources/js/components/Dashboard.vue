@@ -69,9 +69,15 @@
                     <div class="panel-body">  
                     <div class="form-group col-md-4">
                     <label>Contact Number</label>
-                    <input v-model="form.contact_number" type="text" name="contact_number"
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
-                    <has-error :form="form" field="contact_number"></has-error>
+                        <input v-model="form.contact_number" type="text" name="contact_number"
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
+                        <has-error :form="form" field="contact_number"></has-error>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Email Address</label>
+                        <input v-model="form.email" type="email" name="email"
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                        <has-error :form="form" field="email"></has-error>
                     </div>
                     <div v-if="!oldparent">
                     <div class="form-group col-md-4">
@@ -109,7 +115,7 @@
                     <label>Doctor Name</label>
                   
                             <select class="form-control" v-model='form.doctorid' :class="{ 'is-invalid': form.errors.has('doctorid') }">
-                            <option v-for='doctor in doctors' :value="doctor.id">{{ doctor.doctor_name }}</option>
+                            <option v-for='doctor in doctors' :value="doctor.id">{{ doctor.user.name }}</option>
 
                             </select>               
                     <has-error :form="form" field="doctor_id"></has-error>
@@ -118,7 +124,7 @@
     <div class="form-group col-md-4">
       <label>Teacher Name</label>
                 <select class="form-control" v-model='form.teacherid' :class="{ 'is-invalid': form.errors.has('teacherid') }">
-                <option v-for='teacher in teachers' :value="teacher.id">{{ teacher.teacher_name }}</option>
+                <option v-for='teacher in teachers' :value="teacher.id">{{ teacher.user.name }}</option>
 
                 </select>
       <has-error :form="form" field="teacherid"></has-error>
@@ -162,6 +168,7 @@ child_name: '',
 mother_name: '',
 father_name: '',
 contact_number: '',
+email: '',
 contact_address:'',
 birth_date: '',
 birth_reg_no: '',
@@ -221,13 +228,15 @@ this.form.get('/childinfo/'+id)
     this.form.gender=data.gender;
     
     this.form.mother_name=data.parentinfo.mother_name;
-    this.form.father_name=data.parentinfo.father_name;
-    this.form.contact_number=data.parentinfo.contact_number;
+    this.form.father_name=data.parentinfo.user.name;
+    this.form.email=data.parentinfo.user.email;
+    this.form.contact_number=data.parentinfo.user.contact_number;
     this.form.contact_address=data.parentinfo.contact_address;
 
     this.form.doctorid=data.doctorid;
     this.form.teacherid=data.teacherid;
     this.form.room_number=data.room_number;
+    console.log(data);
 
     
     
@@ -257,6 +266,7 @@ loaddoctors(){
         { 
             
 this.doctors=data;
+
 console.log(data);
 
 
@@ -269,6 +279,7 @@ loadteachers(){
         { 
             
 this.teachers=data;
+
 console.log(data);
 
 
