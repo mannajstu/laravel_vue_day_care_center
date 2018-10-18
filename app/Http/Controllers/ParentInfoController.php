@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\ParentInfo;
-use App\User;
 use App\Role;
+use App\User;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ParentInfoController extends Controller
 {
-    
-
 
     public function __construct()
     {
@@ -23,7 +23,17 @@ class ParentInfoController extends Controller
      */
     public function index()
     {
-        return ParentInfo::with('user')->get();
+        if (Gate::allows('isAdmin')) {
+            return ParentInfo::with('user')->get();
+        } else {
+            $id     = Auth::id();
+            $parent = ParentInfo::where('userid', $id)
+                ->with('user')
+                ->get();
+
+            return $parent;
+        }
+
     }
 
     /**
@@ -33,7 +43,7 @@ class ParentInfoController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -45,16 +55,16 @@ class ParentInfoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            
+
             'mother_name'     => 'required',
             'father_name'     => 'required',
             'contact_number'  => 'required',
-            'email'  => 'required',
+            'email'           => 'required',
             'contact_address' => 'required',
-            
+
         ]);
 
-         $user = new User;
+        $user = new User;
 
         $user->name           = $request->father_name;
         $user->email          = $request->email;
@@ -69,7 +79,7 @@ class ParentInfoController extends Controller
             $role->name = "parent";
             $role->save();
         }
-        $user->roles()->attach( $role->id);
+        $user->roles()->attach($role->id);
 
         $parent = new ParentInfo;
 
@@ -88,10 +98,12 @@ class ParentInfoController extends Controller
      */
     public function show($id)
     {
+        // $this->authorize('isAdmin');
+
         $parent = ParentInfo::where('id', $id)
-        ->with('childinfos')
-        ->with('user')
-        ->first();
+            ->with('childinfos')
+            ->with('user')
+            ->first();
 
         return $parent;
     }
@@ -116,27 +128,26 @@ class ParentInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $this->validate($request, [
-            
+        $this->validate($request, [
+
             'mother_name'     => 'required',
             'father_name'     => 'required',
             'contact_number'  => 'required',
             'contact_address' => 'required',
-            'email' => 'required',
-            
+            'email'           => 'required',
+
         ]);
 
-            $parent                =ParentInfo::findOrfail($id);
-            $parent->mother_name     = $request->mother_name;
-            $parent->user->email     = $request->email;
-            $parent->user->name     = $request->father_name;
-            $parent->user->contact_number  = $request->contact_number;
-            $parent->contact_address = $request->contact_address;
-            $parent->save();
-            $parent->user->save();
-            return $parent;
+        $parent                       = ParentInfo::findOrfail($id);
+        $parent->mother_name          = $request->mother_name;
+        $parent->user->email          = $request->email;
+        $parent->user->name           = $request->father_name;
+        $parent->user->contact_number = $request->contact_number;
+        $parent->contact_address      = $request->contact_address;
+        $parent->save();
+        $parent->user->save();
+        return $parent;
     }
-    
 
     /**
      * Remove the specified resource from storage.

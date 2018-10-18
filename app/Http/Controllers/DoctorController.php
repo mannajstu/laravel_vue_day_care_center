@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Doctor;
 use App\Role;
 use App\User;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,7 +24,18 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        return Doctor::with('user')->get();
+        
+
+        if (Gate::allows('isAdmin')) {
+            return Doctor::with('user')->get();
+        } else {
+            $id     = Auth::id();
+            $parent = Doctor::where('userid', $id)
+                ->with('user')
+                ->get();
+
+            return $parent;
+        }
     }
 
     /**

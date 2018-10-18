@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isAdmin', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name=='admin'){
+           if($role->name==='admin'){
             return true;
            }
         }
@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
           Gate::define('isAdminParent', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name=='parent'||$role->name=='admin'){
+           if($role->name==='parent'||$role->name==='admin'){
             return true;
            }
         }
@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
             Gate::define('isAdminDoctor', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name=='doctor'||$role->name=='admin'){
+           if($role->name==='doctor'||$role->name==='admin'){
             return true;
            }
         }
@@ -56,7 +56,7 @@ class AuthServiceProvider extends ServiceProvider
               Gate::define('isAdminTeacher', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name=='teacher'||$role->name=='admin'){
+           if($role->name==='teacher'||$role->name==='admin'){
             return true;
            }
         }

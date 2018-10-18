@@ -33,12 +33,16 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'userrole', 'userid', 'roleid')->withTimestamps();
     }
 
-    public function parents()
+    public function parent()
     {
-        return $this->hasMany('App\ParentInfo','userid');
+        return $this->hasOne('App\ParentInfo','userid');
     }
-    public function doctors()
+    public function doctor()
     {
-        return $this->hasMany('App\Doctor','userid');
+        return $this->hasOne('App\Doctor','userid');
+    }
+     public function teacher()
+    {
+        return $this->hasOne('App\Teacher','userid');
     }
 }

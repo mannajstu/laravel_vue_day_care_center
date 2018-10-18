@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Teacher;
 use App\Role;
 use App\User;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,7 +24,16 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return Teacher::with('user')->get();
+        if (Gate::allows('isAdmin')) {
+            return Teacher::with('user')->get();
+        } else {
+            $id     = Auth::id();
+            $parent = Teacher::where('userid', $id)
+                ->with('user')
+                ->get();
+
+            return $parent;
+        }
     }
 
     /**
