@@ -82,11 +82,9 @@ class DoctorController extends Controller
             $role->save();
         }
         $user->roles()->attach($role->id);
-        $doctor = new Doctor;
-
-        $doctor->contact_address = $request->contact_address;
-        $doctor->userid          = $user->id;
-        $doctor->save();
+        
+        $user->addDoctor($user->id, $request->contact_address);
+        return $user;
     }
 
     /**

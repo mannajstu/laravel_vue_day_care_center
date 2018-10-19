@@ -151,6 +151,11 @@
     },
    
   },
+  beforeCreate(){
+if(!this.$gate.isAdminParent()){
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
             this.singleparent()
         },

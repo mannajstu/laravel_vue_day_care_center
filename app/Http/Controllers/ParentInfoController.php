@@ -81,13 +81,10 @@ class ParentInfoController extends Controller
         }
         $user->roles()->attach($role->id);
 
-        $parent = new ParentInfo;
-
-        $parent->mother_name     = $request->mother_name;
-        $parent->contact_address = $request->contact_address;
-        $parent->userid          = $user->id;
-        $parent->save();
-        return $parent;
+        $user->addParent($user->id,
+         $request->contact_address,
+          $request->mother_name);
+        return $user;
     }
 
     /**

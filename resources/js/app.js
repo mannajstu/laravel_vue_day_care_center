@@ -10,6 +10,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import VueRouter from 'vue-router'
+import Gate from './Gate';
+Vue.prototype.$gate =new Gate(window.user);
+
 
 //vue form with laravel support
 import {Form,HasError,AlertError,AlertErrors, AlertSuccess} from 'vform'
@@ -27,18 +30,16 @@ window.swal = swal;
 //common vue methods
 require('./mixins');
 
-
-
-
 Vue.use(VueRouter)
 
 
 let routes = [
  
+  { path: '/notfound', component: require('./components/NotFound.vue'),name: 'notfound',},
   { path: '/', component: require('./components/Dashboard.vue'),name: 'home',},
 //user /admin route
   { path: '/user', component: require('./components/user/User.vue'),name: 'user',},
-  { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',},
+  { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',meta: { requiresAuth: true }},
    { path: '/user/:id', component: require('./components/user/SingleUser.vue'),name: 'singleuser',},
    { path: '/user/edit/:id', component: require('./components/user/AddUser.vue'),name: 'edituser',},
 //parent route

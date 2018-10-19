@@ -155,6 +155,11 @@ this.form.get('/parentinfo/'+id)
 
 // method end
 },
+beforeCreate(){
+if(!this.$gate.isAdminParent()){
+    this.$router.push({ name: 'notfound'})
+}
+},
 created() {
     
        this.loadparent(); 

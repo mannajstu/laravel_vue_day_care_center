@@ -152,12 +152,21 @@ this.form.get('/userinfo/'+id)
 
 // method end
 },
+beforeCreate(){
+if(!this.$gate.isAdmin()){
+    this.$router.push({ name: 'notfound'})
+}
+},
 created() {
     
-       this.loaduser(); 
+       
+       
+        this.loaduser(); 
+       
      
 
 },
+ 
 
 // watch: {
 //     '$route' (to, from) {

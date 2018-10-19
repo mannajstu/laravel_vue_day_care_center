@@ -67,5 +67,13 @@
         <!-- Scripts -->
         <script defer="" src="{{ asset('js/app.js') }}">
         </script>
+        @auth
+         <script >
+             window.user=@json(auth()->user()->roles()->get());
+
+
+         </script> 
+
+           @endauth
     </body>
 </html>

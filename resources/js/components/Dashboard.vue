@@ -289,6 +289,11 @@ console.log(data);
 
 // method end
 },
+beforeCreate(){
+if(!this.$gate.isAdmin()){
+    this.$router.push({ name: 'notfound'})
+}
+},
 created() {
     
        this.loadchild(); 

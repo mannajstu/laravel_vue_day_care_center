@@ -45,4 +45,31 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Teacher','userid');
     }
+
+    public function addDoctor($id,$address)
+    {
+        $doctor = new Doctor;
+
+            $doctor->contact_address = $address;
+            $doctor->userid          = $id;
+            $doctor->save();
+        
+    }
+     public function addTeacher($id,$address)
+    {
+        $teacher = new Teacher;
+
+            $teacher->contact_address = $address;
+            $teacher->userid          = $id;
+            $teacher->save();
+    }
+    public function addParent($id,$address,$mothername)
+    {
+        $parent = new ParentInfo;
+
+            $parent->mother_name     = $mothername;
+            $parent->contact_address = $address;
+            $parent->userid          = $id;
+            $parent->save();
+    }
 }

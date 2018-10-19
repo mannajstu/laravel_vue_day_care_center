@@ -1,7 +1,7 @@
 <template>
    <div >   
     <div class="row" >
-                        <div class="col-md-12">
+                        <div class="col-md-12" v-if='$gate.isAdmin()'>
                            
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
@@ -91,6 +91,11 @@
   
     
   },
+  beforeCreate(){
+if(!this.$gate.isAdmin()){
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
             this.loadusers();
            

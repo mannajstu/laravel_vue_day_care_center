@@ -3,7 +3,7 @@
         
 
                  <div class="row ">
-                    <div col-md-12>
+                    <div class="col-md-12"  v-if='$gate.isAdmin()' >
                            
                  
                     
@@ -13,9 +13,9 @@
                         
                         <div class="panel-heading">
 
-                        <router-link to='/doctor' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link to='/user' tag='button' class='btn btn-primary'>Back</router-link>
                     
-                           <h3>Doctor Information</h3> 
+                           <h3>user Information</h3> 
                             
                         </div>
                     
@@ -26,24 +26,21 @@
                                     
                                     <tbody>
                                         <tr>
-                                            <th>Doctor Name</th>
-                                            <td>{{ doctor.user.name }}</td>
+                                            <th>user Name</th>
+                                            <td>{{ user.name }}</td>
                                             
                                         </tr>
                                         
                                         <tr>
                                             <th>Email</th>
-                                            <td>{{ doctor.user.email }}</td>
+                                            <td>{{ user.email }}</td>
                                         </tr>
 
                                 <tr>
                                       <th>Contact Number</th>
-                                      <td>{{ doctor.user.contact_number }}</td>
+                                      <td>{{ user.contact_number }}</td>
                                 </tr>
-                                <tr>
-                                      <th>Contact Address</th>
-                                      <td>{{ doctor.contact_address }}</td>
-                                </tr>
+                                
 
 
 
@@ -121,20 +118,20 @@
     return {
       // Create a new form instance
       
-      doctor:{},
+      user:{},
       children:{},
      
       
     }
   },
   methods: {
-    singledoctor () {
+    singleuser () {
       // Submit the form via a POST request
       let id=this.$route.params.id;
-      axios.get('/doctorinfo/'+id)
+      axios.get('/userinfo/'+id)
         .then(({ data }) => 
         { 
-           this.doctor=data;
+           this.user=data;
            this.children=data.childinfos;
 
            console.log(data);
@@ -143,8 +140,13 @@
     },
    
   },
+  beforeCreate(){
+if(!this.$gate.isAdmin()){
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
-            this.singledoctor()
+            this.singleuser()
         },
      
 

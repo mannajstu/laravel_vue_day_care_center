@@ -86,6 +86,12 @@
     
   },
   //method end
+
+  beforeCreate(){
+if(!this.$gate.isAdminTeacher()){
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
             this.loadteachers();
            

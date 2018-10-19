@@ -28,11 +28,11 @@ class TeacherController extends Controller
             return Teacher::with('user')->get();
         } else {
             $id     = Auth::id();
-            $parent = Teacher::where('userid', $id)
+            $teacher = Teacher::where('userid', $id)
                 ->with('user')
                 ->get();
 
-            return $parent;
+            return $teacher;
         }
     }
 
@@ -80,12 +80,8 @@ class TeacherController extends Controller
         }
         $user->roles()->attach($role->id);
 
-        $teacher = new Teacher;
-
-        $teacher->contact_address = $request->contact_address;
-        $teacher->userid = $user->id;
-        $teacher->save();
-        return $teacher;
+        $user->addTeacher($user->id, $request->contact_address);
+        return $user;
     }
 
     /**
