@@ -56,7 +56,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-
+if (Gate::allows('isAdmin')) {
         $this->validate($request, [
 
             'doctor_name'     => 'required',
@@ -86,6 +86,7 @@ class DoctorController extends Controller
         $user->addDoctor($user->id, $request->contact_address);
         return $user;
     }
+    }
 
     /**
      * Display the specified resource.
@@ -95,12 +96,24 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
+        if (Gate::allows('isAdmin')) {
         $doctor = Doctor::where('id', $id)
         ->with('childinfos')
         ->with('user')
         ->first();
 
         return $doctor;
+    }
+    else
+    {
+        $doctorid     = Auth::user()->doctor->id;
+        $doctor = Doctor::where('id', $doctorid )
+        ->with('childinfos')
+        ->with('user')
+        ->first();
+        return $doctor;
+
+    }
     }
 
     /**

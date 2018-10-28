@@ -1,11 +1,7 @@
                     <template>
 
-
                     <div>
                     <div class="row">
- 
-
-
                     <form @submit.prevent="editmode ? updatechild() : addchild()" @keydown="form.onKeydown($event)" >
 
                 <div class="col-md-12">
@@ -51,9 +47,7 @@
                     </select>                   
                     <has-error :form="form" field="room_number"></has-error>
                     </div>
-
-
-                    
+  
                     </div>
                     </div>
             </div>
@@ -290,7 +284,22 @@ console.log(data);
 // method end
 },
 beforeCreate(){
-if(!this.$gate.isAdmin()){
+    if(this.$gate.isAdmin()){
+        if(this.editmode){
+            this.$router.push({ name: 'home'})
+        }
+    
+}
+else if(this.$gate.isParent()){
+    this.$router.push({ name: 'parentdashboard'})
+}
+else if(this.$gate.isDoctor()){
+    this.$router.push({ name: 'doctordashboard'})
+}
+else if(this.$gate.isTeacher()){
+    this.$router.push({ name: 'teacherdashboard'})
+}
+else{
     this.$router.push({ name: 'notfound'})
 }
 },

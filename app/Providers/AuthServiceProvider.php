@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use Session;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -28,35 +29,35 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isAdmin', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name==='admin'){
+           if($role->name==='admin' && Session::get('role')=='admin'){
             return true;
            }
         }
     });
         //parent
 
-          Gate::define('isAdminParent', function ($user) {
+          Gate::define('isParent', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name==='parent'||$role->name==='admin'){
+           if($role->name==='parent' && Session::get('role')=='parent'){
             return true;
            }
         }
     });
 
-            Gate::define('isAdminDoctor', function ($user) {
+            Gate::define('isDoctor', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name==='doctor'||$role->name==='admin'){
+           if($role->name==='doctor' && Session::get('role')=='doctor'){
             return true;
            }
         }
     });
 
-              Gate::define('isAdminTeacher', function ($user) {
+              Gate::define('isTeacher', function ($user) {
         $roles= $user->roles()->get();
         foreach ($roles as $role) {
-           if($role->name==='teacher'||$role->name==='admin'){
+           if($role->name==='teacher' && Session::get('role')=='teacher'){
             return true;
            }
         }

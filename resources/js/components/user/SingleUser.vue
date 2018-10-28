@@ -132,7 +132,7 @@
         .then(({ data }) => 
         { 
            this.user=data;
-           this.children=data.childinfos;
+           this.children=data.parent.childinfos;
 
            console.log(data);
         }

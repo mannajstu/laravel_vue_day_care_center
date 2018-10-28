@@ -30,6 +30,7 @@
                                     @endif
                                 </input>
                             </div>
+
                             <div class="form-group input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-lock">
@@ -45,6 +46,16 @@
                                     @endif
                                 </input>
                             </div>
+                                     <div class="form-group input-group">
+      <label for="inputState">Role</label>
+      <select name='role' id="inputState" class="form-control" required>
+        <option selected>Choose...</option>
+        <option value="admin">Admin</option>
+        <option value="parent">Parent</option>
+        <option value="teacher">Teacher</option>
+        <option value="doctor">Doctor</option>
+      </select>
+    </div>
                             <div class="form-group">
                                 <label class="checkbox-inline">
                                   <div class="form-check">

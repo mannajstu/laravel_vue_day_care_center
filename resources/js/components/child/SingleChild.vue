@@ -13,7 +13,10 @@
                         
                         <div class="panel-heading">
 
-                        <router-link to='/child' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link v-if="this.$gate.isAdmin()" to='/child' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link :to="{ name: 'parentdashboard'}" tag='button' class="btn btn-primary" v-if="this.$gate.isParent()">Back</router-link>
+                        <router-link :to="{ name: 'doctordashboard'}" tag='button' class="btn btn-primary" v-if="this.$gate.isDoctor()">Back</router-link>
+                        <router-link :to="{ name: 'teacherdashboard'}" tag='button' class="btn btn-primary" v-if="this.$gate.isTeacher()">Back</router-link>
                     
                            <h3>Child Information</h3> 
                             
@@ -54,15 +57,18 @@
                                             <td>{{ child.birth_reg_no }}</td>
                                         </tr>
 
-<tr>
+    
+
+<tr v-if='child.parentinfo!==null'>
                                             <th>Contact Number</th>
                                             <td>{{ child.parentinfo.user.contact_number }}</td>
                                         </tr>
 
-<tr>
+<tr v-if='child.parentinfo!==null'>
                                             <th>Contact Address</th>
                                             <td>{{ child.parentinfo.contact_address }}</td>
                                         </tr>
+                                        
 
 <tr>
                                             <th>Gender</th>
@@ -70,13 +76,13 @@
                                         </tr>
                                         <tr>
                                             <th>Doctor Name</th>
-                                            <td>{{ child.doctor.user.name }}</td>
+                                            <td v-if='child.doctor!==null'>{{ child.doctor.user.name }}</td>
                                         </tr><tr>
                                             <th>Teacher Name</th>
-                                            <td>{{ child.teacher.user.name }}</td>
+                                            <td v-if='child.teacher!==null'>{{ child.teacher.user.name }}</td>
                                         </tr><tr>
                                             <th>Room No</th>
-                                            <td>{{ child.room_number }}</td>
+                                            <td >{{ child.room_number }}</td>
                                         </tr>
                                         
 
@@ -119,6 +125,13 @@
     },
    
   },
+  beforeCreate(){
+    if(!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()){
+    this.$router.push({ name: 'notfound'})
+}
+
+},
+  
         created() {
             this.singlechild()
         },

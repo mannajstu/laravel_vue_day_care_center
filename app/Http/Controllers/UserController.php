@@ -7,12 +7,17 @@ use App\ParentInfo;
 use App\Role;
 use App\Teacher;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,6 +25,21 @@ class UserController extends Controller
     public function index()
     {
         return User::with('roles')->get();
+    }
+    public function adminActivation(Request $request)
+    {
+        $activationCode = 'activationCode';
+        if ($activationCode==$request->admin_activation) {
+            $id = Auth::id();
+
+            $user = User::findOrfail($id);
+            $role = Role::where('name', 'admin')->first();
+            $user->roles()->attach($role->id);
+            return $user;
+
+        }
+        
+
     }
 
     /**
@@ -69,6 +89,7 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)
             ->with('roles')
+            ->with('parent.childinfos')
             ->first();
 
         return $user;
@@ -109,38 +130,35 @@ class UserController extends Controller
 
         $user->save();
         $user->roles()->detach();
-        // $user->parent->userid=null;
-        // $user->parent->save();
-        // $user->doctor->userid=null;
-        // $user->doctor->save();
-        // $user->teacher->userid=null;
-        // $user->teacher->save();
 
         $roles = Role::whereIn('name', $request->role)->get();
         $user->roles()->attach($roles);
         $address = "Please Insert Your Contact Address";
 
         foreach ($user->roles()->get() as $role) {
-            if ($role->name == 'teacher') {
+            if ($role->name === 'teacher') {
                 if (Teacher::where('userid', $user->id)->first() === null) {
                     $user->addTeacher($user->id, $address);
 
                 }
 
             }
-            if ($role->name == 'doctor') {
+
+            if ($role->name === 'doctor') {
                 if (Doctor::where('userid', $user->id)->first() === null) {
                     $user->addDoctor($user->id, $address);
 
                 }
             }
-            if ($role->name == 'parent') {
+
+            if ($role->name === 'parent') {
                 if (ParentInfo::where('userid', $user->id)->first() === null) {
                     $mothername = "Insert Mother Name";
 
                     $user->addParent($user->id, $address, $mothername);
                 }
             }
+
         }
 
         return $user;

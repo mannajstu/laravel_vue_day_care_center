@@ -88,7 +88,7 @@
   //method end
 
   beforeCreate(){
-if(!this.$gate.isAdminTeacher()){
+if(!this.$gate.isAdmin()){
     this.$router.push({ name: 'notfound'})
 }
 },

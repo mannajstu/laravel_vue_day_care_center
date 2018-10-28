@@ -1,26 +1,22 @@
 <template>
     
-        
-
                  <div class="row ">
                     <div col-md-12>
                            
-                 
-                    
-                <div class="col-md-6">
+               <div class="col-md-6">
                   <!--   Kitchen Sink -->
                     <div class="panel panel-default">
                         
                         <div class="panel-heading">
 
-                        <router-link to='/parent' tag='button' class='btn btn-primary'>Back</router-link>
+                    <router-link :to="{ name: 'editparent', params: { id: parent.id }}" class="btn btn-primary">Edit
+                    </router-link>
                     
                            <h3>Parent Information</h3> 
                             
                         </div>
                     
-
-                        <div class="panel-body">
+  <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     
@@ -62,6 +58,10 @@
                         </div>
                     </div>
                         </div>
+<!-- end col-md-6 -->
+<div class="col-md-6">
+  <notices></notices>
+</div>
 <!-- end col-md-6 -->
 <div class="col-md-12">
                   <childchortinfo :children="children"></childchortinfo>
@@ -105,14 +105,20 @@
    
   },
   beforeCreate(){
-if(this.$gate.isAdmin() ){
-    this.$router.push({ name: 'singleparent'})
+if(this.$gate.isAdmin()){
+    this.$router.push({ name: 'home'})
 }
-else if(this.$gate.isParent() ){
+else if(this.$gate.isParent()){
     this.$router.push({ name: 'parentdashboard'})
 }
+else if(this.$gate.isDoctor()){
+    this.$router.push({ name: 'doctordashboard'})
+}
+else if(this.$gate.isTeacher()){
+    this.$router.push({ name: 'teacherdashboard'})
+}
 else{
-  this.$router.push({ name: 'notfound'})
+    this.$router.push({ name: 'notfound'})
 }
 },
         created() {

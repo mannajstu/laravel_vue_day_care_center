@@ -106,6 +106,11 @@ axios.get('/childinfo')
     },
         
   },
+   beforeCreate(){
+if(!this.$gate.isAdmin()){
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
             this.loadchild();
             // this.$on('updatechild',()=>{

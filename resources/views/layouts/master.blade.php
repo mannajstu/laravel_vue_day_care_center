@@ -68,12 +68,23 @@
         <script defer="" src="{{ asset('js/app.js') }}">
         </script>
         @auth
-         <script >
-             window.user=@json(auth()->user()->roles()->get());
+        @php
+            
+            $roles= auth()->user()->roles()->get();
+            $role= false;
+        foreach ($roles as $urole) {
+           if($urole->name===Session::get('role')){
+            $role= true;
+           }
 
+        }
 
-         </script> 
-
+        @endphp
+        @if($role)
+        <script>
+            window.user=@json(Session::get('role'));
+        </script>
+        @endif
            @endauth
     </body>
 </html>

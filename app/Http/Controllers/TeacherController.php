@@ -92,12 +92,23 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
+        if (Gate::allows('isAdmin')) {
         $teacher = Teacher::where('id', $id)
         ->with('childinfos')
         ->with('user')
         ->first();
 
         return $teacher;
+    }
+    else{
+         $parentid     = Auth::user()->teacher->id;
+         $teacher = Teacher::where('id', $id)
+        ->with('childinfos')
+        ->with('user')
+        ->first();
+
+        return $teacher;
+    }
     }
 
     /**

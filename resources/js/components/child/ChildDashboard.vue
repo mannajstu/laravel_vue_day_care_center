@@ -13,9 +13,9 @@
                         
                         <div class="panel-heading">
 
-                        <router-link to='/Teacher' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link to='/parent' tag='button' class='btn btn-primary'>Back</router-link>
                     
-                           <h3>Teacher Information</h3> 
+                           <h3>Parent Information</h3> 
                             
                         </div>
                     
@@ -25,28 +25,36 @@
                                 <table class="table table-striped table-bordered table-hover">
                                     
                                     <tbody>
-                                        <tr>
-                                            <th>Teacher Name</th>
-                                            <td>{{ teacher.user.name }}</td>
+                                      <!--   <tr>
+                                            <th>ID</th>
+                                            <td>{{ parent.id }}</td>
                                             
                                         </tr>
                                         
                                         <tr>
-                                            <th>Email</th>
-                                            <td>{{ teacher.user.email }}</td>
+                                            <th>Father Name</th>
+                                            <td>{{ parent.user.name }}</td>
                                         </tr>
 
-                                <tr>
-                                      <th>Contact Number</th>
-                                      <td>{{ teacher.user.contact_number }}</td>
-                                </tr>
-                                <tr>
-                                      <th>Contact Address</th>
-                                      <td>{{ teacher.contact_address }}</td>
-                                </tr>
+<tr>
+                                            <th>Mother Name</th>
+                                            <td>{{ parent.mother_name }}</td>
+                                        </tr>
 
 
+<tr>
+                                            <th>Contact Number</th>
+                                            <td>{{ parent.user.contact_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contact Email</th>
+                                            <td>{{ parent.user.email }}</td>
+                                        </tr>
 
+<tr>
+                                            <th>Contact Address</th>
+                                            <td>{{ parent.contact_address }}</td>
+                                        </tr> -->
                                         
                                     </tbody>
                                 </table>
@@ -121,20 +129,20 @@
     return {
       // Create a new form instance
       
-      teacher:{},
+      parent:{},
       children:{},
      
       
     }
   },
   methods: {
-    singleteacher () {
+    singleparent () {
       // Submit the form via a POST request
       let id=this.$route.params.id;
-      axios.get('/teacherinfo/'+id)
+      axios.get('/parentinfo/'+id)
         .then(({ data }) => 
         { 
-           this.teacher=data;
+           this.parent=data;
            this.children=data.childinfos;
 
            console.log(data);
@@ -144,12 +152,12 @@
    
   },
   beforeCreate(){
-if(!this.$gate.isAdmin()){
+if(!this.$gate.isParent()){
     this.$router.push({ name: 'notfound'})
 }
 },
         created() {
-            this.singleteacher()
+            this.singleparent()
         },
      
 

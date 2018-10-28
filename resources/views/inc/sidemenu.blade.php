@@ -1,10 +1,11 @@
+ @can('isAdmin')
 <nav class="navbar-default navbar-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
             <li class="text-center">
                 <img class="user-image img-responsive" src="/assets/img/find_user.png"/>
             </li>
-            @can('isAdmin')
+           
             <li>
                 <router-link to="/user">
                     <i class="fa fa-dashboard fa-3x">
@@ -16,11 +17,13 @@
                 <router-link to="/child">
                     <i class="fa fa-dashboard fa-3x">
                     </i>
-                    Child
+                  Child
                 </router-link>
             </li>
-            @endcan
-@can('isAdminParent')
+          
+
+
+
             <li>
                 <router-link to="/parent">
                     <i class="fa fa-dashboard fa-3x">
@@ -28,8 +31,7 @@
                     Parent
                 </router-link>
             </li>
-            @endcan
-                    @can('isAdminDoctor')
+            
             <li>
                 <router-link to="/doctor">
                     <i class="fa fa-dashboard fa-3x">
@@ -37,9 +39,7 @@
                     Doctor
                 </router-link>
             </li>
-            @endcan
-
-                    @can('isAdminTeacher')
+           
             <li>
                 <router-link to="/teacher">
                     <i class="fa fa-dashboard fa-3x">
@@ -47,8 +47,7 @@
                     Teacher
                 </router-link>
             </li>
-            @endcan
-                    @can('isAdmin')
+           
             <li>
                 <router-link to="/room">
                     <i class="fa fa-dashboard fa-3x">
@@ -56,8 +55,17 @@
                     Room
                 </router-link>
             </li>
-            @endcan
+            
+            <li>
+                <router-link to="/adminActivation">
+                    <i class="fa fa-dashboard fa-3x">
+                    </i>
+                     Admin Activation
+                </router-link>
+            </li>
+             
         </ul>
     </div>
 </nav>
+  @endcan
 <!-- /. NAV SIDE  -->

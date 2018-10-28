@@ -80,7 +80,7 @@ class RegisterController extends Controller
          $role->save();
         }
         
-       
+       $user->addParent($user->id,'Update Your Address','Update Info');
         $user->roles()->attach( $role->id);
         return $user;
     }

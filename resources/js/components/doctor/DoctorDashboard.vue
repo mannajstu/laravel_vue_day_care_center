@@ -8,12 +8,12 @@
                  
                     
                 <div class="col-md-6">
-                  <!--   Kitchen Sink -->
+                 
                     <div class="panel panel-default">
                         
                         <div class="panel-heading">
 
-                        <router-link to='/doctor' tag='button' class='btn btn-primary'>Back</router-link>
+                        <router-link to='/parent' tag='button' class='btn btn-primary'>Back</router-link>
                     
                            <h3>Doctor Information</h3> 
                             
@@ -25,28 +25,36 @@
                                 <table class="table table-striped table-bordered table-hover">
                                     
                                     <tbody>
-                                        <tr>
-                                            <th>Doctor Name</th>
-                                            <td>{{ doctor.user.name }}</td>
+                                      <!--   <tr>
+                                            <th>ID</th>
+                                            <td>{{ parent.id }}</td>
                                             
                                         </tr>
                                         
                                         <tr>
-                                            <th>Email</th>
-                                            <td>{{ doctor.user.email }}</td>
+                                            <th>Father Name</th>
+                                            <td>{{ parent.user.name }}</td>
                                         </tr>
 
-                                <tr>
-                                      <th>Contact Number</th>
-                                      <td>{{ doctor.user.contact_number }}</td>
-                                </tr>
-                                <tr>
-                                      <th>Contact Address</th>
-                                      <td>{{ doctor.contact_address }}</td>
-                                </tr>
+<tr>
+                                            <th>Mother Name</th>
+                                            <td>{{ parent.mother_name }}</td>
+                                        </tr>
 
 
+<tr>
+                                            <th>Contact Number</th>
+                                            <td>{{ parent.user.contact_number }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contact Email</th>
+                                            <td>{{ parent.user.email }}</td>
+                                        </tr>
 
+<tr>
+                                            <th>Contact Address</th>
+                                            <td>{{ parent.contact_address }}</td>
+                                        </tr> -->
                                         
                                     </tbody>
                                 </table>
@@ -74,20 +82,20 @@
     return {
       // Create a new form instance
       
-      doctor:{},
+      parent:{},
       children:{},
      
       
     }
   },
   methods: {
-    singledoctor () {
+    singleparent () {
       // Submit the form via a POST request
       let id=this.$route.params.id;
-      axios.get('/doctorinfo/'+id)
+      axios.get('/parentinfo/'+id)
         .then(({ data }) => 
         { 
-           this.doctor=data;
+           this.parent=data;
            this.children=data.childinfos;
 
            console.log(data);
@@ -96,8 +104,25 @@
     },
    
   },
+  beforeCreate(){
+ if(this.$gate.isAdmin()){
+    this.$router.push({ name: 'home'})
+}
+else if(this.$gate.isParent()){
+    this.$router.push({ name: 'parentdashboard'})
+}
+else if(this.$gate.isDoctor()){
+    this.$router.push({ name: 'doctordashboard'})
+}
+else if(this.$gate.isTeacher()){
+    this.$router.push({ name: 'teacherdashboard'})
+}
+else{
+    this.$router.push({ name: 'notfound'})
+}
+},
         created() {
-            this.singledoctor()
+            this.singleparent()
         },
      
 

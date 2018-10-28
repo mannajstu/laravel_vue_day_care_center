@@ -10,13 +10,18 @@ Vue.mixin({
   timer: 1800
 })
     },
+    
     restform(){
 
 this.form.reset();
 this.form.clear();
 
 },
+
     
   },
+
+
+ 
   
 })

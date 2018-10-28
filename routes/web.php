@@ -17,6 +17,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::resource('userinfo', 'UserController');
+Route::post('/adminActivation', 'UserController@adminActivation');
 Route::resource('childinfo', 'ChildInfoController');
 Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');

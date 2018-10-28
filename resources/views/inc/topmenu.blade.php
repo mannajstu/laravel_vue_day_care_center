@@ -16,6 +16,7 @@
     </div>
     <div style="color: white;padding: 15px 50px 5px 50px;float: right;
 font-size: 16px;">
+<p class="btn btn-info square-btn-adjust">You Are Login As {{ Session::get('role') }}</p>
         <a class="btn btn-danger square-btn-adjust" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
             {{ __('Logout') }}

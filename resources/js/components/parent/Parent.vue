@@ -83,9 +83,11 @@
     
   },
   beforeCreate(){
-if(!this.$gate.isAdminParent()){
-    this.$router.push({ name: 'notfound'})
+
+if(this.$gate.isParent()){
+    this.$router.push({ name: 'parentdashboard'})
 }
+
 },
         created() {
             this.loadparents();

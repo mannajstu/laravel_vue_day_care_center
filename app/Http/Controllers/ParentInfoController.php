@@ -96,13 +96,24 @@ class ParentInfoController extends Controller
     public function show($id)
     {
         // $this->authorize('isAdmin');
-
+  if (Gate::allows('isAdmin')) {
         $parent = ParentInfo::where('id', $id)
             ->with('childinfos')
             ->with('user')
             ->first();
 
         return $parent;
+    }
+    else{
+        $parentid     = Auth::id();
+    $parent = ParentInfo::where('userid', $parentid)
+            ->with('childinfos')
+            ->with('user')
+            ->first();
+
+        return $parent;
+    }
+
     }
 
     /**

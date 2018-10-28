@@ -31,18 +31,23 @@ window.swal = swal;
 require('./mixins');
 
 Vue.use(VueRouter)
-
+import Notices from './components/Notices.vue';
+Vue.component('notices', Notices);
+import ChildShortInfo from './components/child/ChildShortInfo.vue';
+Vue.component('childchortinfo', ChildShortInfo);
 
 let routes = [
  
   { path: '/notfound', component: require('./components/NotFound.vue'),name: 'notfound',},
   { path: '/', component: require('./components/Dashboard.vue'),name: 'home',},
+  { path: '/adminactivation', component: require('./components/AdminActivation.vue'),name: 'adminactivation',},
 //user /admin route
   { path: '/user', component: require('./components/user/User.vue'),name: 'user',},
   { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',meta: { requiresAuth: true }},
    { path: '/user/:id', component: require('./components/user/SingleUser.vue'),name: 'singleuser',},
    { path: '/user/edit/:id', component: require('./components/user/AddUser.vue'),name: 'edituser',},
 //parent route
+   { path: '/parent/dashboard', component: require('./components/parent/ParentDashboard.vue'),name: 'parentdashboard',},
    { path: '/parent', component: require('./components/parent/Parent.vue'),name: 'parent',},
   { path: '/addparent', component: require('./components/parent/AddParent.vue'),name: 'addparent',},
    { path: '/parent/:id', component: require('./components/parent/SingleParent.vue'),name: 'singleparent',},
@@ -52,6 +57,7 @@ let routes = [
   { path: '/child/', component: require('./components/child/Child.vue'),name: 'child',},
   { path: '/child/:id', component: require('./components/child/SingleChild.vue'),name: 'singlechild',},
   { path: '/child/edit/:id', component: require('./components/Dashboard.vue'),name: 'editchild',},
+  { path: '/child/parent/edit/:id', component: require('./components/child/EditParentChild.vue'),name: 'editparentchild',},
 //room route
   { path: '/room/', component: require('./components/room/Room.vue'),name: 'room',},
    { path: '/addroom', component: require('./components/room/AddRoom.vue'),name: 'addroom',},
@@ -59,12 +65,14 @@ let routes = [
  { path: '/room/edit/:id', component: require('./components/room/AddRoom.vue'),name: 'editroom',},
 
  //docor route
+ { path: '/doctor/dashboard', component: require('./components/doctor/DoctorDashboard.vue'),name: 'doctordashboard',},
  { path: '/doctor/', component: require('./components/doctor/Doctor.vue'),name: 'doctor',},
    { path: '/adddoctor', component: require('./components/doctor/AddDoctor.vue'),name: 'adddoctor',},
   { path: '/doctor/:id', component: require('./components/doctor/SingleDoctor.vue'),name: 'singledoctor',},
  { path: '/doctor/edit/:id', component: require('./components/doctor/AddDoctor.vue'),name: 'editdoctor',},
  //tacher route
- { path: '/teacher/', component: require('./components/teacher/Teacher.vue'),name: 'teacher',},
+ { path: '/teacher/dashboard', component: require('./components/teacher/TeacherDashboard.vue'),name: 'teacherdashboard',},
+  { path: '/teacher/', component: require('./components/teacher/Teacher.vue'),name: 'teacher',},
    { path: '/addteacher', component: require('./components/teacher/AddTeacher.vue'),name: 'addteacher',},
   { path: '/teacher/:id', component: require('./components/teacher/SingleTeacher.vue'),name: 'singleteacher',},
  { path: '/teacher/edit/:id', component: require('./components/teacher/AddTeacher.vue'),name: 'editteacher',},
@@ -88,8 +96,6 @@ const router = new VueRouter({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', 
-	require('./components/ExampleComponent.vue'));
 
 const app = new Vue({
 

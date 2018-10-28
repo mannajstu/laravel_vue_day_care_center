@@ -20,7 +20,7 @@ class CreateParentInfosTable extends Migration
            
             $table->string('contact_address');
             
-            $table->integer('userid')->unsigned()->nullable();
+            $table->integer('userid')->unsigned()->nullable()->unique();
 
             $table->foreign('userid')->references('id')->on('users')
                 ->onDelete('cascade');
