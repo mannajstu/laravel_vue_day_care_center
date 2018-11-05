@@ -26,9 +26,6 @@
                         </thead>
                                         <tbody>
                     <tr v-for="exam in exams">
-                        
-                   
-                   
                     <td>{{ exam.id }}</td>
                     <td>{{ exam.exam_title }}</td>
                     <td>{{ exam.exam_date }}</td>
