@@ -24,6 +24,7 @@ Route::resource('roominfo', 'RoomController');
 
 Route::resource('doctorinfo', 'DoctorController');
 Route::resource('teacherinfo', 'TeacherController');
+Route::resource('examinfo', 'ExamController');
 
 
 Route::get('{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');

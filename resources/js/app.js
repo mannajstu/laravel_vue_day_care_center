@@ -27,6 +27,13 @@ import swal from 'sweetalert2'
 window.swal = swal;
 
 
+//datetime
+
+   import datePicker from 'vue-bootstrap-datetimepicker';
+  import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+  Vue.use(datePicker);
+
+
 //common vue methods
 require('./mixins');
 
@@ -76,6 +83,12 @@ let routes = [
    { path: '/addteacher', component: require('./components/teacher/AddTeacher.vue'),name: 'addteacher',},
   { path: '/teacher/:id', component: require('./components/teacher/SingleTeacher.vue'),name: 'singleteacher',},
  { path: '/teacher/edit/:id', component: require('./components/teacher/AddTeacher.vue'),name: 'editteacher',},
+
+ //exam route
+  { path: '/exam/', component: require('./components/exam/Exam.vue'),name: 'exam',},
+   { path: '/addexam', component: require('./components/exam/AddExam.vue'),name: 'addexam',},
+  { path: '/exam/:id', component: require('./components/exam/SingleExam.vue'),name: 'singleexam',},
+ { path: '/exam/edit/:id', component: require('./components/exam/AddExam.vue'),name: 'editexam',},
 
 ]
 
