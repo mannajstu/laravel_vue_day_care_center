@@ -42,12 +42,19 @@ import Notices from './components/Notices.vue';
 Vue.component('notices', Notices);
 import ChildShortInfo from './components/child/ChildShortInfo.vue';
 Vue.component('childchortinfo', ChildShortInfo);
+import FrontEnd from './components/frontend/FrontEnd.vue';
+Vue.component('frontend', FrontEnd);
+import FrontMenu from './components/frontend/FrontMenu.vue';
+Vue.component('frontmenu', FrontMenu);
 
 let routes = [
  
   { path: '/notfound', component: require('./components/NotFound.vue'),name: 'notfound',},
-  { path: '/', component: require('./components/Dashboard.vue'),name: 'home',},
+  { path: '/home', component: require('./components/Dashboard.vue'),name: 'adminhome',},
+  { path: '/', component: require('./components/frontend/FrontEnd.vue'),name: 'frontendhome',},
   { path: '/adminactivation', component: require('./components/AdminActivation.vue'),name: 'adminactivation',},
+  { path: '/login', component: require('./components/auth/Login.vue'),name: 'login',},
+  { path: '/register', component: require('./components/auth/Register.vue'),name: 'register',},
 //user /admin route
   { path: '/user', component: require('./components/user/User.vue'),name: 'user',},
   { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',meta: { requiresAuth: true }},
@@ -87,6 +94,7 @@ let routes = [
  //exam route
   { path: '/exam/', component: require('./components/exam/Exam.vue'),name: 'exam',},
    { path: '/addexam', component: require('./components/exam/AddExam.vue'),name: 'addexam',},
+    { path: '/addexamchild', component: require('./components/exam/AddExamChild.vue'),name: 'addexamchild',},
   { path: '/exam/:id', component: require('./components/exam/SingleExam.vue'),name: 'singleexam',},
  { path: '/exam/edit/:id', component: require('./components/exam/AddExam.vue'),name: 'editexam',},
 

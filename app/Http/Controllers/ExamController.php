@@ -48,6 +48,7 @@ class ExamController extends Controller
         $exam->exam_description=$request->exam_description;
         $exam->exam_date=$request->exam_date;
         $exam->exam_time=$request->exam_time;
+        $exam->exam_mark=$request->exam_mark;
         $exam->save();
         return $exam;
     }

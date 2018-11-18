@@ -28,6 +28,15 @@
                     class="form-control" :class="{ 'is-invalid': form.errors.has('exam_description') }">
                     <has-error :form="form" field="exam_description"></has-error>
                     </div>
+
+
+                    <div class="form-group col-md-4">
+                    <label>Exam Mark</label>
+                    <input v-model="form.exam_mark" type="text" name="exam_mark"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('exam_mark') }">
+                    <has-error :form="form" field="exam_mark"></has-error>
+                    </div>
+
                     <div class="form-group col-md-4">
                     <label>Exam Date</label>
 

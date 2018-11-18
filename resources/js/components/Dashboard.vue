@@ -286,7 +286,7 @@ console.log(data);
 beforeCreate(){
     if(this.$gate.isAdmin()){
         if(this.editmode){
-            this.$router.push({ name: 'home'})
+            this.$router.push({ name: 'adminhome'})
         }
     
 }

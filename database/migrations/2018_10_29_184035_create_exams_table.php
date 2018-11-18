@@ -19,6 +19,7 @@ class CreateExamsTable extends Migration
             $table->string('exam_description');
             $table->string('exam_date');
             $table->string('exam_time');
+            $table->string('exam_mark');
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@
                         <div class="panel-heading">
 
                         <router-link to='/exam' tag='button' class='btn btn-primary'>Back</router-link>
+                         <router-link :to="{ name: 'addexamchild'}" tag='button' class="btn btn-danger">Add Child To Exam</router-link>
                     
                            <h3>Exam Information</h3> 
                             

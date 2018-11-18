@@ -32,4 +32,9 @@ class ChildInfo extends Model
     {
         return $this->belongsTo('App\Teacher','teacherid','id');
     }
+
+    public function exams()
+    {
+        return $this->belongsToMany('App\Exam', 'childexam', 'childid', 'examid')->withTimestamps();
+    }
 }

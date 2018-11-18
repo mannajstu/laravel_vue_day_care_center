@@ -25,7 +25,9 @@
     </head>
     <body>
         <div id="app">
-            @if(Auth::check())
+            {{-- @if(Auth::check()) --}}
+            
+            {{-- @else --}}
             <div id="wrapper">
                 @include('inc.topmenu') 
 @include('inc.sidemenu')
@@ -38,12 +40,7 @@
                 </div>
                 <!-- /. PAGE WRAPPER  -->
             </div>
-            @else
-        
-            @yield('content')
-        
-    
-        @endif
+            {{-- @endif --}}
         </div>
         <!-- /. WRAPPER /app finished  -->
         <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
@@ -67,15 +64,21 @@
         <!-- Scripts -->
         <script defer="" src="{{ asset('js/app.js') }}">
         </script>
+        {{-- <script>
+            window.user=@json('guest');
+            
+        </script> --}}
         @auth
         @php
             
             $roles= auth()->user()->roles()->get();
             $role= false;
+           
         foreach ($roles as $urole) {
            if($urole->name===Session::get('role')){
             $role= true;
            }
+           
 
         }
 
@@ -83,7 +86,14 @@
         @if($role)
         <script>
             window.user=@json(Session::get('role'));
+            
         </script>
+        @else
+        <script>
+            window.user=@json("parent");
+            
+        </script>
+               
         @endif
            @endauth
     </body>

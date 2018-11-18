@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
+{{-- <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0;">
     <div class="navbar-header">
         <button class="navbar-toggle" data-target=".sidebar-collapse" data-toggle="collapse" type="button">
             <span class="sr-only">
@@ -12,7 +12,7 @@
             </span>
         </button>
         
-        <router-link to="/"  class="navbar-brand"> Dashboard</router-link>
+        
     </div>
     <div style="color: white;padding: 15px 50px 5px 50px;float: right;
 font-size: 16px;">
@@ -27,3 +27,4 @@ font-size: 16px;">
     </div>
 </nav>
 <!-- /. NAV TOP  -->
+ --}}
