@@ -51,6 +51,15 @@
                     <date-picker  v-model="form.exam_time" :config="timeoptions"></date-picker>
                     <has-error :form="form" field="exam_time"></has-error>
                     </div>
+
+                    <div class="form-group col-md-4">
+                    <label>Class</label>
+                 <select class="form-control" v-model='form.class_number'>
+                        <option v-for='classinfo in classinfos' :value="classinfo.class_number">{{ classinfo.class_number }}</option>
+                        
+                    </select>                   
+                    <has-error :form="form" field="class_number"></has-error>
+                    </div>
                   
                    
 
@@ -94,6 +103,7 @@ return {
     },  
 editmode:false,
 exams:{},
+classinfos:{},
 
 form: new Form({
 
@@ -102,6 +112,7 @@ exam_title: '',
 exam_description: '',
 exam_date: '',
 exam_time: '',
+class_number:''
 
 })
 }
@@ -148,7 +159,18 @@ this.form.get('/examinfo/'+id)
   )
 }
 },
+loadclasss(){
+    this.form.get('/classinfo')
+        .then(({ data }) => 
+        { 
+            
+this.classinfos=data;
+console.log(data);
 
+
+        }
+        );
+},
 
 
 
@@ -157,6 +179,7 @@ this.form.get('/examinfo/'+id)
 created() {
     
        this.loadexam(); 
+       this.loadclasss(); 
 
 },
 // watch: {

@@ -37,6 +37,13 @@
                 </router-link>
             </li>
             <li>
+                <router-link to="/role">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                    Role
+                </router-link>
+            </li>
+            <li>
                 <router-link to="/child">
                     <i class="fa fa-dashboard fa-2x">
                     </i>
@@ -58,7 +65,7 @@
                 </router-link>
             </li>
             <li>
-                <router-link to="/notice">
+                <router-link to="/generalnotice">
                     <i class="fa fa-dashboard fa-2x">
                     </i>
                     General Notice
@@ -90,6 +97,34 @@
                     <i class="fa fa-dashboard fa-2x">
                     </i>
                     Room
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/class">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                    Class
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/headercontent">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                   Header Content
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/aboutpage">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                   About Page
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/gallerypage">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                   Gallery Page
                 </router-link>
             </li>
             <li>

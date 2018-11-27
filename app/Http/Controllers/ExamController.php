@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Exam;
+use App\User;
+use Gate;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
-    /**
+    
+
+    public function __construct()
+    {
+         $this->middleware('auth');
+    }/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -41,14 +48,16 @@ class ExamController extends Controller
             'exam_description' => 'required',
             'exam_date'        => 'required',
             'exam_time'        => 'required',
+            'class_number'     => 'required',
 
         ]);
-        $exam = new Exam;
-        $exam->exam_title=$request->exam_title;
-        $exam->exam_description=$request->exam_description;
-        $exam->exam_date=$request->exam_date;
-        $exam->exam_time=$request->exam_time;
-        $exam->exam_mark=$request->exam_mark;
+        $exam                   = new Exam;
+        $exam->exam_title       = $request->exam_title;
+        $exam->exam_description = $request->exam_description;
+        $exam->exam_date        = $request->exam_date;
+        $exam->exam_time        = $request->exam_time;
+        $exam->exam_mark        = $request->exam_mark;
+        $exam->class_number     = $request->class_number;
         $exam->save();
         return $exam;
     }
@@ -61,7 +70,37 @@ class ExamController extends Controller
      */
     public function show($id)
     {
-        return Exam::findOrfail($id)->first();
+
+        $exam = Exam::where('id', $id)->with('classinfo.childinfos')->first();
+
+        return $exam;
+    }
+    public function notifyinfo(Request $request)
+    {
+
+        if (Gate::allows('isAdmin')) {
+            $exam = Exam::where('id', $request->id)->with('classinfo.childinfos.parentinfo')->first();
+
+            $child = array();
+            $ild   = array();
+            foreach ($exam->classinfo->childinfos as $childinfo) {
+                $child[] = $childinfo->parentinfo;
+
+            }
+            foreach ($child as $childs) {
+                $ild[] = $childs->userid;
+            }
+            $users = User::findOrfail($ild);
+
+            $useremail         = array();
+            $usercontactnumber = array();
+            foreach ($users as $user) {
+                $useremail[]         = $user->email;
+                $usercontactnumber[] = $user->contact_number;
+            }
+            return $useremail;
+        }
+
     }
 
     /**
@@ -84,7 +123,7 @@ class ExamController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $this->validate($request, [
+        $this->validate($request, [
             'exam_title'       => 'required',
             'exam_description' => 'required',
             'exam_date'        => 'required',
@@ -92,11 +131,11 @@ class ExamController extends Controller
 
         ]);
 
-        $exam = Exam::find($id);
-        $exam->exam_title=$request->exam_title;
-        $exam->exam_description=$request->exam_description;
-        $exam->exam_date=$request->exam_date;
-        $exam->exam_time=$request->exam_time;
+        $exam                   = Exam::find($id);
+        $exam->exam_title       = $request->exam_title;
+        $exam->exam_description = $request->exam_description;
+        $exam->exam_date        = $request->exam_date;
+        $exam->exam_time        = $request->exam_time;
         $exam->save();
         return $exam;
     }

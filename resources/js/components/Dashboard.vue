@@ -47,6 +47,14 @@
                     </select>                   
                     <has-error :form="form" field="room_number"></has-error>
                     </div>
+                    <div class="form-group col-md-4">
+                    <label>Class</label>
+                 <select class="form-control" v-model='form.class_number'>
+                        <option v-for='classinfo in classinfos' :value="classinfo.class_number">{{ classinfo.class_number }}</option>
+                        
+                    </select>                   
+                    <has-error :form="form" field="class_number"></has-error>
+                    </div>
   
                     </div>
                     </div>
@@ -112,7 +120,7 @@
                             <option v-for='doctor in doctors' :value="doctor.id">{{ doctor.user.name }}</option>
 
                             </select>               
-                    <has-error :form="form" field="doctor_id"></has-error>
+                    <has-error :form="form" field="doctorid"></has-error>
                     </div>
 
     <div class="form-group col-md-4">
@@ -153,6 +161,7 @@ children:{},
 oldparent:false,
 roominfo:{},
 rooms:{},
+classinfos:{},
 doctors:{},
 teachers:{},
 form: new Form({
@@ -170,6 +179,7 @@ gender:'',
 doctorid:'',
 teacherid: '',
 room_number: '',
+class_number: '',
 
 
 })
@@ -254,6 +264,18 @@ console.log(data);
         }
         );
 },
+loadclasss(){
+    this.form.get('/classinfo')
+        .then(({ data }) => 
+        { 
+            
+this.classinfos=data;
+console.log(data);
+
+
+        }
+        );
+},
 loaddoctors(){
     this.form.get('/doctorinfo')
         .then(({ data }) => 
@@ -309,6 +331,7 @@ created() {
        this.loadrooms();
        this.loaddoctors();
        this.loadteachers();
+        this.loadclasss(); 
 
 },
 watch: {

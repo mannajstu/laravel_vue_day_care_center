@@ -14,26 +14,16 @@
 
 <div class="tab-content">
   <div id="general" class="tab-pane fade in active">
-    <ul >
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
+     <ul >
+            <li v-for="generalnotice in generalnotices"><router-link :to="{ name: 'singlegeneralnotice', params: { id: generalnotice.id }}" >{{ generalnotice.title }}</router-link></li>
+            
             
             
           </ul>
   </div>
   <div v-if="this.$gate.isParent()" id="doctor" class="tab-pane fade">
-  <ul >
-            <li><a href="#">Action</a></li>
+  <ul v-for="generalnotice in generalnotices">
+           <!--  <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li><a href="#">Separated link</a></li>
@@ -44,7 +34,7 @@
             <li><a href="#">Separated link</a></li>
             <li><a href="#">One more separated link</a></li>
             <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
+            <li><a href="#">Another action</a></li> -->
             
             
           </ul>
@@ -80,6 +70,7 @@
       
       parent:{},
       children:{},
+       generalnotices:{},
      
       
     }
@@ -98,13 +89,24 @@
         }
         )
     },
+     loadgeneralnotices(){
+          axios.get('/generalnoticeinfo')
+            .then(({ data }) => 
+            { 
+               this.generalnotices=data;
+               console.log(data);
+                
+            }
+            )
+          },
    
   },
   beforeCreate(){
 
 },
         created() {
-            this.singleparent()
+            this.singleparent();
+            this.loadgeneralnotices();
         },
      
 

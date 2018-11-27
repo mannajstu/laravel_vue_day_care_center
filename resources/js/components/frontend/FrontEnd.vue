@@ -4,7 +4,7 @@
                  
                     <div col-md-12>
                       <div class="col-md-12 " >     
-                 <div class="well">Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</div>
+                 <div class="well">{{ header_content }}</div>
  </div>
                  
                     
@@ -13,37 +13,22 @@
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li v-for='(slider,index) in frontslider' data-target="#myCarousel" :data-slide-to="index" class="active"></li>
+      
     </ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" >
 
-      <div class="item active">
-        <img src="https://images.pexels.com/photos/1040626/pexels-photo-1040626.jpeg?cs=srgb&dl=architecture-art-decoration-1040626.jpg&fm=jpg" alt="Los Angeles" style="width:100%;">
+      <div v-for='(slider,index) in frontslider' :class="[index==0 ? 'item active' : 'item']">
+        <img :src="slider.imagelink" alt="Los Angeles" style="width:100%; height: 22em">
         <div class="carousel-caption">
-          <h3>Los Angeles</h3>
-          <p>LA is always so much fun!</p>
+          <h3>{{ slider.title }}</h3>
+          
         </div>
       </div>
 
-      <div class="item">
-        <img src="https://images.pexels.com/photos/1040626/pexels-photo-1040626.jpeg?cs=srgb&dl=architecture-art-decoration-1040626.jpg&fm=jpg" alt="Chicago" style="width:100%;">
-        <div class="carousel-caption">
-          <h3>Chicago</h3>
-          <p>Thank you, Chicago!</p>
-        </div>
-      </div>
-    
-      <div class="item">
-        <img src="https://images.pexels.com/photos/1040626/pexels-photo-1040626.jpeg?cs=srgb&dl=architecture-art-decoration-1040626.jpg&fm=jpg" alt="New York" style="width:100%;">
-        <div class="carousel-caption">
-          <h3>New York</h3>
-          <p>We love the Big Apple!</p>
-        </div>
-      </div>
+      
   
     </div>
 
@@ -71,15 +56,8 @@
                         <div class="panel-body" style="height: 20em" >
                             <div id="general" class="tab-pane fade in active">
     <ul >
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li><a href="#">Separated link</a></li>
+            <li v-for="generalnotice in generalnotices"><router-link :to="{ name: 'singlegeneralnotice', params: { id: generalnotice.id }}" :style="{ color: 'black'}">{{ generalnotice.title }}</router-link></li>
+            
 
             
             
@@ -101,17 +79,57 @@
 
         data () {
     return {
-      
-     
+      header_content:'',
+      generalnotices:{},
+      frontslider:{},
+
       
     }
   },
   methods: {
-    
+     headercontent () {
+        // Submit the form via a POST request
+        axios.get('/homecontent')
+        .then(({ data }) => 
+        {    
+        
+        this.header_content=data[0].header_content;
+        console.log(data);
+   }
+        )
+        },
+        fgeneralnotice () {
+        // Submit the form via a POST request
+       axios.get('/generalnoticeinfo')
+        .then(({ data }) => 
+        {    
+        
+        this.generalnotices=data;
+        console.log(data);
+   }
+        )
+        },
+         fslider () {
+        // Submit the form via a POST request
+       axios.get('/sliderinfo')
+        .then(({ data }) => 
+        {    
+        
+        this.frontslider=data;
+        console.log(data);
+   }
+        )
+        },
    
   },
  
+    created() {
     
+       this.headercontent(); 
+       this.fgeneralnotice(); 
+       this.fslider(); 
+
+},
      
 
     }

@@ -28,6 +28,7 @@ class CreateChildInfosTable extends Migration
             $table->integer('teacherid')->unsigned()->nullable();
             
             $table->integer('room_number')->unsigned()->nullable();
+            $table->integer('class_number')->unsigned()->nullable();
 
             $table->foreign('parentid')->references('id')->on('parent_infos')
                 ->onDelete('cascade')->onUpdate('cascade');
@@ -36,6 +37,7 @@ class CreateChildInfosTable extends Migration
 
             $table->foreign('doctorid')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('teacherid')->references('id')->on('teachers')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('class_number')->references('class_number')->on('class_infos')->onUpdate('cascade')->onDelete('set null');
 
             $table->timestamps();
         });

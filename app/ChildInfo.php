@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChildInfo extends Model
 {
      protected $fillable = [
-        'parentid','child_name','birth_date','birth_reg_no','gender','doctorid','teacherid','room_no',
+        'parentid','child_name','birth_date','birth_reg_no','gender','doctorid','teacherid','room_no','class_number'
     ];
 
     /**
@@ -31,6 +31,10 @@ class ChildInfo extends Model
     public function teacher()
     {
         return $this->belongsTo('App\Teacher','teacherid','id');
+    }
+    public function classinfo()
+    {
+        return $this->belongsTo('App\ClassInfo','class_number','class_number');
     }
 
     public function exams()

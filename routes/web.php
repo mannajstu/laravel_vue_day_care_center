@@ -21,10 +21,19 @@ Route::post('/adminActivation', 'UserController@adminActivation');
 Route::resource('childinfo', 'ChildInfoController');
 Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');
+Route::resource('classinfo', 'ClassInfoController');
 
 Route::resource('doctorinfo', 'DoctorController');
 Route::resource('teacherinfo', 'TeacherController');
 Route::resource('examinfo', 'ExamController');
+
+Route::post('notifychildinfo', 'ExamController@notifyinfo');
+
+Route::resource('generalnoticeinfo', 'GeneralNoticeController');
+Route::resource('homecontent', 'HomeContentController');
+Route::resource('aboutinfo', 'AboutController');
+Route::resource('galleryinfo', 'GalleryController');
+Route::get('sliderinfo', 'GalleryController@slider');
 
 
 Route::get('{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');

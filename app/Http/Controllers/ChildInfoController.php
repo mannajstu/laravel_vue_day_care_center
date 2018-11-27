@@ -65,6 +65,7 @@ class ChildInfoController extends Controller
             'gender'          => 'required',
             'doctorid'        => 'required',
             'teacherid'       => 'required',
+            'class_number'       => 'required',
             'room_number'     => 'required',
 
         ]);
@@ -105,6 +106,7 @@ class ChildInfoController extends Controller
         $child->doctorid     = $request->doctorid;
         $child->teacherid    = $request->teacherid;
         $child->room_number  = $request->room_number;
+        $child->class_number  = $request->class_number;
         $child->save();
 
     }
@@ -181,6 +183,7 @@ class ChildInfoController extends Controller
             'gender'          => 'required',
             'doctorid'        => 'required',
             'teacherid'       => 'required',
+             'class_number'       => 'required',
             'room_number'     => 'required',
         ]);
 
@@ -196,6 +199,7 @@ class ChildInfoController extends Controller
         $child->doctorid     = $request->doctorid;
         $child->teacherid    = $request->teacherid;
         $child->room_number  = $request->room_number;
+        $child->class_number  = $request->class_number;
 
         $child->parentinfo->mother_name     = $request->mother_name;
         $child->parentinfo->contact_address = $request->contact_address;

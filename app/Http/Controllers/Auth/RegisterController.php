@@ -73,12 +73,20 @@ class RegisterController extends Controller
          $user->save();
 
         $role       =Role::where('name', 'parent')->first();
+        $adminrole       =Role::where('name', 'admin')->first();
         // return $role;
-        if(empty($role)){
+        if(empty($adminrole)){
+            $role = new Role;
+         $role->name="admin";
+         $role->save();
+        }else{
+           if(empty($role)){
             $role = new Role;
          $role->name="parent";
          $role->save();
+        } 
         }
+        
         
        $user->addParent($user->id,'Update Your Address','Update Info');
         $user->roles()->attach( $role->id);

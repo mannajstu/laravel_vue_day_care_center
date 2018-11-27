@@ -50,7 +50,7 @@
   <label >Doctor</label>
   
                         </div>
-                    <has-error :form="form" field="contact_number"></has-error>
+                    <has-error :form="form" field="role"></has-error>
                     </div>
 
                      </div>

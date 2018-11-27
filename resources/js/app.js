@@ -55,6 +55,13 @@ let routes = [
   { path: '/adminactivation', component: require('./components/AdminActivation.vue'),name: 'adminactivation',},
   { path: '/login', component: require('./components/auth/Login.vue'),name: 'login',},
   { path: '/register', component: require('./components/auth/Register.vue'),name: 'register',},
+  { path: '/headercontent', component: require('./components/home/HeaderContent.vue'),name: 'headercontent',},
+  { path: '/addgeneralnotice', component: require('./components/notice/AddGeneralNotice.vue'),name: 'addgeneralnotice',},
+  { path: '/generalnotice/edit/:id', component: require('./components/notice/AddGeneralNotice.vue'),name: 'editgeneralnotice',},
+  { path: '/generalnotice/:id', component: require('./components/notice/SingleGeneralNotice.vue'),name: 'singlegeneralnotice',},
+  { path: '/generalnotice', component: require('./components/notice/GeneralNotice.vue'),name: 'generalnotice',},
+  { path: '/aboutpage', component: require('./components/About.vue'),name: 'about',},
+  { path: '/about', component: require('./components/frontend/AboutFront.vue'),name: 'aboutfront',},
 //user /admin route
   { path: '/user', component: require('./components/user/User.vue'),name: 'user',},
   { path: '/adduser', component: require('./components/user/AddUser.vue'),name: 'adduser',meta: { requiresAuth: true }},
@@ -77,6 +84,11 @@ let routes = [
    { path: '/addroom', component: require('./components/room/AddRoom.vue'),name: 'addroom',},
   { path: '/room/:id', component: require('./components/room/SingleRoom.vue'),name: 'singleroom',},
  { path: '/room/edit/:id', component: require('./components/room/AddRoom.vue'),name: 'editroom',},
+ //class route
+  { path: '/class/', component: require('./components/class/Class.vue'),name: 'class',},
+   { path: '/addclass', component: require('./components/class/AddClass.vue'),name: 'addclass',},
+  { path: '/class/:id', component: require('./components/class/SingleClass.vue'),name: 'singleclass',},
+ { path: '/class/edit/:id', component: require('./components/class/AddClass.vue'),name: 'editclass',},
 
  //docor route
  { path: '/doctor/dashboard', component: require('./components/doctor/DoctorDashboard.vue'),name: 'doctordashboard',},
@@ -97,7 +109,13 @@ let routes = [
     { path: '/addexamchild', component: require('./components/exam/AddExamChild.vue'),name: 'addexamchild',},
   { path: '/exam/:id', component: require('./components/exam/SingleExam.vue'),name: 'singleexam',},
  { path: '/exam/edit/:id', component: require('./components/exam/AddExam.vue'),name: 'editexam',},
-
+ //gallery route
+  { path: '/gallerypage/', component: require('./components/gallery/Gallery.vue'),name: 'gallery',},
+   { path: '/addgallery', component: require('./components/gallery/AddGallery.vue'),name: 'addgallery',},
+  { path: '/gallery/:id', component: require('./components/gallery/SingleGallery.vue'),name: 'singlegallery',},
+ { path: '/gallery/edit/:id', component: require('./components/gallery/EditGallery.vue'),name: 'editgallery',},
+{ path: '/gallery', component: require('./components/frontend/FrontGallery.vue'),name: 'frontgallery',},
+   
 ]
 
 // 3. Create the router instance and pass the `routes` option

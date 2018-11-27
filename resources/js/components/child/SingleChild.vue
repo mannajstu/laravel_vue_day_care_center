@@ -84,6 +84,10 @@
                                             <th>Room No</th>
                                             <td >{{ child.room_number }}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Class</th>
+                                            <td >{{ child.class_number }}</td>
+                                        </tr>
                                         
 
                                         

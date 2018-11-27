@@ -10,7 +10,8 @@
                         <div class="panel-heading">
 
                         <router-link to='/exam' tag='button' class='btn btn-primary'>Back</router-link>
-                         <router-link :to="{ name: 'addexamchild'}" tag='button' class="btn btn-danger">Add Child To Exam</router-link>
+                       
+                         <button @click='notifychildexam' class="btn btn-danger">Notify All Child</button>
                     
                            <h3>Exam Information</h3> 
                             
@@ -59,7 +60,7 @@
                         </div>
 <!-- end col-md-6 -->
 <div class="col-md-12">
-                 <childchortinfo :children="children"></childchortinfo>
+                <childchortinfo :children="children"></childchortinfo>
                         </div>
 
                        <!--  end -col -->
@@ -75,12 +76,9 @@
 
         data () {
     return {
-      // Create a new form instance
-      
+      // Create a new form instance      
       exam:{},
-      children:{},
-     
-      
+      children:{},  
     }
   },
   methods: {
@@ -91,12 +89,25 @@
         .then(({ data }) => 
         { 
            this.exam=data;
-           this.children=data.childinfos;
+           this.children=data.classinfo.childinfos;
 
            console.log(data);
         }
         )
     },
+    notifychildexam () {
+      // Submit the form via a POST request
+      let id=this.$route.params.id;
+      axios.post('/notifychildinfo/',{id:this.exam.id})
+        .then(({ data }) => 
+        { 
+            this.successmsg();
+           console.log(data);
+        }
+        )
+      
+    },
+    
    
   },
         created() {

@@ -8,11 +8,11 @@ class Exam extends Model
 {
     protected $table    = 'exams';
     protected $fillable = [
-      ' exam_title','exam_description','exam_date','exam_time','exam_mark',
+      ' exam_title','exam_description','exam_date','exam_time','exam_mark','class_number'
     ];
 
-    public function children()
+    public function classinfo()
     {
-        return $this->belongsToMany('App\ChildInfo', 'childexam','examid','childid')->withTimestamps();
+        return $this->belongsTo('App\ClassInfo', 'class_number','class_number');
     }
 }
