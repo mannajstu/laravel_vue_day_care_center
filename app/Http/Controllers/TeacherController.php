@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Teacher;
+use App\Doctor;
+use App\ParentInfo;
 use App\Role;
 use App\User;
 use Auth;
@@ -30,7 +32,8 @@ class TeacherController extends Controller
             $id     = Auth::id();
             $teacher = Teacher::where('userid', $id)
                 ->with('user')
-                ->get();
+                ->with('childinfos')
+                ->firstOrfail();
 
             return $teacher;
         }
@@ -101,12 +104,11 @@ class TeacherController extends Controller
         return $teacher;
     }
     else{
-         $parentid     = Auth::user()->teacher->id;
-         $teacher = Teacher::where('id', $id)
+         $teacherid     = Auth::user()->teacher->id;
+        $teacher = Doctor::where('id', $teacherid )
         ->with('childinfos')
         ->with('user')
         ->first();
-
         return $teacher;
     }
     }

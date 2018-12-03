@@ -32,7 +32,8 @@ class DoctorController extends Controller
             $id     = Auth::id();
             $parent = Doctor::where('userid', $id)
                 ->with('user')
-                ->get();
+                ->with('childinfos')
+                ->firstOrfail();
 
             return $parent;
         }

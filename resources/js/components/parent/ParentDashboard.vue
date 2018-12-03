@@ -91,8 +91,8 @@
   methods: {
     singleparent () {
       // Submit the form via a POST request
-      let id=this.$route.params.id;
-      axios.get('/parentinfo/'+id)
+     
+      axios.get('/parentinfo/')
         .then(({ data }) => 
         { 
            this.parent=data;

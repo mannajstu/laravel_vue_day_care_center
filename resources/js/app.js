@@ -115,7 +115,20 @@ let routes = [
   { path: '/gallery/:id', component: require('./components/gallery/SingleGallery.vue'),name: 'singlegallery',},
  { path: '/gallery/edit/:id', component: require('./components/gallery/EditGallery.vue'),name: 'editgallery',},
 { path: '/gallery', component: require('./components/frontend/FrontGallery.vue'),name: 'frontgallery',},
-   
+//message
+{ path: '/admintoparent', component: require('./components/message/AdminToParent.vue'),name: 'admintoparent',props: true},
+{ path: '/admintoparent/:id', component: require('./components/message/SingleAdminToParent.vue'),name: 'singleadmintoparent',},
+ { path: '/doctortoparent', component: require('./components/message/DoctorToParent.vue'),name: 'doctortoparent',props: true},
+{ path: '/doctortoparent/:id', component: require('./components/message/SingleDoctorToParent.vue'),name: 'singledoctortoparent',}, 
+{ path: '/teachertoparent', component: require('./components/message/TeacherToParent.vue'),name: 'teachertoparent',props: true},
+{ path: '/teachertoparent/:id', component: require('./components/message/SingleTeacherToParent.vue'),name: 'singleteachertoparent',},
+{ path: '/parenttoadmin', component: require('./components/message/ParentToAdmin.vue'),name: 'parenttoadmin',props: true},
+{ path: '/parenttoadmin/:id', component: require('./components/message/SingleParentToAdmin.vue'),name: 'singleparenttoadmin',},
+{ path: '/parenttodoctor', component: require('./components/message/ParentToDoctor.vue'),name: 'parenttodoctor',props: true},
+{ path: '/parenttodoctor/:id', component: require('./components/message/SingleParentToDoctor.vue'),name: 'singleparenttodoctor',},
+
+{ path: '/parenttoteacher', component: require('./components/message/ParentToTeacher.vue'),name: 'parenttoteacher',props: true},
+{ path: '/parenttoteacher/:id', component: require('./components/message/SingleParentToTeacher.vue'),name: 'singleparenttoteacher',},    
 ]
 
 // 3. Create the router instance and pass the `routes` option
