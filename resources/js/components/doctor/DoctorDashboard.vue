@@ -136,7 +136,7 @@
 <td>{{ doctortoadminmsg.message.substring(0, 100)+'...' }}</td>
 
 <td>
-<router-link :to="{ name: 'singledoctortoparent', params: { id: doctortoadminmsg.id }} "tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
+<router-link :to="{ name: 'singledoctortoadmin', params: { id: doctortoadminmsg.id }} "tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
 
 <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
 </button>
@@ -263,7 +263,7 @@ this.form.email=data.user.email;
         this.restform();
         this.successmsg();
         this.singledoctor();
-        this.$router.push('/doctor/'+this.doctor.id);
+        this.$router.push('/doctor/dashboard');
         this.loaddoctortoadminmsg();
         this.loadadmintodoctormsg();
         

@@ -51,7 +51,16 @@ Route::resource('parenttoteachermsg', 'ParentToTeacherMsgController');
 Route::get('/singleparenttoteachermsg/{id}', 'ParentToTeacherMsgController@singleparenttoteachermsg');
 
 Route::resource('admintodoctormsg', 'AdminToDoctorMsgController');
+
+Route::get('/singleadmintodoctormsg/{id}', 'AdminToDoctorMsgController@singleadmintodoctormsg');
 Route::resource('doctortoadminmsg', 'DoctorToAdminMsgController');
+Route::get('/singledoctortoadminmsg/{id}', 'DoctorToAdminMsgController@singledoctortoadminmsg');
+
+Route::resource('teachertoadminmsg', 'TeacherToAdminMsgController');
+Route::resource('admintoteachermsg', 'AdminToTeacherMsgController');
+Route::get('/singleadmintoteachermsg/{id}', 'AdminToTeacherMsgController@singleadmintoteachermsg');
+Route::get('/singleteachertoadminmsg/{id}', 'TeacherToAdminMsgController@singleteachertoadminmsg');
+
 
 
 Route::get('{vue_capture?}', 'HomeController@index')->where('vue_capture', '[\/\w\.-]*');

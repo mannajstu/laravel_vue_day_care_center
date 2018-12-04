@@ -30850,7 +30850,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(149);
-module.exports = __webpack_require__(345);
+module.exports = __webpack_require__(357);
 
 
 /***/ }),
@@ -30945,7 +30945,7 @@ var routes = [{ path: '/notfound', component: __webpack_require__(198), name: 'n
 //gallery route
 { path: '/gallerypage/', component: __webpack_require__(306), name: 'gallery' }, { path: '/addgallery', component: __webpack_require__(309), name: 'addgallery' }, { path: '/gallery/:id', component: __webpack_require__(312), name: 'singlegallery' }, { path: '/gallery/edit/:id', component: __webpack_require__(315), name: 'editgallery' }, { path: '/gallery', component: __webpack_require__(318), name: 'frontgallery' },
 //message
-{ path: '/admintoparent', component: __webpack_require__(321), name: 'admintoparent', props: true }, { path: '/admintoparent/:id', component: __webpack_require__(324), name: 'singleadmintoparent' }, { path: '/doctortoparent', component: __webpack_require__(327), name: 'doctortoparent', props: true }, { path: '/doctortoparent/:id', component: __webpack_require__(330), name: 'singledoctortoparent' }, { path: '/teachertoparent', component: __webpack_require__(333), name: 'teachertoparent', props: true }, { path: '/teachertoparent/:id', component: __webpack_require__(336), name: 'singleteachertoparent' }, { path: '/parenttoadmin', component: __webpack_require__(339), name: 'parenttoadmin', props: true }, { path: '/parenttoadmin/:id', component: __webpack_require__(342), name: 'singleparenttoadmin' }, { path: '/parenttodoctor', component: __webpack_require__(347), name: 'parenttodoctor', props: true }, { path: '/parenttodoctor/:id', component: __webpack_require__(350), name: 'singleparenttodoctor' }, { path: '/parenttoteacher', component: __webpack_require__(353), name: 'parenttoteacher', props: true }, { path: '/parenttoteacher/:id', component: __webpack_require__(356), name: 'singleparenttoteacher' }];
+{ path: '/admintoparent', component: __webpack_require__(321), name: 'admintoparent', props: true }, { path: '/admintoparent/:id', component: __webpack_require__(324), name: 'singleadmintoparent' }, { path: '/doctortoparent', component: __webpack_require__(327), name: 'doctortoparent', props: true }, { path: '/doctortoparent/:id', component: __webpack_require__(330), name: 'singledoctortoparent' }, { path: '/teachertoparent', component: __webpack_require__(333), name: 'teachertoparent', props: true }, { path: '/teachertoparent/:id', component: __webpack_require__(336), name: 'singleteachertoparent' }, { path: '/parenttoadmin', component: __webpack_require__(339), name: 'parenttoadmin', props: true }, { path: '/parenttoadmin/:id', component: __webpack_require__(342), name: 'singleparenttoadmin' }, { path: '/parenttodoctor', component: __webpack_require__(345), name: 'parenttodoctor', props: true }, { path: '/parenttodoctor/:id', component: __webpack_require__(348), name: 'singleparenttodoctor' }, { path: '/parenttoteacher', component: __webpack_require__(351), name: 'parenttoteacher', props: true }, { path: '/parenttoteacher/:id', component: __webpack_require__(354), name: 'singleparenttoteacher' }, { path: '/doctortoadmin/:id', component: __webpack_require__(359), name: 'singledoctortoadmin' }, { path: '/admintodoctor/:id', component: __webpack_require__(362), name: 'singleadmintodoctor' }, { path: '/admintoteacher/:id', component: __webpack_require__(365), name: 'singleadmintoteacher' }, { path: '/teachertoadmin/:id', component: __webpack_require__(368), name: 'singleteachertoadmin' }];
 
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
@@ -87258,7 +87258,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 _this2.restform();
                                 _this2.successmsg();
                                 _this2.singledoctor();
-                                _this2.$router.push('/doctor/' + _this2.doctor.id);
+                                _this2.$router.push('/doctor/dashboard');
                                 _this2.loaddoctortoadminmsg();
                                 _this2.loadadmintodoctormsg();
                         });
@@ -87546,7 +87546,7 @@ var render = function() {
                               staticClass: "btn btn-primary",
                               attrs: {
                                 to: {
-                                  name: "singledoctortoparent",
+                                  name: "singledoctortoadmin",
                                   params: { id: doctortoadminmsg.id }
                                 },
                                 tag: "button"
@@ -88981,7 +88981,7 @@ var render = function() {
                               staticClass: "btn btn-primary",
                               attrs: {
                                 to: {
-                                  name: "singledoctoratodmin",
+                                  name: "singledoctortoadmin",
                                   params: { id: doctortoadminmsg.id }
                                 },
                                 tag: "button"
@@ -89277,50 +89277,243 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      // Create a new form instance
+        data: function data() {
+                return {
+                        // Create a new form instance
 
-      teacher: {},
-      children: {}
+                        teacher: {},
+                        children: {},
+                        teachertoadminmsgs: {},
+                        admintoteachermsgs: {},
+                        form: new Form({
+                                message: '',
+                                subject: '',
+                                email: '',
+                                teacherid: '',
+                                contact_number: ''
 
-    };
-  },
+                        })
 
-  methods: {
-    singleteacher: function singleteacher() {
-      var _this = this;
+                };
+        },
 
-      // Submit the form via a POST request
+        methods: {
+                singleteacher: function singleteacher() {
+                        var _this = this;
 
-      axios.get('/teacherinfo/').then(function (_ref) {
-        var data = _ref.data;
+                        // Submit the form via a POST request
 
-        _this.teacher = data;
-        _this.children = data.childinfos;
+                        axios.get('/teacherinfo/').then(function (_ref) {
+                                var data = _ref.data;
 
-        console.log(data);
-      });
-    }
-  },
-  beforeCreate: function beforeCreate() {
-    if (this.$gate.isAdmin()) {
-      this.$router.push({ name: 'home' });
-    } else if (this.$gate.isDoctor()) {
-      this.$router.push({ name: 'teacherdashboard' });
-    } else if (this.$gate.isDoctor()) {
-      this.$router.push({ name: 'doctordashboard' });
-    } else if (this.$gate.isTeacher()) {
-      this.$router.push({ name: 'teacherdashboard' });
-    } else {
-      this.$router.push({ name: 'notfound' });
-    }
-  },
-  created: function created() {
-    this.singleteacher();
-  }
+                                _this.teacher = data;
+                                _this.children = data.childinfos;
+                                _this.form.teacherid = data.id;
+                                _this.form.contact_number = data.user.contact_number;
+                                _this.form.email = data.user.email;
+
+                                console.log(data);
+                        });
+                },
+                teachertoadmin: function teachertoadmin() {
+                        var _this2 = this;
+
+                        // Submit the form via a POST request
+                        this.form.post('/teachertoadminmsg').then(function (_ref2) {
+                                var data = _ref2.data;
+
+
+                                _this2.restform();
+                                _this2.successmsg();
+                                _this2.singleteacher();
+                                _this2.$router.push('/teacher/dashboard');
+                                _this2.loadteachertoadminmsg();
+                                _this2.loadadmintoteachermsg();
+                        });
+                        // alert(this.form)
+                },
+                loadteachertoadminmsg: function loadteachertoadminmsg() {
+                        var _this3 = this;
+
+                        // Submit the form via a POST request
+
+                        axios.get('/teachertoadminmsg/').then(function (_ref3) {
+                                var data = _ref3.data;
+
+                                _this3.teachertoadminmsgs = data;
+                        });
+                },
+                loadadmintoteachermsg: function loadadmintoteachermsg() {
+                        var _this4 = this;
+
+                        // Submit the form via a POST request
+
+                        axios.get('/admintoteachermsg/').then(function (_ref4) {
+                                var data = _ref4.data;
+
+                                _this4.admintoteachermsgs = data;
+                        });
+                }
+        },
+        beforeCreate: function beforeCreate() {
+                if (this.$gate.isAdmin()) {
+                        this.$router.push({ name: 'home' });
+                } else if (this.$gate.isDoctor()) {
+                        this.$router.push({ name: 'teacherdashboard' });
+                } else if (this.$gate.isDoctor()) {
+                        this.$router.push({ name: 'doctordashboard' });
+                } else if (this.$gate.isTeacher()) {
+                        this.$router.push({ name: 'teacherdashboard' });
+                } else {
+                        this.$router.push({ name: 'notfound' });
+                }
+        },
+        created: function created() {
+                this.singleteacher();
+                this.loadteachertoadminmsg();
+                this.loadadmintoteachermsg();
+        }
 });
 
 /***/ }),
@@ -89401,18 +89594,325 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [_c("notices")], 1),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.teachertoadmin()
+              },
+              keydown: function($event) {
+                _vm.form.onKeydown($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "panel panel-default" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "panel-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-12" },
+                    [
+                      _c("label", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.subject,
+                            expression: "form.subject"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("subject") },
+                        attrs: { type: "text", name: "subject" },
+                        domProps: { value: _vm.form.subject },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "subject", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "subject" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-12" },
+                    [
+                      _c("label", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c(
+                        "textarea",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.message,
+                              expression: "form.message"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("message")
+                          },
+                          staticStyle: { width: "100%" },
+                          attrs: { type: "text", name: "message" },
+                          domProps: { value: _vm.form.message },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "message", $event.target.value)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\r\n                        " +
+                              _vm._s(_vm.form.message) +
+                              "\r\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "message" }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-lg btn-block",
+                    attrs: { disabled: _vm.form.busy, type: "submit" }
+                  },
+                  [_vm._v("Add Message")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]),
       _vm._v(" "),
       _c(
         "div",
         { staticClass: "col-md-12" },
         [_c("childchortinfo", { attrs: { children: _vm.children } })],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "panel panel-default" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "panel-body" }, [
+              _c("table", { staticClass: "table table-hover table-striped" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.teachertoadminmsgs, function(teachertoadminmsg) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(teachertoadminmsg.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(teachertoadminmsg.subject))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            teachertoadminmsg.message.substring(0, 100) + "..."
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: {
+                                to: {
+                                  name: "singleteachertoadmin",
+                                  params: { id: teachertoadminmsg.id }
+                                },
+                                tag: "button"
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-eye" })]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3, true)
+                        ],
+                        1
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "panel panel-default" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "panel-body" }, [
+              _c("table", { staticClass: "table table-hover table-striped" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.admintoteachermsgs, function(admintoteachermsg) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(admintoteachermsg.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(admintoteachermsg.subject))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            admintoteachermsg.message.substring(0, 100) + "..."
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: {
+                                to: {
+                                  name: "singleadmintoteacher",
+                                  params: { id: admintoteachermsg.id }
+                                },
+                                tag: "button"
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-eye" })]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(6, true)
+                        ],
+                        1
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v(" Teacher To Admin Message ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v("Teacher To Admin Message")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subject")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Message")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v("Admin To Teacher Message")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subject")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Message")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -90287,6 +90787,110 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -90294,7 +90898,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // Create a new form instance
 
             teacher: {},
-            children: {}
+            children: {},
+            admintoteachermsgs: {},
+            teachertoadminmsgs: {},
+            form: new Form({
+                message: '',
+                subject: '',
+                email: '',
+                teacherid: '',
+                contact_number: ''
+
+            })
 
         };
     },
@@ -90310,7 +90924,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this.teacher = data;
                 _this.children = data.childinfos;
+                _this.form.teacherid = data.id;
+                _this.form.contact_number = data.user.contact_number;
+                _this.form.email = data.user.email;
 
+                console.log(data);
+            });
+        },
+        admintoteacher: function admintoteacher() {
+            var _this2 = this;
+
+            // Submit the form via a POST request
+            this.form.post('/admintoteachermsg').then(function (_ref2) {
+                var data = _ref2.data;
+
+
+                _this2.restform();
+                _this2.successmsg();
+                _this2.singleteacher();
+
+                _this2.$router.push('/teacher/' + _this2.teacher.id);
+                _this2.loadadmintoteachermsg();
+            });
+            // alert(this.form)
+        },
+        loadadmintoteachermsg: function loadadmintoteachermsg() {
+            var _this3 = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/admintoteachermsg/' + id).then(function (_ref3) {
+                var data = _ref3.data;
+
+                _this3.admintoteachermsgs = data;
+                console.log(data);
+            });
+        },
+        loadteachertoadminmsg: function loadteachertoadminmsg() {
+            var _this4 = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/teachertoadminmsg/' + id).then(function (_ref4) {
+                var data = _ref4.data;
+
+                _this4.teachertoadminmsgs = data;
                 console.log(data);
             });
         }
@@ -90322,6 +90980,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     created: function created() {
         this.singleteacher();
+        this.loadadmintoteachermsg();
+        this.loadteachertoadminmsg();
     }
 });
 
@@ -90365,6 +91025,12 @@ var render = function() {
                 [
                   _c("tbody", [
                     _c("tr", [
+                      _c("th", [_vm._v("Teacher ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.teacher.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
                       _c("th", [_vm._v("Teacher Name")]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(_vm.teacher.user.name))])
@@ -90397,92 +91063,244 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _c(
-            "div",
-            { staticClass: "panel-heading" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { to: "/child", tag: "button" }
-                },
-                [_vm._v("All Child")]
-              ),
-              _vm._v(" "),
-              _c("h3", [_vm._v("Child Information")])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body table-full-width table-responsive" },
-            [
-              _c(
-                "table",
-                {
-                  staticClass: "table table-striped table-bordered table-hover"
-                },
-                [
-                  _vm._m(0),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.admintoteacher()
+              },
+              keydown: function($event) {
+                _vm.form.onKeydown($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "panel panel-default" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "panel-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group col-md-12" },
+                    [
+                      _c("label", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.subject,
+                            expression: "form.subject"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("subject") },
+                        attrs: { type: "text", name: "subject" },
+                        domProps: { value: _vm.form.subject },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "subject", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "subject" }
+                      })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c(
-                    "tbody",
-                    _vm._l(_vm.children, function(child) {
-                      return _c("tr", [
-                        _c("td", [_vm._v(_vm._s(child.id))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(child.child_name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(child.birth_reg_no))]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: {
-                                  to: {
-                                    name: "singlechild",
-                                    params: { id: child.id }
-                                  },
-                                  tag: "button"
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-info",
-                                attrs: {
-                                  to: {
-                                    name: "editchild",
-                                    params: { id: child.id }
-                                  },
-                                  tag: "button"
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-eye" })]
-                            ),
-                            _vm._v(" "),
-                            _vm._m(1, true)
+                    "div",
+                    { staticClass: "form-group col-md-12" },
+                    [
+                      _c("label", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c(
+                        "textarea",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.message,
+                              expression: "form.message"
+                            }
                           ],
-                          1
-                        )
-                      ])
-                    })
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("message")
+                          },
+                          staticStyle: { width: "100%" },
+                          attrs: { type: "text", name: "message" },
+                          domProps: { value: _vm.form.message },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "message", $event.target.value)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "                        " +
+                              _vm._s(_vm.form.message) +
+                              "\n                    "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "message" }
+                      })
+                    ],
+                    1
                   )
-                ]
-              )
-            ]
-          )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-lg btn-block",
+                    attrs: { disabled: _vm.form.busy, type: "submit" }
+                  },
+                  [_vm._v("Add Message")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-12" },
+        [_c("childchortinfo", { attrs: { children: _vm.children } })],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "panel panel-default" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "panel-body" }, [
+              _c("table", { staticClass: "table table-hover table-striped" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.admintoteachermsgs, function(admintoteachermsg) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(admintoteachermsg.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(admintoteachermsg.subject))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            admintoteachermsg.message.substring(0, 100) + "..."
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: {
+                                to: {
+                                  name: "singleadmintoteacher",
+                                  params: { id: admintoteachermsg.id }
+                                },
+                                tag: "button"
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-eye" })]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(3, true)
+                        ],
+                        1
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "panel panel-default" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "panel-body" }, [
+              _c("table", { staticClass: "table table-hover table-striped" }, [
+                _vm._m(5),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.teachertoadminmsgs, function(teachertoadminmsg) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(teachertoadminmsg.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(teachertoadminmsg.subject))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            teachertoadminmsg.message.substring(0, 100) + "..."
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: {
+                                to: {
+                                  name: "singleteachertoadmin",
+                                  params: { id: teachertoadminmsg.id }
+                                },
+                                tag: "button"
+                              }
+                            },
+                            [_c("i", { staticClass: "fa fa-eye" })]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(6, true)
+                        ],
+                        1
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
         ])
       ])
     ])
@@ -90493,13 +91311,63 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v(" Admin To Teacher Message ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v("Admin To Teacher Message")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Child Name")]),
+        _c("th", [_vm._v("Subject")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Birth Reg No")]),
+        _c("th", [_vm._v("Message")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-trash" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v("Teacher To Admin Message")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Subject")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Message")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
@@ -95648,21 +96516,14 @@ if (false) {
 
 /***/ }),
 /* 345 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 346 */,
-/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(348)
+var __vue_script__ = __webpack_require__(346)
 /* template */
-var __vue_template__ = __webpack_require__(349)
+var __vue_template__ = __webpack_require__(347)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -95701,7 +96562,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 348 */
+/* 346 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -95800,7 +96661,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 349 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -95951,15 +96812,15 @@ if (false) {
 }
 
 /***/ }),
-/* 350 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(351)
+var __vue_script__ = __webpack_require__(349)
 /* template */
-var __vue_template__ = __webpack_require__(352)
+var __vue_template__ = __webpack_require__(350)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -95998,7 +96859,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 351 */
+/* 349 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96096,7 +96957,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 352 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -96207,15 +97068,15 @@ if (false) {
 }
 
 /***/ }),
-/* 353 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(354)
+var __vue_script__ = __webpack_require__(352)
 /* template */
-var __vue_template__ = __webpack_require__(355)
+var __vue_template__ = __webpack_require__(353)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -96254,7 +97115,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 354 */
+/* 352 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96353,7 +97214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 355 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -96504,15 +97365,15 @@ if (false) {
 }
 
 /***/ }),
-/* 356 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(357)
+var __vue_script__ = __webpack_require__(355)
 /* template */
-var __vue_template__ = __webpack_require__(358)
+var __vue_template__ = __webpack_require__(356)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -96551,7 +97412,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 357 */
+/* 355 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96649,7 +97510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 358 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -96756,6 +97617,1037 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-073d6d12", module.exports)
+  }
+}
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 358 */,
+/* 359 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(360)
+/* template */
+var __vue_template__ = __webpack_require__(361)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/message/SingleDoctorToAdmin.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-163c386a", Component.options)
+  } else {
+    hotAPI.reload("data-v-163c386a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 360 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // Create a new form instance
+
+            doctortoadminmsg: {}
+
+        };
+    },
+
+    methods: {
+        singledoctortoadminmsg: function singledoctortoadminmsg() {
+            var _this = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/singledoctortoadminmsg/' + id).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.doctortoadminmsg = data;
+                console.log(data);
+            });
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()) {
+            this.$router.push({ name: 'notfound' });
+        }
+    },
+    created: function created() {
+        this.singledoctortoadminmsg();
+    }
+});
+
+/***/ }),
+/* 361 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row " }, [
+    _c("div", { attrs: { "col-md-12": "" } }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              this.$gate.isAdmin()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: "/child", tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "parentdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isDoctor()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "doctordashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isTeacher()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "teacherdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Docto To Admin Message")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctortoadminmsg.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctortoadminmsg.subject))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctortoadminmsg.message))])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-163c386a", module.exports)
+  }
+}
+
+/***/ }),
+/* 362 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(363)
+/* template */
+var __vue_template__ = __webpack_require__(364)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/message/SingleAdminToDoctor.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5eb64a44", Component.options)
+  } else {
+    hotAPI.reload("data-v-5eb64a44", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 363 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // Create a new form instance
+
+            admintodoctormsg: {}
+
+        };
+    },
+
+    methods: {
+        singleadmintodoctormsg: function singleadmintodoctormsg() {
+            var _this = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/singleadmintodoctormsg/' + id).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.admintodoctormsg = data;
+                console.log(data);
+            });
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()) {
+            this.$router.push({ name: 'notfound' });
+        }
+    },
+    created: function created() {
+        this.singleadmintodoctormsg();
+    }
+});
+
+/***/ }),
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row " }, [
+    _c("div", { attrs: { "col-md-12": "" } }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              this.$gate.isAdmin()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: "/child", tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "parentdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isDoctor()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "doctordashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isTeacher()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "teacherdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Admin To Doctor Message")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintodoctormsg.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintodoctormsg.subject))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintodoctormsg.message))])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5eb64a44", module.exports)
+  }
+}
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(366)
+/* template */
+var __vue_template__ = __webpack_require__(367)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/message/SingleAdminToTeacher.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-740953b3", Component.options)
+  } else {
+    hotAPI.reload("data-v-740953b3", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 366 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // Create a new form instance
+
+            admintoteachermsg: {}
+
+        };
+    },
+
+    methods: {
+        singleadmintoteachermsg: function singleadmintoteachermsg() {
+            var _this = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/singleadmintoteachermsg/' + id).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.admintoteachermsg = data;
+                console.log(data);
+            });
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()) {
+            this.$router.push({ name: 'notfound' });
+        }
+    },
+    created: function created() {
+        this.singleadmintoteachermsg();
+    }
+});
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row " }, [
+    _c("div", { attrs: { "col-md-12": "" } }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              this.$gate.isAdmin()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: "/child", tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "parentdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isDoctor()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "doctordashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isTeacher()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "teacherdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Admin To Teacher Message")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintoteachermsg.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintoteachermsg.subject))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.admintoteachermsg.message))])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-740953b3", module.exports)
+  }
+}
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(369)
+/* template */
+var __vue_template__ = __webpack_require__(370)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/message/SingleTeacherToAdmin.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d24c0a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-6d24c0a6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 369 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            // Create a new form instance
+
+            teachertoadminmsg: {}
+
+        };
+    },
+
+    methods: {
+        singleteachertoadminmsg: function singleteachertoadminmsg() {
+            var _this = this;
+
+            // Submit the form via a POST request
+            var id = this.$route.params.id;
+            axios.get('/singleteachertoadminmsg/' + id).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.teachertoadminmsg = data;
+                console.log(data);
+            });
+        }
+    },
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()) {
+            this.$router.push({ name: 'notfound' });
+        }
+    },
+    created: function created() {
+        this.singleteachertoadminmsg();
+    }
+});
+
+/***/ }),
+/* 370 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row " }, [
+    _c("div", { attrs: { "col-md-12": "" } }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c(
+            "div",
+            { staticClass: "panel-heading" },
+            [
+              this.$gate.isAdmin()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: "/child", tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "parentdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isDoctor()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "doctordashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isTeacher()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { to: { name: "teacherdashboard" }, tag: "button" }
+                    },
+                    [_vm._v("Back")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("h3", [_vm._v("Teacher To Admin Message")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c("div", { staticClass: "table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-striped table-bordered table-hover"
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.teachertoadminmsg.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Subject")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.teachertoadminmsg.subject))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Message")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.teachertoadminmsg.message))])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6d24c0a6", module.exports)
   }
 }
 

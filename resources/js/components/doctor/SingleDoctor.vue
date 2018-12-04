@@ -133,7 +133,7 @@
 <td>{{ doctortoadminmsg.message.substring(0, 100)+'...' }}</td>
 
 <td>
-<router-link :to="{ name: 'singledoctoratodmin', params: { id: doctortoadminmsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
+<router-link :to="{ name: 'singledoctortoadmin', params: { id: doctortoadminmsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
 
 <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
 </button>

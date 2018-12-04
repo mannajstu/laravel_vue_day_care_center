@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\DoctorToAdminMsg;
+use App\TeacherToAdminMsg;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
 
-class DoctorToAdminMsgController extends Controller
+class TeacherToAdminMsgController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }/**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {$id     = Auth::user()->doctor->id;
-        return DoctorToAdminMsg::where('doctorid',$id)->get();
+    {$id     = Auth::user()->teacher->id;
+        return TeacherToAdminMsg::where('teacherid',$id)->get();
     }
 
     /**
@@ -45,53 +42,54 @@ class DoctorToAdminMsgController extends Controller
             'email'          => 'required',
             'contact_number' => 'required',
 
-            'doctorid'        => 'required',
+            'teacherid'        => 'required',
             'subject'        => 'required',
             'message'        => 'required',
 
         ]);
-        $doctortoadminmsg= new DoctorToAdminMsg;
-        $doctortoadminmsg->email=$request->email;
-        $doctortoadminmsg->contact_number=$request->contact_number;
-        $doctortoadminmsg->doctorid=$request->doctorid;
-        $doctortoadminmsg->subject=$request->subject;
-        $doctortoadminmsg->message=$request->message;
-        $doctortoadminmsg->save();
-        return $doctortoadminmsg;
+        $teachertoadminmsg= new TeacherToAdminMsg;
+        $teachertoadminmsg->email=$request->email;
+        $teachertoadminmsg->contact_number=$request->contact_number;
+        $teachertoadminmsg->teacherid=$request->teacherid;
+        $teachertoadminmsg->subject=$request->subject;
+        $teachertoadminmsg->message=$request->message;
+        $teachertoadminmsg->save();
+        return $teachertoadminmsg;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\AdminToDoctorMsg  $doctortoadminMsg
+     * @param  \App\AdminToteacherMsg  $teachertoadminMsg
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return DoctorToAdminMsg::where('doctorid',$id)->get();
+        if (Gate::allows('isAdmin')) {
+            return TeacherToAdminMsg::where('teacherid',$id)->get();
     }
-     public function singledoctortoadminmsg($id)
+    }
+     public function singleteachertoadminmsg($id)
     {
         if (Gate::allows('isAdmin')) {
-           return  DoctorToAdminMsg::where('id',$id)->firstOrfail();
-        } elseif(Gate::allows('isDoctor')) {
-             $doctorid =Auth::user()->doctor->id;
-            return  DoctorToAdminMsg::where([
+           return  TeacherToAdminMsg::where('id',$id)->firstOrfail();
+        } elseif(Gate::allows('isTeacher')) {
+             $teacherid =Auth::user()->teacher->id;
+            return  TeacherToAdminMsg::where([
                 'id' => $id,
-                'doctorid' => $doctorid,
+                'teacherid' => $teacherid,
                 
             ])->firstOrfail();
         }
         
     }
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DoctorToAdminMsg  $doctorToAdminMsg
+     * @param  \App\TeacherToAdminMsg  $teacherToAdminMsg
      * @return \Illuminate\Http\Response
      */
-    public function edit(DoctorToAdminMsg $doctorToAdminMsg)
+    public function edit(TeacherToAdminMsg $teacherToAdminMsg)
     {
         //
     }
@@ -100,10 +98,10 @@ class DoctorToAdminMsgController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DoctorToAdminMsg  $doctorToAdminMsg
+     * @param  \App\TeacherToAdminMsg  $teacherToAdminMsg
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DoctorToAdminMsg $doctorToAdminMsg)
+    public function update(Request $request, TeacherToAdminMsg $teacherToAdminMsg)
     {
         //
     }
@@ -111,10 +109,10 @@ class DoctorToAdminMsgController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DoctorToAdminMsg  $doctorToAdminMsg
+     * @param  \App\TeacherToAdminMsg  $teacherToAdminMsg
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DoctorToAdminMsg $doctorToAdminMsg)
+    public function destroy(TeacherToAdminMsg $teacherToAdminMsg)
     {
         //
     }
