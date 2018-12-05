@@ -59,9 +59,7 @@
                     </div>
                         </div>
 <!-- end col-md-6 -->
-<div class="col-md-6">
-  <notices></notices>
-</div>
+
 <!-- end col-md-6 -->
 <div class="col-md-12">
                   <childchortinfo :children="children"></childchortinfo>

@@ -26,6 +26,11 @@
                                     
                                     <tbody>
                                         <tr>
+                                            <th>Doctor ID</th>
+                                            <td>{{ doctor.id}}</td>
+                                            
+                                        </tr>
+                                        <tr>
                                             <th>Doctor Name</th>
                                             <td>{{ doctor.user.name }}</td>
                                             

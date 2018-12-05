@@ -7,7 +7,7 @@ use App\ParentInfo;
 use App\Role;
 use App\Teacher;
 use App\User;
-use Auth;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,23 +24,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::with('roles')->get();
-    }
-    public function adminActivation(Request $request)
-    {
-        $activationCode = 'activationCode';
-        if ($activationCode==$request->admin_activation) {
-            $id = Auth::id();
-
-            $user = User::findOrfail($id);
-            $role = Role::where('name', 'admin')->first();
-            $user->roles()->attach($role->id);
-            return $user;
-
+        if (Gate::allows('isAdmin')) {
+            return User::with('roles')->get();
         }
-        
-
     }
+    // public function adminActivation(Request $request)
+    // {
+    //     $activationCode = 'activationCode';
+    //     if ($activationCode==$request->admin_activation) {
+    //         $id = Auth::id();
+
+    //         $user = User::findOrfail($id);
+    //         $role = Role::where('name', 'admin')->first();
+    //         $user->roles()->attach($role->id);
+    //         return $user;
+
+    //     }
+
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -60,23 +61,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
+        if (Gate::allows('isAdmin')) {
 
-        $user->name           = $request->name;
-        $user->email          = $request->email;
-        $user->password       = Hash::make('password');
-        $user->contact_number = $request->contact_number;
-        $user->save();
+            $this->validate($request, [
 
-        $role = Role::where('name', 'admin')->first();
-        // return $role;
-        if (empty($role)) {
-            $role       = new Role;
-            $role->name = "admin";
-            $role->save();
+                'email'          => 'required|email|unique:users,email',
+                'contact_number' => 'required|numeric|unique:users,contact_number',
+
+                'name'           => 'required',
+
+            ]);
+            $user = new User;
+
+            $user->name           = $request->name;
+            $user->email          = $request->email;
+            $user->password       = Hash::make('password');
+            $user->contact_number = $request->contact_number;
+            $user->save();
+
+            $role = Role::where('name', 'admin')->first();
+            // return $role;
+            if (empty($role)) {
+                $role       = new Role;
+                $role->name = "admin";
+                $role->save();
+            }
+            $user->roles()->attach($role->id);
+            return $user;
         }
-        $user->roles()->attach($role->id);
-        return $user;
     }
 
     /**
@@ -115,53 +127,56 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-            'name'           => 'required',
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email|unique:users,email,'.$id,
+                'contact_number' => 'required|numeric|unique:users,contact_number,'.$id,
 
-        ]);
-        $user = User::findOrfail($id);
+                'name'           => 'required',
 
-        $user->email          = $request->email;
-        $user->name           = $request->name;
-        $user->contact_number = $request->contact_number;
+            ]);
+            $user = User::findOrfail($id);
 
-        $user->save();
-        $user->roles()->detach();
+            $user->email          = $request->email;
+            $user->name           = $request->name;
+            $user->contact_number = $request->contact_number;
 
-        $roles = Role::whereIn('name', $request->role)->get();
-        $user->roles()->attach($roles);
-        $address = "Please Insert Your Contact Address";
+            $user->save();
+            $user->roles()->detach();
 
-        foreach ($user->roles()->get() as $role) {
-            if ($role->name === 'teacher') {
-                if (Teacher::where('userid', $user->id)->first() === null) {
-                    $user->addTeacher($user->id, $address);
+            $roles = Role::whereIn('name', $request->role)->get();
+            $user->roles()->attach($roles);
+            $address = "Please Insert Your Contact Address";
 
+            foreach ($user->roles()->get() as $role) {
+                if ($role->name === 'teacher') {
+                    if (Teacher::where('userid', $user->id)->first() === null) {
+                        $user->addTeacher($user->id, $address);
+
+                    }
+
+                }
+
+                if ($role->name === 'doctor') {
+                    if (Doctor::where('userid', $user->id)->first() === null) {
+                        $user->addDoctor($user->id, $address);
+
+                    }
+                }
+
+                if ($role->name === 'parent') {
+                    if (ParentInfo::where('userid', $user->id)->first() === null) {
+                        $mothername = "Insert Mother Name";
+
+                        $user->addParent($user->id, $address, $mothername);
+                    }
                 }
 
             }
 
-            if ($role->name === 'doctor') {
-                if (Doctor::where('userid', $user->id)->first() === null) {
-                    $user->addDoctor($user->id, $address);
-
-                }
-            }
-
-            if ($role->name === 'parent') {
-                if (ParentInfo::where('userid', $user->id)->first() === null) {
-                    $mothername = "Insert Mother Name";
-
-                    $user->addParent($user->id, $address, $mothername);
-                }
-            }
-
+            return $user;
         }
-
-        return $user;
     }
 
     /**

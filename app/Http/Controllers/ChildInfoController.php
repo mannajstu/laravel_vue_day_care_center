@@ -25,9 +25,11 @@ class ChildInfoController extends Controller
     }
     public function index()
     {
-        $child = ChildInfo::with('parentinfo.user')->get();
+          if (Gate::allows('isAdmin')) {
+            $child = ChildInfo::with('parentinfo.user')->get();
         return $child;
 
+    }
     }
 
     /**

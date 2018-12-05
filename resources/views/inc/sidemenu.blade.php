@@ -30,7 +30,7 @@
                             
             
             <li>
-                <router-link to="/user">
+                <router-link to="/user" >
                     <i class="fa fa-dashboard fa-2x">
                     </i>
                     User

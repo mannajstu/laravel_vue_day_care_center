@@ -109,23 +109,38 @@
 
 <div class="panel-body">
   
-<router-link :to="{ name: 'admintoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Admin To Parent</router-link>
+<router-link v-if="this.$gate.isAdmin()" :to="{ name: 'admintoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Admin To Parent</router-link>
 
 
-<router-link  :to="{ name: 'doctortoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Doctor To Parent</router-link>
-<router-link  :to="{ name: 'teachertoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Teacher To Parent</router-link>
+<router-link v-if="this.$gate.isDoctor()" :to="{ name: 'doctortoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Doctor To Parent</router-link>
+<router-link v-if="this.$gate.isTeacher()" :to="{ name: 'teachertoparent', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block">Teacher To Parent</router-link>
 
-<router-link   :to="{ name: 'parenttoadmin', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Admin </router-link>
-<router-link  :to="{ name: 'parenttodoctor', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Doctor </router-link>
-<router-link :to="{ name: 'parenttoteacher', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Teacher </router-link>
+<router-link  v-if="this.$gate.isParent()" :to="{ name: 'parenttoadmin', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Admin </router-link>
+<router-link v-if="this.$gate.isParent()" :to="{ name: 'parenttodoctor', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Doctor </router-link>
+<router-link v-if="this.$gate.isParent()" :to="{ name: 'parenttoteacher', params: { child: child }}" tag='button' class="btn btn-primary btn-lg btn-block"> Parent To Teacher </router-link>
    
 </div>
 </div>
 </div>
 <!-- col-md-6 -->
 <div class="col-md-12" >
+  <!--   tab link -->
+<ul class="nav nav-tabs nav-justified panel panel-default">
+  <li class="active "><a data-toggle="tab" href="#admintoparentmsg">Admin To Parent Message</a></li>
+  <li><a data-toggle="tab"   href="#doctortoparentmsg">Doctor To Parent Message</a></li>
+   <li><a data-toggle="tab"   href="#teachertoparentmsg">Teacher To Parent Message</a></li>
+   <li><a data-toggle="tab"   href="#parenttoadminmsg">Parent To Admin Message</a></li>
+   <li><a data-toggle="tab"   href="#parenttodoctormsg">Parent To Doctor Message</a></li>
+    <li><a data-toggle="tab"   href="#parenttoteachermsg">Parent To Teacher Message</a></li>
 
-<div class="col-md-6">
+   
+</ul>
+ <!--   tab link -->
+<div class="tab-content">
+  <div id="admintoparentmsg" class="tab-pane fade in active">
+     <div class="row">
+         
+     <div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -136,9 +151,8 @@
 </div>
 
 
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -153,7 +167,7 @@
 
 <td>{{ adminmsg.id }}</td>
 <td>{{ adminmsg.subject }}</td>
-<td>{{ adminmsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ adminmsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singleadmintoparent', params: { id: adminmsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -172,8 +186,17 @@
 </div>
 </div>
 </div>
-<!-- col-md-6 -->
- <div class="col-md-6">
+<!-- end col 12 -->
+  </div>
+  
+</div> 
+<!-- tab end inter-->
+
+<div id="doctortoparentmsg" class="tab-pane fade ">
+     <div class="row">
+         
+   <!-- col-md-6 -->
+ <div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -184,9 +207,8 @@
 </div>
 
 
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -201,7 +223,7 @@
 
 <td>{{ doctormsg.id }}</td>
 <td>{{ doctormsg.subject }}</td>
-<td>{{ doctormsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ doctormsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singledoctortoparent', params: { id: doctormsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -220,10 +242,17 @@
 </div>
 </div>
 </div>
-</div>
+<!-- end col 12 -->
+  </div>
+  
+</div> 
+<!-- tab end inter-->
 
-<!-- col-md-6 -->
- <div class="col-md-6">
+<div id="teachertoparentmsg" class="tab-pane fade ">
+     <div class="row">
+         
+   <!-- col-md-6 -->
+ <div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -234,9 +263,8 @@
 </div>
 
 
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -251,7 +279,7 @@
 
 <td>{{ teachermsg.id }}</td>
 <td>{{ teachermsg.subject }}</td>
-<td>{{ teachermsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ teachermsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singleteachertoparent', params: { id: teachermsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -271,7 +299,15 @@
 </div>
 </div>
 <!-- end col-md-6 -->
-<div class="col-md-6">
+<!-- end col 12 -->
+  </div>
+  
+</div> 
+<!-- tab end inter-->
+<div id="parenttoadminmsg" class="tab-pane fade ">
+     <div class="row">
+         
+   <div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -280,11 +316,8 @@
  <h3>Parent To Admin Message</h3> 
     
 </div>
-
-
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -299,7 +332,7 @@
 
 <td>{{ parentmsg.id }}</td>
 <td>{{ parentmsg.subject }}</td>
-<td>{{ parentmsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ parentmsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singleparenttoadmin', params: { id: parentmsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -307,19 +340,22 @@
 <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
 </button>
 </td>
-
-
 </tr>
-
-                   
-                </tbody>
+</tbody>
             </table>
    
 </div>
 </div>
 </div>
 <!-- end col-md-6 -->
-<div class="col-md-6">
+  </div>
+  
+</div> 
+<!-- tab end inter-->
+<div id="parenttodoctormsg" class="tab-pane fade ">
+     <div class="row">
+
+<div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -330,9 +366,8 @@
 </div>
 
 
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -347,7 +382,7 @@
 
 <td>{{ parenttodoctormsg.id }}</td>
 <td>{{ parenttodoctormsg.subject }}</td>
-<td>{{ parenttodoctormsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ parenttodoctormsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singleparenttodoctor', params: { id: parenttodoctormsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -355,19 +390,21 @@
 <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
 </button>
 </td>
-
-
 </tr>
-
-                   
-                </tbody>
+ </tbody>
             </table>
    
 </div>
 </div>
 </div>
 <!-- col-md-6 -->
-<div class="col-md-6">
+  </div>
+  
+</div> 
+<!-- tab end inter-->
+<div id="parenttoteachermsg" class="tab-pane fade ">
+     <div class="row">
+   <div class="col-md-12">
 <!--   Kitchen Sink -->
 <div class="panel panel-default">
 
@@ -376,11 +413,8 @@
  <h3>Parent To Teacher Message</h3> 
     
 </div>
-
-
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -395,7 +429,7 @@
 
 <td>{{ parenttoteachermsg.id }}</td>
 <td>{{ parenttoteachermsg.subject }}</td>
-<td>{{ parenttoteachermsg.message.substring(0, 100)+'...' }}</td>
+<td>{{ parenttoteachermsg.message.substring(0, 50)+'...' }}</td>
 
 <td>
 <router-link :to="{ name: 'singleparenttoteacher', params: { id: parenttoteachermsg.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
@@ -417,6 +451,15 @@
 </div>
 
 <!-- col-md-6 -->
+  </div>
+  
+</div> 
+<!-- tab end inter-->
+</div>
+<!-- tab end -->
+
+
+
 
 
 

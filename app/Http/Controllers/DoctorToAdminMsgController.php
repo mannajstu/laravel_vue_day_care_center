@@ -40,16 +40,16 @@ class DoctorToAdminMsgController extends Controller
      */
     public function store(Request $request)
     {
-       $this->validate($request, [
+        $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'doctorid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'doctorid'       => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
+            ]);
         $doctortoadminmsg= new DoctorToAdminMsg;
         $doctortoadminmsg->email=$request->email;
         $doctortoadminmsg->contact_number=$request->contact_number;

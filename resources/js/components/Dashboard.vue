@@ -1,6 +1,6 @@
                     <template>
 
-                    <div>
+                    <div v-if='this.$gate.isAdmin()'>
                     <div class="row">
                     <form @submit.prevent="editmode ? updatechild() : addchild()" @keydown="form.onKeydown($event)" >
 
@@ -21,21 +21,26 @@
                     
                     <div class="form-group col-md-4">
                     <label>Birth Date</label>
-                    <input v-model="form.birth_date" type="text" name="birth_date"
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('birth_date') }">
+
+                     <date-picker v-model="form.birth_date" :config="options"></date-picker>
+                   
                     <has-error :form="form" field="birth_date"></has-error>
                     </div>
                     <div class="form-group col-md-4">
                     <label>Birth Regitation Number</label>
-                    <input v-model="form.birth_reg_no" type="text" name="birth_reg_no"
+                    <input v-model="form.birth_reg_no" type="number" name="birth_reg_no"
                     class="form-control" :class="{ 'is-invalid': form.errors.has('birth_reg_no') }">
                     <has-error :form="form" field="birth_reg_no"></has-error>
                     </div>
 
                     <div class="form-group col-md-4">
                     <label>Gender</label>
-                    <input v-model="form.gender" type="text" name="gender"
-                    class="form-control" :class="{ 'is-invalid': form.errors.has('gender') }">
+                    
+            <select v-model="form.gender" name="gender" class="form-control" :class="{ 'is-invalid': form.errors.has('gender') }">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+            </select>
                     <has-error :form="form" field="gender"></has-error>
                     </div>
 
@@ -71,7 +76,7 @@
                     <div class="panel-body">  
                     <div class="form-group col-md-4">
                     <label>Contact Number</label>
-                        <input v-model="form.contact_number" type="text" name="contact_number"
+                        <input v-model="form.contact_number" type="number" name="contact_number"
                         class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
                         <has-error :form="form" field="contact_number"></has-error>
                     </div>
@@ -164,6 +169,15 @@ rooms:{},
 classinfos:{},
 doctors:{},
 teachers:{},
+timeoptions: {
+        format: 'LT',
+        useCurrent: true,           
+    },  
+    options: {
+        format: 'DD/MM/YYYY',
+        useCurrent: true, 
+
+    },
 form: new Form({
 
 id:'',
@@ -229,6 +243,7 @@ this.form.get('/childinfo/'+id)
     
     this.form.birth_date=data.birth_date;
     this.form.birth_reg_no=data.birth_reg_no;
+    
     this.form.gender=data.gender;
     
     this.form.mother_name=data.parentinfo.mother_name;
@@ -240,6 +255,7 @@ this.form.get('/childinfo/'+id)
     this.form.doctorid=data.doctorid;
     this.form.teacherid=data.teacherid;
     this.form.room_number=data.room_number;
+    this.form.class_number=data.class_number;
     console.log(data);
 
     

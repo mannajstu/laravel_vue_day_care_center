@@ -20,7 +20,7 @@ class CreateChildInfosTable extends Migration
             $table->integer('parentid')->unsigned();
 
             $table->string('birth_date');
-            $table->string('birth_reg_no');
+            $table->string('birth_reg_no')->unique();
             $table->string('gender');
             
             $table->integer('doctorid')->unsigned()->nullable();

@@ -4,7 +4,7 @@
                         
                         <div class="panel-heading">
 
-                        <router-link to='/child' v-if="this.$gate.isAdmin()"tag='button' class='btn btn-primary'>All Child</router-link>
+                        <router-link to='/child' v-if="this.$gate.isAdmin()" tag='button' class='btn btn-primary'>All Child</router-link>
                     
                            <h3>Child Information</h3> 
                             
@@ -55,6 +55,11 @@
 
        
      
+beforeCreate(){
+if(!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()){
+this.$router.push({ name: 'notfound'})
+}
 
+},
     }
 </script>

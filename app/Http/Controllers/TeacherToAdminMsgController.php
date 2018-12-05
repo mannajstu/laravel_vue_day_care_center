@@ -15,8 +15,12 @@ class TeacherToAdminMsgController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {$id     = Auth::user()->teacher->id;
+
+    {
+        if (Gate::allows('isTeacher')) {
+            $id     = Auth::user()->teacher->id;
         return TeacherToAdminMsg::where('teacherid',$id)->get();
+    }
     }
 
     /**
@@ -37,16 +41,17 @@ class TeacherToAdminMsgController extends Controller
      */
     public function store(Request $request)
     {
-       $this->validate($request, [
+       if (Gate::allows('isTeacher')) {
+         $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'teacherid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'teacherid'       => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
+            ]);
         $teachertoadminmsg= new TeacherToAdminMsg;
         $teachertoadminmsg->email=$request->email;
         $teachertoadminmsg->contact_number=$request->contact_number;
@@ -55,6 +60,7 @@ class TeacherToAdminMsgController extends Controller
         $teachertoadminmsg->message=$request->message;
         $teachertoadminmsg->save();
         return $teachertoadminmsg;
+    }
     }
 
     /**

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\ParentToDoctorMsg;
+use Gate;
 use Illuminate\Http\Request;
 
 class ParentToDoctorMsgController extends Controller
 {
-    /**
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -35,26 +39,28 @@ class ParentToDoctorMsgController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        if (Gate::allows('isParent')) {
+            $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'childid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'childid'        => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
-        $parenttodoctormsg                 = new ParentToDoctorMsg;
-        $parenttodoctormsg->email          = $request->email;
-        $parenttodoctormsg->contact_number = $request->contact_number;
-        $parenttodoctormsg->childid        = $request->childid;
-        $parenttodoctormsg->subject        = $request->subject;
-        $parenttodoctormsg->message        = $request->message;
-        $parenttodoctormsg->save();
-        return $parenttodoctormsg;
+            ]);
+            $parenttodoctormsg                 = new ParentToDoctorMsg;
+            $parenttodoctormsg->email          = $request->email;
+            $parenttodoctormsg->contact_number = $request->contact_number;
+            $parenttodoctormsg->childid        = $request->childid;
+            $parenttodoctormsg->subject        = $request->subject;
+            $parenttodoctormsg->message        = $request->message;
+            $parenttodoctormsg->save();
+            return $parenttodoctormsg;
+        }
+
     }
-
     /**
      * Display the specified resource.
      *
@@ -63,11 +69,51 @@ class ParentToDoctorMsgController extends Controller
      */
     public function show($id)
     {
-        return ParentToDoctorMsg::where('childid', $id)->get();
+        if (Gate::allows('isAdmin')) {
+            return ParentToDoctorMsg::where('childid', $id)->get();
+        }elseif (Gate::allows('isParent')) {
+            $childs = Auth::user()->parent->childinfos->where('id', $id);
+            foreach ($childs as $child) {
+                return ParentToDoctorMsg::where([          
+                    'childid' => $child->id,
+                ])->get();
+            }
+        }
+        elseif (Gate::allows('isDoctor')) {
+            $childs = Auth::user()->doctor->childinfos->where('id', $id);
+            foreach ($childs as $child) {
+                return ParentToDoctorMsg::where([          
+                    'childid' => $child->id,
+                ])->get();
+            }
+        }
     }
-    public function singleparentTodoctormsg($id)
+    public function singleparenttodoctormsg($id)
     {
-        return ParentToDoctorMsg::where('id', $id)->firstOrfail();
+        if (Gate::allows('isAdmin')) {
+            return ParentToDoctorMsg::where('id', $id)->firstOrfail();
+        }elseif (Gate::allows('isParent')) {
+           $doctortoparentMsg = ParentToDoctorMsg::where('id', $id)->firstOrfail();
+            $childs           = Auth::user()->parent->childinfos->where('id', $doctortoparentMsg->childid);
+            foreach ($childs as $child) {
+                return ParentToDoctorMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
+            }
+        }
+        elseif (Gate::allows('isDoctor')) {
+           $doctortoparentMsg = ParentToDoctorMsg::where('id', $id)->firstOrfail();
+            $childs           = Auth::user()->doctor->childinfos->where('id', $doctortoparentMsg->childid);
+            foreach ($childs as $child) {
+                return ParentToDoctorMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
+            }
+        }
     }
     /**
      * Show the form for editing the specified resource.

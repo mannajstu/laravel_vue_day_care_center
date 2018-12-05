@@ -1,12 +1,6 @@
 <template>
-    
-        
-
-                  <div >
-                    
-                        
-                    
-                  <div class="row" >
+  <div >  
+   <div class="row" >
                         <div class="col-md-12">
                            
                             <div class="card strpied-tabled-with-hover">
@@ -89,7 +83,7 @@
     addchild () {
       // Submit the form via a POST request
       
-            this.$router.push('/' );
+            this.$router.push('/home' );
         
     },
     

@@ -30850,7 +30850,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(149);
-module.exports = __webpack_require__(357);
+module.exports = __webpack_require__(369);
 
 
 /***/ }),
@@ -30945,7 +30945,7 @@ var routes = [{ path: '/notfound', component: __webpack_require__(198), name: 'n
 //gallery route
 { path: '/gallerypage/', component: __webpack_require__(306), name: 'gallery' }, { path: '/addgallery', component: __webpack_require__(309), name: 'addgallery' }, { path: '/gallery/:id', component: __webpack_require__(312), name: 'singlegallery' }, { path: '/gallery/edit/:id', component: __webpack_require__(315), name: 'editgallery' }, { path: '/gallery', component: __webpack_require__(318), name: 'frontgallery' },
 //message
-{ path: '/admintoparent', component: __webpack_require__(321), name: 'admintoparent', props: true }, { path: '/admintoparent/:id', component: __webpack_require__(324), name: 'singleadmintoparent' }, { path: '/doctortoparent', component: __webpack_require__(327), name: 'doctortoparent', props: true }, { path: '/doctortoparent/:id', component: __webpack_require__(330), name: 'singledoctortoparent' }, { path: '/teachertoparent', component: __webpack_require__(333), name: 'teachertoparent', props: true }, { path: '/teachertoparent/:id', component: __webpack_require__(336), name: 'singleteachertoparent' }, { path: '/parenttoadmin', component: __webpack_require__(339), name: 'parenttoadmin', props: true }, { path: '/parenttoadmin/:id', component: __webpack_require__(342), name: 'singleparenttoadmin' }, { path: '/parenttodoctor', component: __webpack_require__(345), name: 'parenttodoctor', props: true }, { path: '/parenttodoctor/:id', component: __webpack_require__(348), name: 'singleparenttodoctor' }, { path: '/parenttoteacher', component: __webpack_require__(351), name: 'parenttoteacher', props: true }, { path: '/parenttoteacher/:id', component: __webpack_require__(354), name: 'singleparenttoteacher' }, { path: '/doctortoadmin/:id', component: __webpack_require__(359), name: 'singledoctortoadmin' }, { path: '/admintodoctor/:id', component: __webpack_require__(362), name: 'singleadmintodoctor' }, { path: '/admintoteacher/:id', component: __webpack_require__(365), name: 'singleadmintoteacher' }, { path: '/teachertoadmin/:id', component: __webpack_require__(368), name: 'singleteachertoadmin' }];
+{ path: '/admintoparent', component: __webpack_require__(321), name: 'admintoparent', props: true }, { path: '/admintoparent/:id', component: __webpack_require__(324), name: 'singleadmintoparent' }, { path: '/doctortoparent', component: __webpack_require__(327), name: 'doctortoparent', props: true }, { path: '/doctortoparent/:id', component: __webpack_require__(330), name: 'singledoctortoparent' }, { path: '/teachertoparent', component: __webpack_require__(333), name: 'teachertoparent', props: true }, { path: '/teachertoparent/:id', component: __webpack_require__(336), name: 'singleteachertoparent' }, { path: '/parenttoadmin', component: __webpack_require__(339), name: 'parenttoadmin', props: true }, { path: '/parenttoadmin/:id', component: __webpack_require__(342), name: 'singleparenttoadmin' }, { path: '/parenttodoctor', component: __webpack_require__(345), name: 'parenttodoctor', props: true }, { path: '/parenttodoctor/:id', component: __webpack_require__(348), name: 'singleparenttodoctor' }, { path: '/parenttoteacher', component: __webpack_require__(351), name: 'parenttoteacher', props: true }, { path: '/parenttoteacher/:id', component: __webpack_require__(354), name: 'singleparenttoteacher' }, { path: '/doctortoadmin/:id', component: __webpack_require__(357), name: 'singledoctortoadmin' }, { path: '/admintodoctor/:id', component: __webpack_require__(360), name: 'singleadmintodoctor' }, { path: '/admintoteacher/:id', component: __webpack_require__(363), name: 'singleadmintoteacher' }, { path: '/teachertoadmin/:id', component: __webpack_require__(366), name: 'singleteachertoadmin' }];
 
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
@@ -75988,8 +75988,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['children']
+    props: ['children'],
 
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isParent() && !this.$gate.isAdmin() && !this.$gate.isDoctor() && !this.$gate.isTeacher()) {
+            this.$router.push({ name: 'notfound' });
+        }
+    }
 });
 
 /***/ }),
@@ -76976,6 +76981,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -76990,6 +77000,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             classinfos: {},
             doctors: {},
             teachers: {},
+            timeoptions: {
+                format: 'LT',
+                useCurrent: true
+            },
+            options: {
+                format: 'DD/MM/YYYY',
+                useCurrent: true
+
+            },
             form: new Form({
 
                 id: '',
@@ -77056,6 +77075,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                     _this3.form.birth_date = data.birth_date;
                     _this3.form.birth_reg_no = data.birth_reg_no;
+
                     _this3.form.gender = data.gender;
 
                     _this3.form.mother_name = data.parentinfo.mother_name;
@@ -77067,6 +77087,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this3.form.doctorid = data.doctorid;
                     _this3.form.teacherid = data.teacherid;
                     _this3.form.room_number = data.room_number;
+                    _this3.form.class_number = data.class_number;
                     console.log(data);
                 });
             }
@@ -77166,721 +77187,745 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              _vm.editmode ? _vm.updatechild() : _vm.addchild()
+  return this.$gate.isAdmin()
+    ? _c("div", [
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.editmode ? _vm.updatechild() : _vm.addchild()
+                },
+                keydown: function($event) {
+                  _vm.form.onKeydown($event)
+                }
+              }
             },
-            keydown: function($event) {
-              _vm.form.onKeydown($event)
-            }
-          }
-        },
-        [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "panel panel-default" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "panel-body" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Child Name")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.child_name,
-                          expression: "form.child_name"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: {
-                        "is-invalid": _vm.form.errors.has("child_name")
-                      },
-                      attrs: { type: "text", name: "child_name" },
-                      domProps: { value: _vm.form.child_name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "child_name", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "child_name" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Birth Date")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.birth_date,
-                          expression: "form.birth_date"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: {
-                        "is-invalid": _vm.form.errors.has("birth_date")
-                      },
-                      attrs: { type: "text", name: "birth_date" },
-                      domProps: { value: _vm.form.birth_date },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "birth_date", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "birth_date" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Birth Regitation Number")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.birth_reg_no,
-                          expression: "form.birth_reg_no"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: {
-                        "is-invalid": _vm.form.errors.has("birth_reg_no")
-                      },
-                      attrs: { type: "text", name: "birth_reg_no" },
-                      domProps: { value: _vm.form.birth_reg_no },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "birth_reg_no",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "birth_reg_no" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Gender")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.gender,
-                          expression: "form.gender"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: { "is-invalid": _vm.form.errors.has("gender") },
-                      attrs: { type: "text", name: "gender" },
-                      domProps: { value: _vm.form.gender },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "gender", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "gender" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Room Number")]),
-                    _vm._v(" "),
+            [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "panel panel-default" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "panel-body" }, [
                     _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.room_number,
-                            expression: "form.room_number"
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Child Name")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.child_name,
+                              expression: "form.child_name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("child_name")
+                          },
+                          attrs: { type: "text", name: "child_name" },
+                          domProps: { value: _vm.form.child_name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "child_name",
+                                $event.target.value
+                              )
+                            }
                           }
-                        ],
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "room_number",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.rooms, function(room) {
-                        return _c(
-                          "option",
-                          { domProps: { value: room.room_number } },
-                          [_vm._v(_vm._s(room.room_number))]
-                        )
-                      })
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "child_name" }
+                        })
+                      ],
+                      1
                     ),
                     _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "room_number" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Class")]),
-                    _vm._v(" "),
                     _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.class_number,
-                            expression: "form.class_number"
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Birth Date")]),
+                        _vm._v(" "),
+                        _c("date-picker", {
+                          attrs: { config: _vm.options },
+                          model: {
+                            value: _vm.form.birth_date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "birth_date", $$v)
+                            },
+                            expression: "form.birth_date"
                           }
-                        ],
-                        staticClass: "form-control",
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "class_number",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.classinfos, function(classinfo) {
-                        return _c(
-                          "option",
-                          { domProps: { value: classinfo.class_number } },
-                          [_vm._v(_vm._s(classinfo.class_number))]
-                        )
-                      })
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "birth_date" }
+                        })
+                      ],
+                      1
                     ),
                     _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "class_number" }
-                    })
-                  ],
-                  1
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "panel panel-default" }, [
-              _c("div", { staticClass: "panel-heading" }, [
-                _c("h3", [_vm._v("Parent Information")]),
-                _vm._v(" "),
-                !_vm.editmode
-                  ? _c(
-                      "a",
-                      {
-                        directives: [
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Birth Regitation Number")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.birth_reg_no,
+                              expression: "form.birth_reg_no"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("birth_reg_no")
+                          },
+                          attrs: { type: "number", name: "birth_reg_no" },
+                          domProps: { value: _vm.form.birth_reg_no },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "birth_reg_no",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "birth_reg_no" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Gender")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
                           {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.oldparent,
-                            expression: "!oldparent"
-                          }
-                        ],
-                        staticClass: "btn btn-primary",
-                        on: {
-                          click: function($event) {
-                            _vm.oldparentshow()
-                          }
-                        }
-                      },
-                      [_vm._v("Old Parent")]
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.editmode
-                  ? _c(
-                      "a",
-                      {
-                        directives: [
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.gender,
+                                expression: "form.gender"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("gender")
+                            },
+                            attrs: { name: "gender" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "gender",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", [_vm._v("Male")]),
+                            _vm._v(" "),
+                            _c("option", [_vm._v("Female")]),
+                            _vm._v(" "),
+                            _c("option", [_vm._v("Other")])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "gender" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Room Number")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
                           {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.oldparent,
-                            expression: "oldparent"
-                          }
-                        ],
-                        staticClass: "btn btn-primary ",
-                        on: {
-                          click: function($event) {
-                            _vm.newparentshow()
-                          }
-                        }
-                      },
-                      [_vm._v("New Parent")]
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.room_number,
+                                expression: "form.room_number"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "room_number",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.rooms, function(room) {
+                            return _c(
+                              "option",
+                              { domProps: { value: room.room_number } },
+                              [_vm._v(_vm._s(room.room_number))]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "room_number" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Class")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.class_number,
+                                expression: "form.class_number"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "class_number",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.classinfos, function(classinfo) {
+                            return _c(
+                              "option",
+                              { domProps: { value: classinfo.class_number } },
+                              [_vm._v(_vm._s(classinfo.class_number))]
+                            )
+                          })
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "class_number" }
+                        })
+                      ],
+                      1
                     )
-                  : _vm._e()
+                  ])
+                ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "panel-body" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Contact Number")]),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "panel panel-default" }, [
+                  _c("div", { staticClass: "panel-heading" }, [
+                    _c("h3", [_vm._v("Parent Information")]),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.contact_number,
-                          expression: "form.contact_number"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: {
-                        "is-invalid": _vm.form.errors.has("contact_number")
-                      },
-                      attrs: { type: "text", name: "contact_number" },
-                      domProps: { value: _vm.form.contact_number },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.form,
-                            "contact_number",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "contact_number" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Email Address")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.email,
-                          expression: "form.email"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      class: { "is-invalid": _vm.form.errors.has("email") },
-                      attrs: { type: "email", name: "email" },
-                      domProps: { value: _vm.form.email },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "email", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "email" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                !_vm.oldparent
-                  ? _c("div", [
-                      _c(
-                        "div",
-                        { staticClass: "form-group col-md-4" },
-                        [
-                          _c("label", [_vm._v("Father Name")]),
-                          _vm._v(" "),
-                          _c("input", {
+                    !_vm.editmode
+                      ? _c(
+                          "a",
+                          {
                             directives: [
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.father_name,
-                                expression: "form.father_name"
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.oldparent,
+                                expression: "!oldparent"
                               }
                             ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("father_name")
-                            },
-                            attrs: { type: "text", name: "father_name" },
-                            domProps: { value: _vm.form.father_name },
+                            staticClass: "btn btn-primary",
                             on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.form,
-                                  "father_name",
-                                  $event.target.value
-                                )
+                              click: function($event) {
+                                _vm.oldparentshow()
                               }
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("has-error", {
-                            attrs: { form: _vm.form, field: "father_name" }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-group col-md-4" },
-                        [
-                          _c("label", [_vm._v("Mother Name")]),
-                          _vm._v(" "),
-                          _c("input", {
+                          },
+                          [_vm._v("Old Parent")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    !_vm.editmode
+                      ? _c(
+                          "a",
+                          {
                             directives: [
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.mother_name,
-                                expression: "form.mother_name"
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.oldparent,
+                                expression: "oldparent"
                               }
                             ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has("mother_name")
-                            },
-                            attrs: { type: "text", name: "mother_name" },
-                            domProps: { value: _vm.form.mother_name },
+                            staticClass: "btn btn-primary ",
                             on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.form,
-                                  "mother_name",
-                                  $event.target.value
-                                )
+                              click: function($event) {
+                                _vm.newparentshow()
                               }
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("has-error", {
-                            attrs: { form: _vm.form, field: "mother_name" }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-group col-md-4" },
-                        [
-                          _c("label", [_vm._v("Contact Address")]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.form.contact_address,
-                                expression: "form.contact_address"
+                          },
+                          [_vm._v("New Parent")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "panel-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Contact Number")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.contact_number,
+                              expression: "form.contact_number"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("contact_number")
+                          },
+                          attrs: { type: "number", name: "contact_number" },
+                          domProps: { value: _vm.form.contact_number },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
                               }
-                            ],
-                            staticClass: "form-control",
-                            class: {
-                              "is-invalid": _vm.form.errors.has(
-                                "contact_address"
+                              _vm.$set(
+                                _vm.form,
+                                "contact_number",
+                                $event.target.value
                               )
-                            },
-                            attrs: { type: "text", name: "contact_address" },
-                            domProps: { value: _vm.form.contact_address },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "contact_number" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Email Address")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.email,
+                              expression: "form.email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("email") },
+                          attrs: { type: "email", name: "email" },
+                          domProps: { value: _vm.form.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "email", $event.target.value)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "email" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    !_vm.oldparent
+                      ? _c("div", [
+                          _c(
+                            "div",
+                            { staticClass: "form-group col-md-4" },
+                            [
+                              _c("label", [_vm._v("Father Name")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.father_name,
+                                    expression: "form.father_name"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "father_name"
+                                  )
+                                },
+                                attrs: { type: "text", name: "father_name" },
+                                domProps: { value: _vm.form.father_name },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "father_name",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
+                              }),
+                              _vm._v(" "),
+                              _c("has-error", {
+                                attrs: { form: _vm.form, field: "father_name" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-group col-md-4" },
+                            [
+                              _c("label", [_vm._v("Mother Name")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.mother_name,
+                                    expression: "form.mother_name"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "mother_name"
+                                  )
+                                },
+                                attrs: { type: "text", name: "mother_name" },
+                                domProps: { value: _vm.form.mother_name },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "mother_name",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("has-error", {
+                                attrs: { form: _vm.form, field: "mother_name" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-group col-md-4" },
+                            [
+                              _c("label", [_vm._v("Contact Address")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.contact_address,
+                                    expression: "form.contact_address"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has(
+                                    "contact_address"
+                                  )
+                                },
+                                attrs: {
+                                  type: "text",
+                                  name: "contact_address"
+                                },
+                                domProps: { value: _vm.form.contact_address },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "contact_address",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("has-error", {
+                                attrs: {
+                                  form: _vm.form,
+                                  field: "contact_address"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "panel panel-default" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "panel-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Doctor Name")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.doctorid,
+                                expression: "form.doctorid"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("doctorid")
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
                                 _vm.$set(
                                   _vm.form,
-                                  "contact_address",
-                                  $event.target.value
+                                  "doctorid",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
                                 )
                               }
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("has-error", {
-                            attrs: { form: _vm.form, field: "contact_address" }
+                          },
+                          _vm._l(_vm.doctors, function(doctor) {
+                            return _c(
+                              "option",
+                              { domProps: { value: doctor.id } },
+                              [_vm._v(_vm._s(doctor.user.name))]
+                            )
                           })
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "panel panel-default" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "panel-body" }, [
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Doctor Name")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.doctorid,
-                            expression: "form.doctorid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        class: {
-                          "is-invalid": _vm.form.errors.has("doctorid")
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "doctorid",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.doctors, function(doctor) {
-                        return _c(
-                          "option",
-                          { domProps: { value: doctor.id } },
-                          [_vm._v(_vm._s(doctor.user.name))]
-                        )
-                      })
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "doctorid" }
+                        })
+                      ],
+                      1
                     ),
                     _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "doctorid" }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "form-group col-md-4" },
-                  [
-                    _c("label", [_vm._v("Teacher Name")]),
-                    _vm._v(" "),
                     _c(
-                      "select",
-                      {
-                        directives: [
+                      "div",
+                      { staticClass: "form-group col-md-4" },
+                      [
+                        _c("label", [_vm._v("Teacher Name")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
                           {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.teacherid,
-                            expression: "form.teacherid"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        class: {
-                          "is-invalid": _vm.form.errors.has("teacherid")
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.form,
-                              "teacherid",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.teacherid,
+                                expression: "form.teacherid"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("teacherid")
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "teacherid",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.teachers, function(teacher) {
+                            return _c(
+                              "option",
+                              { domProps: { value: teacher.id } },
+                              [_vm._v(_vm._s(teacher.user.name))]
                             )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.teachers, function(teacher) {
-                        return _c(
-                          "option",
-                          { domProps: { value: teacher.id } },
-                          [_vm._v(_vm._s(teacher.user.name))]
-                        )
-                      })
-                    ),
-                    _vm._v(" "),
-                    _c("has-error", {
-                      attrs: { form: _vm.form, field: "teacherid" }
-                    })
-                  ],
-                  1
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "button",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.editmode,
-                      expression: "!editmode"
-                    }
-                  ],
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: { disabled: _vm.form.busy, type: "submit" }
-                },
-                [_vm._v("Add Child")]
-              ),
+                          })
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "teacherid" }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              ]),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  directives: [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
                     {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.editmode,
-                      expression: "editmode"
-                    }
-                  ],
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: { disabled: _vm.form.busy, type: "submit" }
-                },
-                [_vm._v("Update Child")]
-              )
-            ])
-          ])
-        ]
-      )
-    ])
-  ])
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.editmode,
+                          expression: "!editmode"
+                        }
+                      ],
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: { disabled: _vm.form.busy, type: "submit" }
+                    },
+                    [_vm._v("Add Child")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editmode,
+                          expression: "editmode"
+                        }
+                      ],
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: { disabled: _vm.form.busy, type: "submit" }
+                    },
+                    [_vm._v("Update Child")]
+                  )
+                ])
+              ])
+            ]
+          )
+        ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
@@ -81945,8 +81990,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -82076,8 +82119,6 @@ var render = function() {
           ])
         ])
       ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [_c("notices")], 1),
       _vm._v(" "),
       _c(
         "div",
@@ -83234,12 +83275,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -83255,7 +83290,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addchild: function addchild() {
             // Submit the form via a POST request
 
-            this.$router.push('/');
+            this.$router.push('/home');
         },
         loadchild: function loadchild() {
             var _this = this;
@@ -83305,7 +83340,11 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                   Add Child\n                   ")]
+              [
+                _vm._v(
+                  "\n                                  Add Child\n                                  "
+                )
+              ]
             ),
             _vm._v(" "),
             _c("h4", { staticClass: "card-title" }, [
@@ -83482,6 +83521,49 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -84213,89 +84295,107 @@ var render = function() {
             "div",
             { staticClass: "panel-body" },
             [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: { name: "admintoparent", params: { child: _vm.child } },
-                    tag: "button"
-                  }
-                },
-                [_vm._v("Admin To Parent")]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: {
-                      name: "doctortoparent",
-                      params: { child: _vm.child }
+              this.$gate.isAdmin()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "admintoparent",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
                     },
-                    tag: "button"
-                  }
-                },
-                [_vm._v("Doctor To Parent")]
-              ),
+                    [_vm._v("Admin To Parent")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: {
-                      name: "teachertoparent",
-                      params: { child: _vm.child }
+              this.$gate.isDoctor()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "doctortoparent",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
                     },
-                    tag: "button"
-                  }
-                },
-                [_vm._v("Teacher To Parent")]
-              ),
+                    [_vm._v("Doctor To Parent")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: { name: "parenttoadmin", params: { child: _vm.child } },
-                    tag: "button"
-                  }
-                },
-                [_vm._v(" Parent To Admin ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: {
-                      name: "parenttodoctor",
-                      params: { child: _vm.child }
+              this.$gate.isTeacher()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "teachertoparent",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
                     },
-                    tag: "button"
-                  }
-                },
-                [_vm._v(" Parent To Doctor ")]
-              ),
+                    [_vm._v("Teacher To Parent")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary btn-lg btn-block",
-                  attrs: {
-                    to: {
-                      name: "parenttoteacher",
-                      params: { child: _vm.child }
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "parenttoadmin",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
                     },
-                    tag: "button"
-                  }
-                },
-                [_vm._v(" Parent To Teacher ")]
-              )
+                    [_vm._v(" Parent To Admin ")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "parenttodoctor",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
+                    },
+                    [_vm._v(" Parent To Doctor ")]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              this.$gate.isParent()
+                ? _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary btn-lg btn-block",
+                      attrs: {
+                        to: {
+                          name: "parenttoteacher",
+                          params: { child: _vm.child }
+                        },
+                        tag: "button"
+                      }
+                    },
+                    [_vm._v(" Parent To Teacher ")]
+                  )
+                : _vm._e()
             ],
             1
           )
@@ -84303,320 +84403,510 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
-              _c("table", { staticClass: "table table-hover table-striped" }, [
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.adminmsgs, function(adminmsg) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(adminmsg.id))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(adminmsg.subject))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(adminmsg.message.substring(0, 100) + "...")
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: {
-                                to: {
-                                  name: "singleadmintoparent",
-                                  params: { id: adminmsg.id }
-                                },
-                                tag: "button"
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-eye" })]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(3, true)
-                        ],
-                        1
-                      )
-                    ])
-                  })
-                )
-              ])
-            ])
-          ])
-        ]),
+        _vm._m(1),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _vm._m(4),
-            _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
-              _c("table", { staticClass: "table table-hover table-striped" }, [
-                _vm._m(5),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.doctormsgs, function(doctormsg) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(doctormsg.id))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(doctormsg.subject))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(doctormsg.message.substring(0, 100) + "...")
+        _c("div", { staticClass: "tab-content" }, [
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade in active",
+              attrs: { id: "admintoparentmsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
+                      [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
+                          },
+                          [
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.adminmsgs, function(adminmsg) {
+                                return _c("tr", [
+                                  _c("td", [_vm._v(_vm._s(adminmsg.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(adminmsg.subject))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        adminmsg.message.substring(0, 50) +
+                                          "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singleadmintoparent",
+                                              params: { id: adminmsg.id }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(4, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: {
-                                to: {
-                                  name: "singledoctortoparent",
-                                  params: { id: doctormsg.id }
-                                },
-                                tag: "button"
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-eye" })]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(6, true)
-                        ],
-                        1
-                      )
-                    ])
-                  })
-                )
+                      ]
+                    )
+                  ])
+                ])
               ])
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _vm._m(7),
+            ]
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(8),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.teachermsgs, function(teachermsg) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(teachermsg.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(teachermsg.subject))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(teachermsg.message.substring(0, 100) + "...")
-                      )
-                    ]),
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade ",
+              attrs: { id: "doctortoparentmsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(5),
                     _vm._v(" "),
                     _c(
-                      "td",
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
                       [
                         _c(
-                          "router-link",
+                          "table",
                           {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              to: {
-                                name: "singleteachertoparent",
-                                params: { id: teachermsg.id }
-                              },
-                              tag: "button"
-                            }
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
                           },
-                          [_c("i", { staticClass: "fa fa-eye" })]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(9, true)
-                      ],
-                      1
-                    )
-                  ])
-                })
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _vm._m(10),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(11),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.parentmsgs, function(parentmsg) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(parentmsg.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(parentmsg.subject))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(parentmsg.message.substring(0, 100) + "...")
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              to: {
-                                name: "singleparenttoadmin",
-                                params: { id: parentmsg.id }
-                              },
-                              tag: "button"
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-eye" })]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(12, true)
-                      ],
-                      1
-                    )
-                  ])
-                })
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _vm._m(13),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(14),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.parenttodoctormsgs, function(parenttodoctormsg) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(parenttodoctormsg.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(parenttodoctormsg.subject))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          parenttodoctormsg.message.substring(0, 100) + "..."
+                          [
+                            _vm._m(6),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.doctormsgs, function(doctormsg) {
+                                return _c("tr", [
+                                  _c("td", [_vm._v(_vm._s(doctormsg.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(doctormsg.subject))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        doctormsg.message.substring(0, 50) +
+                                          "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singledoctortoparent",
+                                              params: { id: doctormsg.id }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(7, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
                         )
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              to: {
-                                name: "singleparenttodoctor",
-                                params: { id: parenttodoctormsg.id }
-                              },
-                              tag: "button"
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-eye" })]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(15, true)
-                      ],
-                      1
+                      ]
                     )
                   ])
-                })
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _vm._m(16),
+                ])
+              ])
+            ]
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c("table", { staticClass: "table table-hover table-striped" }, [
-              _vm._m(17),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.parenttoteachermsgs, function(parenttoteachermsg) {
-                  return _c("tr", [
-                    _c("td", [_vm._v(_vm._s(parenttoteachermsg.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(parenttoteachermsg.subject))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(
-                          parenttoteachermsg.message.substring(0, 100) + "..."
-                        )
-                      )
-                    ]),
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade ",
+              attrs: { id: "teachertoparentmsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(8),
                     _vm._v(" "),
                     _c(
-                      "td",
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
                       [
                         _c(
-                          "router-link",
+                          "table",
                           {
-                            staticClass: "btn btn-primary",
-                            attrs: {
-                              to: {
-                                name: "singleparenttoteacher",
-                                params: { id: parenttoteachermsg.id }
-                              },
-                              tag: "button"
-                            }
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
                           },
-                          [_c("i", { staticClass: "fa fa-eye" })]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(18, true)
-                      ],
-                      1
+                          [
+                            _vm._m(9),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.teachermsgs, function(teachermsg) {
+                                return _c("tr", [
+                                  _c("td", [_vm._v(_vm._s(teachermsg.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(teachermsg.subject))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        teachermsg.message.substring(0, 50) +
+                                          "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singleteachertoparent",
+                                              params: { id: teachermsg.id }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(10, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
+                        )
+                      ]
                     )
                   ])
-                })
-              )
-            ])
-          ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade ",
+              attrs: { id: "parenttoadminmsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(11),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
+                      [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
+                          },
+                          [
+                            _vm._m(12),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.parentmsgs, function(parentmsg) {
+                                return _c("tr", [
+                                  _c("td", [_vm._v(_vm._s(parentmsg.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(parentmsg.subject))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        parentmsg.message.substring(0, 50) +
+                                          "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singleparenttoadmin",
+                                              params: { id: parentmsg.id }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(13, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade ",
+              attrs: { id: "parenttodoctormsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(14),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
+                      [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
+                          },
+                          [
+                            _vm._m(15),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.parenttodoctormsgs, function(
+                                parenttodoctormsg
+                              ) {
+                                return _c("tr", [
+                                  _c("td", [
+                                    _vm._v(_vm._s(parenttodoctormsg.id))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(parenttodoctormsg.subject))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        parenttodoctormsg.message.substring(
+                                          0,
+                                          50
+                                        ) + "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singleparenttodoctor",
+                                              params: {
+                                                id: parenttodoctormsg.id
+                                              }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(16, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane fade ",
+              attrs: { id: "parenttoteachermsg" }
+            },
+            [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("div", { staticClass: "panel panel-default" }, [
+                    _vm._m(17),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "panel-bodytable-full-width table-responsive"
+                      },
+                      [
+                        _c(
+                          "table",
+                          {
+                            staticClass:
+                              "table table-hover table-striped table-bordered"
+                          },
+                          [
+                            _vm._m(18),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              _vm._l(_vm.parenttoteachermsgs, function(
+                                parenttoteachermsg
+                              ) {
+                                return _c("tr", [
+                                  _c("td", [
+                                    _vm._v(_vm._s(parenttoteachermsg.id))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(parenttoteachermsg.subject))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        parenttoteachermsg.message.substring(
+                                          0,
+                                          50
+                                        ) + "..."
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          attrs: {
+                                            to: {
+                                              name: "singleparenttoteacher",
+                                              params: {
+                                                id: parenttoteachermsg.id
+                                              }
+                                            },
+                                            tag: "button"
+                                          }
+                                        },
+                                        [_c("i", { staticClass: "fa fa-eye" })]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._m(19, true)
+                                    ],
+                                    1
+                                  )
+                                ])
+                              })
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ]
+          )
         ])
       ])
     ])
@@ -84630,6 +84920,64 @@ var staticRenderFns = [
     return _c("div", { staticClass: "panel-heading" }, [
       _c("h3", [_vm._v("Message")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      { staticClass: "nav nav-tabs nav-justified panel panel-default" },
+      [
+        _c("li", { staticClass: "active " }, [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#admintoparentmsg" } },
+            [_vm._v("Admin To Parent Message")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#doctortoparentmsg" } },
+            [_vm._v("Doctor To Parent Message")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#teachertoparentmsg" } },
+            [_vm._v("Teacher To Parent Message")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#parenttoadminmsg" } },
+            [_vm._v("Parent To Admin Message")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#parenttodoctormsg" } },
+            [_vm._v("Parent To Doctor Message")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            { attrs: { "data-toggle": "tab", href: "#parenttoteachermsg" } },
+            [_vm._v("Parent To Teacher Message")]
+          )
+        ])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -88658,6 +89006,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -88785,6 +89138,12 @@ var render = function() {
                 },
                 [
                   _c("tbody", [
+                    _c("tr", [
+                      _c("th", [_vm._v("Doctor ID")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.doctor.id))])
+                    ]),
+                    _vm._v(" "),
                     _c("tr", [
                       _c("th", [_vm._v("Doctor Name")]),
                       _vm._v(" "),
@@ -90038,6 +90397,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -90115,6 +90476,8 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.teachers, function(teacher) {
                     return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(teacher.id))]),
+                      _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(teacher.user.name))]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(teacher.user.email))]),
@@ -90179,6 +90542,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Teacher Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Teacher ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("Email")]),
         _vm._v(" "),
@@ -97622,21 +97987,14 @@ if (false) {
 
 /***/ }),
 /* 357 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 358 */,
-/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(360)
+var __vue_script__ = __webpack_require__(358)
 /* template */
-var __vue_template__ = __webpack_require__(361)
+var __vue_template__ = __webpack_require__(359)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -97675,7 +98033,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 360 */
+/* 358 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97773,7 +98131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 361 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -97884,15 +98242,15 @@ if (false) {
 }
 
 /***/ }),
-/* 362 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(363)
+var __vue_script__ = __webpack_require__(361)
 /* template */
-var __vue_template__ = __webpack_require__(364)
+var __vue_template__ = __webpack_require__(362)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -97931,7 +98289,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 363 */
+/* 361 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98029,7 +98387,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 364 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -98140,15 +98498,15 @@ if (false) {
 }
 
 /***/ }),
-/* 365 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(366)
+var __vue_script__ = __webpack_require__(364)
 /* template */
-var __vue_template__ = __webpack_require__(367)
+var __vue_template__ = __webpack_require__(365)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -98187,7 +98545,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 366 */
+/* 364 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98285,7 +98643,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 367 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -98396,15 +98754,15 @@ if (false) {
 }
 
 /***/ }),
-/* 368 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(369)
+var __vue_script__ = __webpack_require__(367)
 /* template */
-var __vue_template__ = __webpack_require__(370)
+var __vue_template__ = __webpack_require__(368)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -98443,7 +98801,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 369 */
+/* 367 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98541,7 +98899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 370 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -98650,6 +99008,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-6d24c0a6", module.exports)
   }
 }
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

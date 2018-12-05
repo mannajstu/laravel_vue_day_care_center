@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\TeacherToParentMsg;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class TeacherToParentMsgController extends Controller
 {
-    /**
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -35,16 +40,17 @@ class TeacherToParentMsgController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        if (Gate::allows('isTeacher')) {
+             $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'childid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'childid'       => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
+            ]);
         $teachertoparentmsg                 = new TeacherToParentMsg;
         $teachertoparentmsg->email          = $request->email;
         $teachertoparentmsg->contact_number = $request->contact_number;
@@ -53,6 +59,7 @@ class TeacherToParentMsgController extends Controller
         $teachertoparentmsg->message        = $request->message;
         $teachertoparentmsg->save();
         return $teachertoparentmsg;
+    }
     }
 
     /**
@@ -63,11 +70,50 @@ class TeacherToParentMsgController extends Controller
      */
     public function show($id)
     {
-        return TeacherToParentMsg::where('childid', $id)->get();
+        if (Gate::allows('isAdmin')) {
+             return TeacherToParentMsg::where('childid', $id)->get();
+        } elseif (Gate::allows('isParent')) {
+            $childs = Auth::user()->parent->childinfos->where('id', $id);
+            foreach ($childs as $child) {
+                return TeacherToParentMsg::where([          
+                    'childid' => $child->id,
+                ])->get();
+            }
+        }
+        elseif (Gate::allows('isTeacher')) {
+            $childs = Auth::user()->teacher->childinfos->where('id', $id);
+            foreach ($childs as $child) {
+                return TeacherToParentMsg::where([
+                    'childid' => $child->id,
+                     ])->get();
+            }
+        }
     }
     public function singleteachertoparentmsg($id)
     {
-        return TeacherToParentMsg::where('id', $id)->firstOrfail();
+        if (Gate::allows('isAdmin')) {return TeacherToParentMsg::where('id', $id)->firstOrfail();
+    }elseif (Gate::allows('isParent')) {
+           $doctortoparentMsg = TeacherToParentMsg::where('id', $id)->firstOrfail();
+            $childs           = Auth::user()->parent->childinfos->where('id', $doctortoparentMsg->childid);
+            foreach ($childs as $child) {
+                return TeacherToParentMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
+            }
+        }
+        elseif (Gate::allows('isTeacher')) {
+            $doctortoparentMsg = TeacherToParentMsg::where('id', $id)->firstOrfail();
+            $childs           = Auth::user()->teacher->childinfos->where('id', $doctortoparentMsg->childid);
+            foreach ($childs as $child) {
+                return TeacherToParentMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
+            }
+            }
     }
 
     /**

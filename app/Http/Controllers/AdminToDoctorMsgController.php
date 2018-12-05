@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class AdminToDoctorMsgController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,8 +20,10 @@ class AdminToDoctorMsgController extends Controller
      */
     public function index()
     {
-        $id     = Auth::user()->doctor->id;
-        return AdminToDoctorMsg::where('doctorid',$id)->get();
+        if (Gate::allows('isDoctor')) {
+            $id = Auth::user()->doctor->id;
+            return AdminToDoctorMsg::where('doctorid', $id)->get();
+        }
     }
 
     /**
@@ -42,24 +44,26 @@ class AdminToDoctorMsgController extends Controller
      */
     public function store(Request $request)
     {
-       $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'doctorid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'doctorid'       => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
-        $admintodoctormsg= new AdminToDoctorMsg;
-        $admintodoctormsg->email=$request->email;
-        $admintodoctormsg->contact_number=$request->contact_number;
-        $admintodoctormsg->doctorid=$request->doctorid;
-        $admintodoctormsg->subject=$request->subject;
-        $admintodoctormsg->message=$request->message;
-        $admintodoctormsg->save();
-        return $admintodoctormsg;
+            ]);
+            $admintodoctormsg                 = new AdminToDoctorMsg;
+            $admintodoctormsg->email          = $request->email;
+            $admintodoctormsg->contact_number = $request->contact_number;
+            $admintodoctormsg->doctorid       = $request->doctorid;
+            $admintodoctormsg->subject        = $request->subject;
+            $admintodoctormsg->message        = $request->message;
+            $admintodoctormsg->save();
+            return $admintodoctormsg;
+        }
     }
 
     /**
@@ -70,18 +74,20 @@ class AdminToDoctorMsgController extends Controller
      */
     public function show($id)
     {
-        return AdminToDoctorMsg::where('doctorid',$id)->get();
+        if (Gate::allows('isAdmin')) {
+            return AdminToDoctorMsg::where('doctorid', $id)->get();
+        }
     }
-     public function singleadmintodoctormsg($id)
+    public function singleadmintodoctormsg($id)
     {
-       if (Gate::allows('isAdmin')) {
-           return  AdminToDoctorMsg::where('id',$id)->firstOrfail();
-        } elseif(Gate::allows('isDoctor')) {
-             $doctorid =Auth::user()->doctor->id;
-            return  AdminToDoctorMsg::where([
-                'id' => $id,
+        if (Gate::allows('isAdmin')) {
+            return AdminToDoctorMsg::where('id', $id)->firstOrfail();
+        } elseif (Gate::allows('isDoctor')) {
+            $doctorid = Auth::user()->doctor->id;
+            return AdminToDoctorMsg::where([
+                'id'       => $id,
                 'doctorid' => $doctorid,
-                
+
             ])->firstOrfail();
         }
     }

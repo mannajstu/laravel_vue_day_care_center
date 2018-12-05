@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\About;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
@@ -38,13 +40,15 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'description'     => 'required',            
+        if (Gate::allows('isAdmin')) {
+         $this->validate($request, [
+            'description' => 'required|min:3|max:100000',            
         ]);
         $content =new About;
         $content->description=$request->description;
         $content->save();
         return $content;
+    }
     }
 
     /**
@@ -78,13 +82,15 @@ class AboutController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'description'     => 'required',            
+        if (Gate::allows('isAdmin')) {
+         $this->validate($request, [
+            'description' => 'required|min:3|max:100000',            
         ]);
         $content =About::findorfail($id);
         $content->description=$request->description;
         $content->save();
         return $content;
+    }
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\AdminToParentMsg;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class AdminToParentMsgController extends Controller
@@ -38,24 +40,26 @@ class AdminToParentMsgController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+             $this->validate($request, [
 
-            'email'          => 'required',
-            'contact_number' => 'required',
+                'email'          => 'required|email',
+                'contact_number' => 'required|numeric',
 
-            'childid'        => 'required',
-            'subject'        => 'required',
-            'message'        => 'required',
+                'childid'       => 'required|numeric',
+                'subject'        => 'required|min:3',
+                'message'        => 'required|min:3|max:100000',
 
-        ]);
-        $admintoparentmsg= new AdminToParentMsg;
-        $admintoparentmsg->email=$request->email;
-        $admintoparentmsg->contact_number=$request->contact_number;
-        $admintoparentmsg->childid=$request->childid;
-        $admintoparentmsg->subject=$request->subject;
-        $admintoparentmsg->message=$request->message;
+            ]);
+        $admintoparentmsg                 = new AdminToParentMsg;
+        $admintoparentmsg->email          = $request->email;
+        $admintoparentmsg->contact_number = $request->contact_number;
+        $admintoparentmsg->childid        = $request->childid;
+        $admintoparentmsg->subject        = $request->subject;
+        $admintoparentmsg->message        = $request->message;
         $admintoparentmsg->save();
         return $admintoparentmsg;
+    }
     }
 
     /**
@@ -66,11 +70,35 @@ class AdminToParentMsgController extends Controller
      */
     public function show($id)
     {
-        return AdminToParentMsg::where('childid',$id)->get();
+        if (Gate::allows('isAdmin')) {
+        return AdminToParentMsg::where('childid', $id)->get();}
+        elseif (Gate::allows('isParent')) {
+            $childs           = Auth::user()->parent->childinfos->where('id', $id);
+            foreach ($childs as $child) {
+                return AdminToParentMsg::where([                    
+                    'childid' => $child->id,
+
+                ])->get();
+            }
+        }
     }
-     public function singleadmintoparentmsg($id)
+    public function singleadmintoparentmsg($id)
     {
-        return AdminToParentMsg::where('id',$id)->firstOrfail();
+        if (Gate::allows('isAdmin')) {
+            return AdminToParentMsg::where('id', $id)->firstOrfail();
+        } elseif (Gate::allows('isParent')) {
+
+            $adminaoparentMsg = AdminToParentMsg::where('id', $id)->firstOrfail();
+            $childs           = Auth::user()->parent->childinfos->where('id', $adminaoparentMsg->childid);
+            foreach ($childs as $child) {
+                return AdminToParentMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
+            }
+
+        }
     }
 
     /**

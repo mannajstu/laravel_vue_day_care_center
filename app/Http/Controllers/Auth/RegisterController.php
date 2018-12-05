@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Role;
 use App\Http\Controllers\Controller;
+use App\Role;
+use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -20,7 +20,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -50,10 +50,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|string|email|max:255|unique:users',
             'contact_number' => 'required|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password'       => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -65,31 +65,39 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user                = new User;
-        $user->name          = $data['name'];
-        $user->email         = $data['email'];
-        $user->password      = Hash::make($data['password']);
+        $user                 = new User;
+        $user->name           = $data['name'];
+        $user->email          = $data['email'];
+        $user->password       = Hash::make($data['password']);
         $user->contact_number = $data['contact_number'];
-         $user->save();
+        $user->save();
 
-        $role       =Role::where('name', 'parent')->first();
-        $adminrole       =Role::where('name', 'admin')->first();
+        $role      = Role::where('name', 'parent')->first();
+        $adminrole = Role::where('name', 'admin')->first();
         // return $role;
-        if(empty($adminrole)){
-            $role = new Role;
-         $role->name="admin";
-         $role->save();
-        }else{
-           if(empty($role)){
-            $role = new Role;
-         $role->name="parent";
-         $role->save();
-        } 
+        if (empty($adminrole)) {
+            $role       = new Role;
+            $role->name = "admin";
+            $role->save();
+            $parentrole       = new Role;
+            $parentrole->name = "parent";
+            $parentrole->save();
+            $drole       = new Role;
+            $drole->name = "doctor";
+            $drole->save();
+            $trole       = new Role;
+            $trole->name = "teacher";
+            $trole->save();
+        } else {
+            if (empty($role)) {
+                $role       = new Role;
+                $role->name = "parent";
+                $role->save();
+            }
         }
-        
-        
-       $user->addParent($user->id,'Update Your Address','Update Info');
-        $user->roles()->attach( $role->id);
+
+        $user->addParent($user->id, 'Update Your Address', 'Update Info');
+        $user->roles()->attach($role->id);
         return $user;
     }
 }

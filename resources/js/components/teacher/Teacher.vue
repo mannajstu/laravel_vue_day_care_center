@@ -16,6 +16,7 @@
                         <tr>
                                                
                         <th>Teacher Name</th>
+                        <th>Teacher ID</th>
                         <th>Email</th>
                         <th>Contact Number</th>
                         <th>Contact Address</th>
@@ -29,6 +30,7 @@
                         
                    
                    
+                    <td>{{ teacher.id }}</td>
                     <td>{{ teacher.user.name }}</td>
                     <td>{{ teacher.user.email}}</td>
                     <td>{{ teacher.user.contact_number }}</td>
