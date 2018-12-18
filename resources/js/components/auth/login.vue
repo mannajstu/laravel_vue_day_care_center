@@ -52,7 +52,10 @@
                      <button :disabled="form.busy" type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
     </div>
 </div>
+
+
                     </form>
+                    
                     </div> 
                     <!--  end of row -->
                                  
@@ -94,6 +97,7 @@ this.$router.go('/home')
 )
 // console.log("")
 },
+
 // method end
 },
 beforeCreate(){

@@ -47,7 +47,7 @@
                     <div class="form-group col-md-4">
                     <label>Room Number</label>
                  <select class="form-control" v-model='form.room_number'>
-                        <option v-for='room in rooms' :value="room.room_number">{{ room.room_number }}</option>
+                        <option v-for='room in rooms' :value="room">{{ room }}</option>
                         
                     </select>                   
                     <has-error :form="form" field="room_number"></has-error>
@@ -269,7 +269,7 @@ this.form.get('/childinfo/'+id)
 
 },
 loadrooms(){
-    this.form.get('/roominfo')
+    this.form.get('/roomnumber')
         .then(({ data }) => 
         { 
             
@@ -281,7 +281,7 @@ console.log(data);
         );
 },
 loadclasss(){
-    this.form.get('/classinfo')
+    this.form.get('/classinfo/create')
         .then(({ data }) => 
         { 
             
@@ -293,7 +293,7 @@ console.log(data);
         );
 },
 loaddoctors(){
-    this.form.get('/doctorinfo')
+    this.form.get('/doctorinfo/create')
         .then(({ data }) => 
         { 
             
@@ -306,7 +306,7 @@ console.log(data);
         );
 },
 loadteachers(){
-    this.form.get('/teacherinfo')
+    this.form.get('/teacherinfo/create')
         .then(({ data }) => 
         { 
             

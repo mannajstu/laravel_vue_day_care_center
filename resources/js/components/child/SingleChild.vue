@@ -121,23 +121,55 @@
    
 </div>
 </div>
+
+<div class="col-md-12" v-if="this.$gate.isAdmin() ||this.$gate.isParent() ">
+       
+ <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+        <tr> 
+        <th>Exam ID</th> 
+        <th>Exam Title</th> 
+        <th>Exam Date</th> 
+        <th>Action</th>
+        </tr>
+                        </thead>
+                                        <tbody>
+                    <tr  v-for="childexam in childexams.data">
+                   
+                     <td >{{ childexam.id }}</td>
+                     <td >{{ childexam.exam_title }}</td>
+                    <td >{{ childexam.exam_date }}</td> 
+                   <td>
+                    <router-link :to="{ name: 'singlechildexam', params: { childexam: childexam }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
+                                      
+                    
+
+                  </td>
+ </tr>  <pagination :data="childexams" @pagination-change-page="loadchildexams"></pagination>
+                      </tbody>
+            </table>
+   
+</div>
+</div>
+
 </div>
 <!-- col-md-6 -->
-<div class="col-md-12" >
+<div class="col-md-12"  >
   <!--   tab link -->
-<ul class="nav nav-tabs nav-justified panel panel-default">
-  <li class="active "><a data-toggle="tab" href="#admintoparentmsg">Admin To Parent Message</a></li>
-  <li><a data-toggle="tab"   href="#doctortoparentmsg">Doctor To Parent Message</a></li>
-   <li><a data-toggle="tab"   href="#teachertoparentmsg">Teacher To Parent Message</a></li>
-   <li><a data-toggle="tab"   href="#parenttoadminmsg">Parent To Admin Message</a></li>
-   <li><a data-toggle="tab"   href="#parenttodoctormsg">Parent To Doctor Message</a></li>
-    <li><a data-toggle="tab"   href="#parenttoteachermsg">Parent To Teacher Message</a></li>
+<ul id="msgtab" class="nav nav-tabs nav-justified panel panel-default">
+  <li class="active " v-if="this.$gate.isAdmin() ||this.$gate.isParent() "><a data-toggle="tab" href="#admintoparentmsg">Admin To Parent Message</a></li>
+  <li v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isDoctor() "><a data-toggle="tab"   href="#doctortoparentmsg">Doctor To Parent Message</a></li>
+   <li v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isTeacher() "><a data-toggle="tab"   href="#teachertoparentmsg">Teacher To Parent Message</a></li>
+   <li v-if="this.$gate.isAdmin() ||this.$gate.isParent() " ><a data-toggle="tab"   href="#parenttoadminmsg">Parent To Admin Message</a></li>
+   <li v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isDoctor() "><a data-toggle="tab"   href="#parenttodoctormsg">Parent To Doctor Message</a></li>
+    <li v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isTeacher() "><a data-toggle="tab"   href="#parenttoteachermsg">Parent To Teacher Message</a></li>
 
    
 </ul>
  <!--   tab link -->
 <div class="tab-content">
-  <div id="admintoparentmsg" class="tab-pane fade in active">
+  <div id="admintoparentmsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent() " class="tab-pane fade in active">
      <div class="row">
          
      <div class="col-md-12">
@@ -147,13 +179,11 @@
 <div class="panel-heading">
 
  <h3>Admin To Parent Message</h3> 
-    
-</div>
+                   </div>
 
-
-<div class="panel-bodytable-full-width table-responsive">
-<table class="table table-hover table-striped table-bordered">
-<thead>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
 <tr>
 <th>ID</th>
 <th>Subject</th>
@@ -163,7 +193,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="adminmsg in adminmsgs">
+<tr v-for="adminmsg in adminmsgs.data">
 
 <td>{{ adminmsg.id }}</td>
 <td>{{ adminmsg.subject }}</td>
@@ -178,6 +208,7 @@
 
 
 </tr>
+<pagination :data="adminmsgs" @pagination-change-page="loadadminmsg"></pagination> 
 
                    
                 </tbody>
@@ -192,7 +223,7 @@
 </div> 
 <!-- tab end inter-->
 
-<div id="doctortoparentmsg" class="tab-pane fade ">
+<div id="doctortoparentmsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isDoctor()"class="tab-pane fade ">
      <div class="row">
          
    <!-- col-md-6 -->
@@ -219,7 +250,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="doctormsg in doctormsgs">
+<tr v-for="doctormsg in doctormsgs.data">
 
 <td>{{ doctormsg.id }}</td>
 <td>{{ doctormsg.subject }}</td>
@@ -234,7 +265,7 @@
 
 
 </tr>
-
+<pagination :data="doctormsgs" @pagination-change-page="loaddoctormsg"></pagination> 
                    
                 </tbody>
             </table>
@@ -248,7 +279,7 @@
 </div> 
 <!-- tab end inter-->
 
-<div id="teachertoparentmsg" class="tab-pane fade ">
+<div id="teachertoparentmsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isTeacher()"class="tab-pane fade ">
      <div class="row">
          
    <!-- col-md-6 -->
@@ -275,7 +306,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="teachermsg in teachermsgs">
+<tr v-for="teachermsg in teachermsgs.data">
 
 <td>{{ teachermsg.id }}</td>
 <td>{{ teachermsg.subject }}</td>
@@ -290,7 +321,7 @@
 
 
 </tr>
-
+<pagination :data="teachermsgs" @pagination-change-page="loadteachermsg"></pagination>
                    
                 </tbody>
             </table>
@@ -304,7 +335,7 @@
   
 </div> 
 <!-- tab end inter-->
-<div id="parenttoadminmsg" class="tab-pane fade ">
+<div id="parenttoadminmsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent()"class="tab-pane fade ">
      <div class="row">
          
    <div class="col-md-12">
@@ -328,7 +359,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="parentmsg in parentmsgs">
+<tr v-for="parentmsg in parentmsgs.data">
 
 <td>{{ parentmsg.id }}</td>
 <td>{{ parentmsg.subject }}</td>
@@ -341,6 +372,7 @@
 </button>
 </td>
 </tr>
+<pagination :data="parentmsgs" @pagination-change-page="loadparenttoadminmsg"></pagination>
 </tbody>
             </table>
    
@@ -352,7 +384,7 @@
   
 </div> 
 <!-- tab end inter-->
-<div id="parenttodoctormsg" class="tab-pane fade ">
+<div id="parenttodoctormsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isDoctor()"class="tab-pane fade ">
      <div class="row">
 
 <div class="col-md-12">
@@ -378,7 +410,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="parenttodoctormsg in parenttodoctormsgs">
+<tr v-for="parenttodoctormsg in parenttodoctormsgs.data">
 
 <td>{{ parenttodoctormsg.id }}</td>
 <td>{{ parenttodoctormsg.subject }}</td>
@@ -391,6 +423,7 @@
 </button>
 </td>
 </tr>
+<pagination :data="parenttodoctormsgs" @pagination-change-page="loadparenttodoctormsg"></pagination>
  </tbody>
             </table>
    
@@ -402,7 +435,7 @@
   
 </div> 
 <!-- tab end inter-->
-<div id="parenttoteachermsg" class="tab-pane fade ">
+<div id="parenttoteachermsg" v-if="this.$gate.isAdmin() ||this.$gate.isParent()||this.$gate.isTeacher()" class="tab-pane fade ">
      <div class="row">
    <div class="col-md-12">
 <!--   Kitchen Sink -->
@@ -425,7 +458,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="parenttoteachermsg in parenttoteachermsgs">
+<tr v-for="parenttoteachermsg in parenttoteachermsgs.data">
 
 <td>{{ parenttoteachermsg.id }}</td>
 <td>{{ parenttoteachermsg.subject }}</td>
@@ -440,7 +473,7 @@
 
 
 </tr>
-
+<pagination :data="parenttoteachermsgs" @pagination-change-page="loadparenttoteachermsg"></pagination>
                    
                 </tbody>
             </table>
@@ -477,7 +510,10 @@ return {
 // Create a new form instance
 
 child:{},
+childexams:{},
+
 adminmsgs:{},
+searchap:'',
 doctormsgs:{},
 teachermsgs:{},
 parentmsgs:{},
@@ -503,10 +539,10 @@ console.log(data);
 }
 )
 },
-loadadminmsg () {
+loadadminmsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/admintoparentmsg/'+id)
+axios.get('/admintoparentmsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.adminmsgs=data;
@@ -514,10 +550,12 @@ console.log(data);
 }
 )
 },
-loaddoctormsg () {
+
+
+loaddoctormsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/doctortoparentmsg/'+id)
+axios.get('/doctortoparentmsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.doctormsgs=data;
@@ -525,10 +563,10 @@ console.log(data);
 }
 )
 },
-loadteachermsg () {
+loadteachermsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/teachertoparentmsg/'+id)
+axios.get('/teachertoparentmsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.teachermsgs=data;
@@ -536,10 +574,10 @@ console.log(data);
 }
 )
 },
-loadparenttoadminmsg () {
+loadparenttoadminmsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/parenttoadminmsg/'+id)
+axios.get('/parenttoadminmsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.parentmsgs=data;
@@ -547,10 +585,10 @@ console.log(data);
 }
 )
 },
-loadparenttodoctormsg () {
+loadparenttodoctormsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/parenttodoctormsg/'+id)
+axios.get('/parenttodoctormsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.parenttodoctormsgs=data;
@@ -558,10 +596,10 @@ console.log(data);
 }
 )
 },
-loadparenttoteachermsg () {
+loadparenttoteachermsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/parenttoteachermsg/'+id)
+axios.get('/parenttoteachermsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.parenttoteachermsgs=data;
@@ -569,6 +607,19 @@ console.log(data);
 }
 )
 },
+
+loadchildexams(page = 1){
+  let id=this.$route.params.id;
+          axios.get('/childexaminfo/'+id+'?page=' + page)
+            .then(({ data }) => 
+            { 
+               this.childexams=data;
+               console.log(data);
+                
+            }
+            )
+          },
+        
 
 },
 beforeCreate(){
@@ -586,6 +637,9 @@ this.loadteachermsg()
 this.loadparenttoadminmsg()
 this.loadparenttodoctormsg()
 this.loadparenttoteachermsg()
+this.loadchildexams()
+
+
 },
 
 

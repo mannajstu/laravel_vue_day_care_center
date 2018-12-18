@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\GeneralNotice;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class GeneralNoticeController extends Controller
@@ -20,7 +22,16 @@ class GeneralNoticeController extends Controller
      */
     public function index()
     {
-        return GeneralNotice::all();
+         $search = \Request::get('q');
+            if (!empty($search)) {
+                return GeneralNotice::Where('id', 'like', '%' . $search . '%')
+                    ->orWhere('title' , 'like', '%' . $search . '%')
+                    ->orWhere('description' , 'like', '%' . $search . '%')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+            }else{
+                return GeneralNotice::orderBy('created_at', 'desc')->paginate(5);
+            }
     }
 
     /**
@@ -41,7 +52,8 @@ class GeneralNoticeController extends Controller
      */
     public function store(Request $request)
     {
-         $this->validate($request, [
+           if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
             'title'     => 'required',            
             'description'     => 'required',            
         ]);
@@ -50,6 +62,7 @@ class GeneralNoticeController extends Controller
         $content->description=$request->description;
         $content->save();
         return $content;
+    }
     }
 
     /**
@@ -83,7 +96,9 @@ class GeneralNoticeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        
+          if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
             'title'     => 'required',            
             'description'     => 'required',            
         ]);
@@ -92,6 +107,7 @@ class GeneralNoticeController extends Controller
         $content->description=$request->description;
         $content->save();
         return $content;
+    }
     }
 
     /**

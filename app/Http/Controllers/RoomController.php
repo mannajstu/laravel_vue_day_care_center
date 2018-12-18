@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Room;
-use App\ChildInfo;
+use Gate;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    
-
 
     public function __construct()
     {
@@ -21,18 +19,32 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms =Room::all();
-        
- return $rooms ;
-        
-    }
-    public function roomnumber(){
-        $rooms =Room::all();
-        $rm=array();
-        foreach ($rooms as $room) {
-            $rm[]= $room->room_number;
+        if (Gate::allows('isAdmin')) {
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return Room::Where('room_number', 'like', '%' . $search . '%')
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->orWhere('room_description', 'like', '%' . $search . '%')
+                    ->orWhere('room_capacity', 'like', '%' . $search . '%')
+                    ->paginate(5);
+            } else {
+                $rooms = Room::paginate(5);
+
+                return $rooms;
+            }
         }
-        return $rm;
+
+    }
+    public function roomnumber()
+    {
+        if (Gate::allows('isAdmin')) {
+            $rooms = Room::all();
+            $rm    = array();
+            foreach ($rooms as $room) {
+                $rm[] = $room->room_number;
+            }
+            return $rm;
+        }
     }
 
     /**
@@ -53,21 +65,22 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            
-            'room_number'     => 'required',
-            'room_capacity'     => 'required',
-            'room_description'  => 'required',
-            
-            
-        ]);
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-        $room = new Room;
-            $room->room_number     =$request->room_number;
-            $room->room_capacity     =$request->room_capacity;
-            $room->room_description  =$request->room_description;
+                'room_number'      => 'required|numeric|unique:rooms,room_number',
+                'room_capacity'    => 'required|numeric',
+                'room_description' => 'required',
+
+            ]);
+
+            $room                   = new Room;
+            $room->room_number      = $request->room_number;
+            $room->room_capacity    = $request->room_capacity;
+            $room->room_description = $request->room_description;
             $room->save();
-            return $room ;
+            return $room;
+        }
 
     }
 
@@ -79,9 +92,11 @@ class RoomController extends Controller
      */
     public function show($id)
     {
-        $room = Room::where('room_number', $id)->with('childinfos')->first();
+        if (Gate::allows('isAdmin')) {
+            $room = Room::where('room_number', $id)->with('childinfos')->first();
 
-        return $room ;
+            return $room;
+        }
     }
 
     /**
@@ -105,25 +120,22 @@ class RoomController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            
-            'room_number'     => 'required|numeric',
-            'room_capacity'     => 'required|numeric',
-            'room_description'  => 'required',
-            
-            
+
+            'room_number'      => 'required|numeric|unique:rooms,room_number,' . $id,
+            'room_capacity'    => 'required|numeric',
+            'room_description' => 'required',
+
         ]);
 
-                    $room = Room::where('id', $id)->first();
-                    
-                    
-                    $room->room_number     =$request->room_number;
-                    $room->room_capacity     =$request->room_capacity;
-                    $room->room_description  =$request->room_description;
+        $room = Room::where('id', $id)->first();
 
-                    $room->save();
-                    
+        $room->room_number      = $request->room_number;
+        $room->room_capacity    = $request->room_capacity;
+        $room->room_description = $request->room_description;
 
-                    return $room ;
+        $room->save();
+
+        return $room;
     }
 
     /**

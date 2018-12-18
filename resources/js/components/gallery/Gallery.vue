@@ -8,10 +8,13 @@
                                     
                                     <router-link :to="{ name: 'addgallery'}" tag='button' class="btn btn-primary">Add Image</router-link>
                                     <h4 class="card-title">Image Information</h4>
-                                    </div>
+                                  <div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+            </div> 
+                                </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                         <th>ID</th>
@@ -24,7 +27,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="gallery in galleries">
+                    <tr v-for="gallery in galleries.data">
                         
                     <td>{{ gallery.id }}</td>
                    
@@ -36,16 +39,15 @@
  
                    <td>
                     <router-link :to="{ name: 'singlegallery', params: { id: gallery.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
-
-                    <router-link :to="{ name: 'editgallery', params: { id: gallery.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
-                    </router-link>
+                  
 
                     <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
 
-                    </tr>  
+                    </tr> 
+                    <pagination :data="galleries" @pagination-change-page="loadgalleries"></pagination> 
                       </tbody>
                                     </table>
                                 </div>
@@ -67,12 +69,13 @@
     return {
       // Create a new form instance
       galleries:{},
+      search:'',
       
     }
   },
   methods: {
-          loadgalleries(){
-          axios.get('/galleryinfo')
+          loadgalleries(page = 1){
+          axios.get('/galleryinfo?page=' + page)
             .then(({ data }) => 
             { 
                this.galleries=data;
@@ -80,6 +83,17 @@
             }
             )
           },
+           searchit() {
+     axios.get('/galleryinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.galleries=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

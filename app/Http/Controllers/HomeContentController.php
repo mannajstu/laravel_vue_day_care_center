@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\HomeContent;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class HomeContentController extends Controller
@@ -41,7 +43,8 @@ class HomeContentController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+         if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
             'header_content'     => 'required',            
         ]);
         $content =new HomeContent;
@@ -50,6 +53,7 @@ class HomeContentController extends Controller
         return $content;
 
         
+    }
     }
 
     /**
@@ -83,7 +87,8 @@ class HomeContentController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $this->validate($request, [
+         if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
             'header_content'     => 'required',            
         ]);
         $content =HomeContent::findOrfail($id);
@@ -91,6 +96,7 @@ class HomeContentController extends Controller
         $content->save();
         return $content;
 
+    }
     }
 
     /**

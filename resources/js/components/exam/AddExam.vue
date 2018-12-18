@@ -112,6 +112,7 @@ exam_title: '',
 exam_description: '',
 exam_date: '',
 exam_time: '',
+exam_mark: '',
 class_number:''
 
 })

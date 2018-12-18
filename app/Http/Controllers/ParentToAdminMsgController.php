@@ -71,14 +71,18 @@ class ParentToAdminMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-            return ParentToAdminMsg::where('childid', $id)->get();
+            return ParentToAdminMsg::where('childid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         }
         elseif (Gate::allows('isParent')) {
             $childs = Auth::user()->parent->childinfos->where('id', $id);
             foreach ($childs as $child) {
                 return ParentToAdminMsg::where([          
                     'childid' => $child->id,
-                ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                ->paginate(4);
             }
         }
     }

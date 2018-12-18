@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoomsTable extends Migration
+class CreateGuestToAdminMsgsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('guest_to_admin_msgs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('room_number')->unique()->unsigned();
-            $table->integer('room_capacity');
-            $table->longText('room_description');
             
-
+            $table->string('subject');
+            $table->longText('message');
+            $table->string('email');
+            $table->string('contact_number');
+            
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('guest_to_admin_msgs');
     }
 }

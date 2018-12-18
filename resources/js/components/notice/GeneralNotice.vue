@@ -6,12 +6,15 @@
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
                                     
-                                    <router-link :to="{ name: 'addgeneralnotice'}" tag='button' class="btn btn-primary">Add General Notice</router-link>
-                                    <h4 class="card-title">General Notice</h4>
+<router-link :to="{ name: 'addgeneralnotice'}" tag='button' class="btn btn-primary">Add General Notice</router-link>
+<h4 class="card-title">General Notice</h4>
+<div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+</div> 
                                     </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                                                
@@ -23,7 +26,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="generalnotice in generalnotices">
+                    <tr v-for="generalnotice in generalnotices.data">
                         
                    
                    
@@ -43,7 +46,8 @@
                   </td>
 
 
-                    </tr>  
+                    </tr> 
+                    <pagination :data="generalnotices" @pagination-change-page="loadgeneralnotices"></pagination>  
                       </tbody>
                                     </table>
                                 </div>
@@ -69,8 +73,8 @@
     }
   },
   methods: {
-          loadgeneralnotices(){
-          axios.get('/generalnoticeinfo')
+          loadgeneralnotices(page = 1){
+          axios.get('/generalnoticeinfo?page=' + page)
             .then(({ data }) => 
             { 
                this.generalnotices=data;
@@ -79,6 +83,17 @@
             }
             )
           },
+          searchit() {
+     axios.get('/generalnoticeinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.generalnotices=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

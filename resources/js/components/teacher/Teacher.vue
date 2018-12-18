@@ -8,10 +8,13 @@
                                     
                                     <router-link :to="{ name: 'addteacher'}" tag='button' class="btn btn-primary">Add Teacher</router-link>
                                     <h4 class="card-title">Teacher Information</h4>
+                                               <div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+            </div> 
                                     </div>
 
-                                <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                 <div class="card-body table-full-width table-responsive">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                                                
@@ -26,7 +29,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="teacher in teachers">
+                    <tr v-for="teacher in teachers.data">
                         
                    
                    
@@ -49,6 +52,7 @@
 
 
                     </tr>  
+                    <pagination :data="teachers" @pagination-change-page="loadteachers"></pagination>
                       </tbody>
                                     </table>
                                 </div>
@@ -70,12 +74,13 @@
     return {
       // Create a new form instance
       teachers:{},
+      search:'',
       
     }
   },
   methods: {
-          loadteachers(){
-          axios.get('/teacherinfo')
+          loadteachers(page = 1){
+          axios.get('/teacherinfo?page=' + page)
             .then(({ data }) => 
             { 
                this.teachers=data;
@@ -84,6 +89,17 @@
             }
             )
           },
+           searchit() {
+     axios.get('/teacherinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.teachers=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

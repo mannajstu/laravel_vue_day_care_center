@@ -42,10 +42,11 @@ import Notices from './components/Notices.vue';
 Vue.component('notices', Notices);
 import ChildShortInfo from './components/child/ChildShortInfo.vue';
 Vue.component('childchortinfo', ChildShortInfo);
-import FrontEnd from './components/frontend/FrontEnd.vue';
-Vue.component('frontend', FrontEnd);
-import FrontMenu from './components/frontend/FrontMenu.vue';
-Vue.component('frontmenu', FrontMenu);
+// import FrontEnd from './components/frontend/FrontEnd.vue';
+// Vue.component('frontend', FrontEnd);
+// import FrontMenu from './components/frontend/FrontMenu.vue';
+// Vue.component('frontmenu', FrontMenu);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 let routes = [
  
@@ -54,6 +55,8 @@ let routes = [
   { path: '/', component: require('./components/frontend/FrontEnd.vue'),name: 'frontendhome',},
   { path: '/adminactivation', component: require('./components/AdminActivation.vue'),name: 'adminactivation',},
   { path: '/login', component: require('./components/auth/Login.vue'),name: 'login',},
+
+  
   { path: '/register', component: require('./components/auth/Register.vue'),name: 'register',},
   { path: '/headercontent', component: require('./components/home/HeaderContent.vue'),name: 'headercontent',},
   { path: '/addgeneralnotice', component: require('./components/notice/AddGeneralNotice.vue'),name: 'addgeneralnotice',},
@@ -108,6 +111,7 @@ let routes = [
    { path: '/addexam', component: require('./components/exam/AddExam.vue'),name: 'addexam',},
     { path: '/addexamchild', component: require('./components/exam/AddExamChild.vue'),name: 'addexamchild',},
   { path: '/exam/:id', component: require('./components/exam/SingleExam.vue'),name: 'singleexam',},
+  { path: '/childexam/', component: require('./components/exam/SingleChildExam.vue'),name: 'singlechildexam',props: true},
  { path: '/exam/edit/:id', component: require('./components/exam/AddExam.vue'),name: 'editexam',},
  //gallery route
   { path: '/gallerypage/', component: require('./components/gallery/Gallery.vue'),name: 'gallery',},
@@ -133,7 +137,9 @@ let routes = [
 { path: '/doctortoadmin/:id', component: require('./components/message/SingleDoctorToAdmin.vue'),name: 'singledoctortoadmin',}, 
 { path: '/admintodoctor/:id', component: require('./components/message/SingleAdminToDoctor.vue'),name: 'singleadmintodoctor',}, 
 { path: '/admintoteacher/:id', component: require('./components/message/SingleAdminToTeacher.vue'),name: 'singleadmintoteacher',},
-{ path: '/teachertoadmin/:id', component: require('./components/message/SingleTeacherToAdmin.vue'),name: 'singleteachertoadmin',},    
+{ path: '/teachertoadmin/:id', component: require('./components/message/SingleTeacherToAdmin.vue'),name: 'singleteachertoadmin',}, 
+{ path: '/contact', component: require('./components/message/GuestToAdmin.vue'),name: 'guesttoadmin',},
+{ path: '/guestmsg', component: require('./components/message/GuestToAdminMsg.vue'),name: 'guesttoadminmsg',},     
 ]
 
 // 3. Create the router instance and pass the `routes` option

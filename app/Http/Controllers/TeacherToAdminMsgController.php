@@ -19,7 +19,9 @@ class TeacherToAdminMsgController extends Controller
     {
         if (Gate::allows('isTeacher')) {
             $id     = Auth::user()->teacher->id;
-        return TeacherToAdminMsg::where('teacherid',$id)->get();
+        return TeacherToAdminMsg::where('teacherid',$id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
     }
     }
 
@@ -72,7 +74,9 @@ class TeacherToAdminMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-            return TeacherToAdminMsg::where('teacherid',$id)->get();
+            return TeacherToAdminMsg::where('teacherid',$id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
     }
     }
      public function singleteachertoadminmsg($id)

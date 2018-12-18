@@ -42,12 +42,12 @@ class DoctorToParentMsgController extends Controller
     public function store(Request $request)
     {
         if (Gate::allows('isDoctor')) {
-             $this->validate($request, [
+            $this->validate($request, [
 
                 'email'          => 'required|email',
                 'contact_number' => 'required|numeric',
 
-                'childid'       => 'required|numeric',
+                'childid'        => 'required|numeric',
                 'subject'        => 'required|min:3',
                 'message'        => 'required|min:3|max:100000',
 
@@ -72,21 +72,26 @@ class DoctorToParentMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-            return DoctorToParentMsg::where('childid', $id)->get();
+            return DoctorToParentMsg::where('childid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         } elseif (Gate::allows('isParent')) {
             $childs = Auth::user()->parent->childinfos->where('id', $id);
             foreach ($childs as $child) {
-                return DoctorToParentMsg::where([          
+                return DoctorToParentMsg::where([
                     'childid' => $child->id,
-                ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                    ->paginate(4);
             }
-        }
-        elseif (Gate::allows('isDoctor')) {
+        } elseif (Gate::allows('isDoctor')) {
             $childs = Auth::user()->doctor->childinfos->where('id', $id);
             foreach ($childs as $child) {
                 return DoctorToParentMsg::where([
                     'childid' => $child->id,
-                     ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                    ->paginate(4);
             }
         }
     }
@@ -94,20 +99,9 @@ class DoctorToParentMsgController extends Controller
     {
         if (Gate::allows('isAdmin')) {
             return DoctorToParentMsg::where('id', $id)->firstOrfail();
-        }elseif (Gate::allows('isParent')) {
-           $doctortoparentMsg = DoctorToParentMsg::where('id', $id)->firstOrfail();
-            $childs           = Auth::user()->parent->childinfos->where('id', $doctortoparentMsg->childid);
-            foreach ($childs as $child) {
-                return DoctorToParentMsg::where([
-                    'id'      => $id,
-                    'childid' => $child->id,
-
-                ])->firstOrfail();
-            }
-        }
-        elseif (Gate::allows('isDoctor')) {
+        } elseif (Gate::allows('isParent')) {
             $doctortoparentMsg = DoctorToParentMsg::where('id', $id)->firstOrfail();
-            $childs           = Auth::user()->doctor->childinfos->where('id', $doctortoparentMsg->childid);
+            $childs            = Auth::user()->parent->childinfos->where('id', $doctortoparentMsg->childid);
             foreach ($childs as $child) {
                 return DoctorToParentMsg::where([
                     'id'      => $id,
@@ -115,10 +109,18 @@ class DoctorToParentMsgController extends Controller
 
                 ])->firstOrfail();
             }
+        } elseif (Gate::allows('isDoctor')) {
+            $doctortoparentMsg = DoctorToParentMsg::where('id', $id)->firstOrfail();
+            $childs            = Auth::user()->doctor->childinfos->where('id', $doctortoparentMsg->childid);
+            foreach ($childs as $child) {
+                return DoctorToParentMsg::where([
+                    'id'      => $id,
+                    'childid' => $child->id,
+
+                ])->firstOrfail();
             }
         }
-
-   
+    }
 
     /**
      * Show the form for editing the specified resource.

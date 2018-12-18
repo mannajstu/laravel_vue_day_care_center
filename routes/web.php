@@ -13,19 +13,25 @@
 
 
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::resource('userinfo', 'UserController');
+Route::get('/usersearch','UserController@usersearch');
+
 Route::post('/adminActivation', 'UserController@adminActivation');
 Route::resource('childinfo', 'ChildInfoController');
 Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');
+Route::get('roomnumber', 'RoomController@roomnumber');
 Route::resource('classinfo', 'ClassInfoController');
+
 
 Route::resource('doctorinfo', 'DoctorController');
 Route::resource('teacherinfo', 'TeacherController');
 Route::resource('examinfo', 'ExamController');
+Route::get('/childexaminfo/{id}', 'ExamController@childexaminfo');
+
 
 Route::post('notifychildinfo', 'ExamController@notifyinfo');
 
@@ -57,6 +63,8 @@ Route::resource('doctortoadminmsg', 'DoctorToAdminMsgController');
 Route::get('/singledoctortoadminmsg/{id}', 'DoctorToAdminMsgController@singledoctortoadminmsg');
 
 Route::resource('teachertoadminmsg', 'TeacherToAdminMsgController');
+Route::resource('guesttoadminmsg', 'GuestToAdminMsgController');
+
 Route::resource('admintoteachermsg', 'AdminToTeacherMsgController');
 Route::get('/singleadmintoteachermsg/{id}', 'AdminToTeacherMsgController@singleadmintoteachermsg');
 Route::get('/singleteachertoadminmsg/{id}', 'TeacherToAdminMsgController@singleteachertoadminmsg');

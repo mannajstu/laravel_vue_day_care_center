@@ -71,13 +71,17 @@ class TeacherToParentMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-             return TeacherToParentMsg::where('childid', $id)->get();
+             return TeacherToParentMsg::where('childid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         } elseif (Gate::allows('isParent')) {
             $childs = Auth::user()->parent->childinfos->where('id', $id);
             foreach ($childs as $child) {
                 return TeacherToParentMsg::where([          
                     'childid' => $child->id,
-                ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                ->paginate(4);
             }
         }
         elseif (Gate::allows('isTeacher')) {
@@ -85,7 +89,9 @@ class TeacherToParentMsgController extends Controller
             foreach ($childs as $child) {
                 return TeacherToParentMsg::where([
                     'childid' => $child->id,
-                     ])->get();
+                     ])->orderBy('created_at', 'desc')
+
+                ->paginate(4);
             }
         }
     }

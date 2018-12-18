@@ -8,13 +8,17 @@
                                     
                                     <router-link :to="{ name: 'adddoctor'}" tag='button' class="btn btn-primary">Add Doctor</router-link>
                                     <h4 class="card-title">Doctor Information</h4>
-                                    </div>
+                                    <div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+            </div> 
+                                </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                                                
+                        <th>Doctor ID</th>
                         <th>Doctor Name</th>
                         <th>Email</th>
                         <th>Contact Number</th>
@@ -25,10 +29,11 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="doctor in doctors">
+                    <tr v-for="doctor in doctors.data">
                         
                    
                    
+                    <td>{{ doctor.id }}</td>
                     <td>{{ doctor.user.name }}</td>
                     <td>{{ doctor.user.email}}</td>
                     <td>{{ doctor.user.contact_number }}</td>
@@ -47,6 +52,7 @@
 
 
                     </tr>  
+                    <pagination :data="doctors" @pagination-change-page="loaddoctors"></pagination>
                       </tbody>
                                     </table>
                                 </div>
@@ -68,12 +74,13 @@
     return {
       // Create a new form instance
       doctors:{},
+      search:''
       
     }
   },
   methods: {
-          loaddoctors(){
-          axios.get('/doctorinfo')
+          loaddoctors(page = 1){
+          axios.get('/doctorinfo?page=' + page)
             .then(({ data }) => 
             { 
                this.doctors=data;
@@ -82,6 +89,17 @@
             }
             )
           },
+           searchit() {
+     axios.get('/doctorinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.doctors=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

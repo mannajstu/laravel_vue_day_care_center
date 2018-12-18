@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "bootstrap-sweetalert": "^1.0.1",
+        "laravel-vue-pagination": "^2.2.0",
         "sweetalert2": "^7.28.4",
         "vform": "^1.0.0",
         "vue-bootstrap-datetimepicker": "^5.0.1",

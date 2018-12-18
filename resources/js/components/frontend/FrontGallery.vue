@@ -1,30 +1,33 @@
 <template>
    <div >   
     <div class="row">
-  <div class="col-xs-6 col-md-3" v-for="gallery in galleries">
-    <button data-toggle="modal"  class="thumbnail">
+  <div class="col-xs-6 col-md-3" v-for="gallery in galleries.data">
+    <button class="btn btn-primary btn-lg thumbnail" data-toggle="modal" :data-target="'#'+gallery.id"  >
       <img :src="gallery.imagelink" alt="..." style="height: 20em;width: 100%">
     </button>
   </div>
   
 </div>
-<!-- <div v-for="gallery in galleries" :class="modal fade bd-example-modal-lg +  'gallery.title'"  tabindex="-1" role="dialog" :aria-labelledby="'exmal'+gallery.id" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Modal -->
+<div v-for="gallery in galleries.data" class="modal fade" :id=" gallery.id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{{ gallery.title }}</h4>
       </div>
       <div class="modal-body">
-        <img :src="gallery.imagelink" alt="..." style="width: 100%">
+        
+       <img :src="gallery.imagelink" alt="..." style="height: 20em;width: 100%">
       </div>
-      
-    </div>
-  </div>
-</div>
-        -->          
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>       
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+                 
 
                    </div>
 

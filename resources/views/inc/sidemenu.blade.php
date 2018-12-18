@@ -36,13 +36,7 @@
                     User
                 </router-link>
             </li>
-            <li>
-                <router-link to="/role">
-                    <i class="fa fa-dashboard fa-2x">
-                    </i>
-                    Role
-                </router-link>
-            </li>
+            
             <li>
                 <router-link to="/child">
                     <i class="fa fa-dashboard fa-2x">
@@ -57,13 +51,7 @@
                     Exam
                 </router-link>
             </li>
-            <li>
-                <router-link to="/result">
-                    <i class="fa fa-dashboard fa-2x">
-                    </i>
-                    Result
-                </router-link>
-            </li>
+            
             <li>
                 <router-link to="/generalnotice">
                     <i class="fa fa-dashboard fa-2x">
@@ -106,6 +94,13 @@
                     Class
                 </router-link>
             </li>
+             <li>
+                <router-link to="/guestmsg">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                    Guest Message
+                </router-link>
+            </li>
             <li>
                 <router-link to="/headercontent">
                     <i class="fa fa-dashboard fa-2x">
@@ -126,16 +121,7 @@
                     </i>
                    Gallery Page
                 </router-link>
-            </li>
-            <li>
-                <router-link to="/adminActivation">
-                    <i class="fa fa-dashboard fa-2x">
-                    </i>
-                    Admin Activation
-                </router-link>
-            </li>
-           
-                            
+            </li>         
                         </ul>
                       </li>
                        @endcan

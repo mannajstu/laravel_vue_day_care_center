@@ -24,12 +24,26 @@ class ParentInfoController extends Controller
     public function index()
     {
         if (Gate::allows('isAdmin')) {
-            return ParentInfo::with('user')->get();
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return ParentInfo::with('user')
+                ->whereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                    $query->orWhere('contact_number', 'like', '%' . $search . '%');
+                     })
+                    ->orWhere('mother_name', 'like', '%' . $search . '%')
+                    ->orWhere('contact_address', 'like', '%' . $search . '%')
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->paginate(5);
+            } else {
+                return ParentInfo::with('user')->paginate(5);
+            }
+
         } else {
             $id     = Auth::id();
             $parent = ParentInfo::where('userid', $id)
                 ->with('user')
-                 ->with('childinfos')
+                ->with('childinfos')
                 ->firstOrfail();
 
             return $parent;
@@ -55,37 +69,39 @@ class ParentInfoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-            'mother_name'     => 'required',
-            'father_name'     => 'required',
-            'contact_number'  => 'required',
-            'email'           => 'required',
-            'contact_address' => 'required',
+                'mother_name'     => 'required',
+                'father_name'     => 'required',
+                'email'           => 'required|email|unique:users,email',
+                'contact_number'  => 'required|numeric|unique:users,contact_number',
+                'contact_address' => 'required',
 
-        ]);
+            ]);
 
-        $user = new User;
+            $user = new User;
 
-        $user->name           = $request->father_name;
-        $user->email          = $request->email;
-        $user->password       = Hash::make('password');
-        $user->contact_number = $request->contact_number;
-        $user->save();
+            $user->name           = $request->father_name;
+            $user->email          = $request->email;
+            $user->password       = Hash::make('password');
+            $user->contact_number = $request->contact_number;
+            $user->save();
 
-        $role = Role::where('name', 'parent')->first();
-        // return $role;
-        if (empty($role)) {
-            $role       = new Role;
-            $role->name = "parent";
-            $role->save();
+            $role = Role::where('name', 'parent')->first();
+            // return $role;
+            if (empty($role)) {
+                $role       = new Role;
+                $role->name = "parent";
+                $role->save();
+            }
+            $user->roles()->attach($role->id);
+
+            $user->addParent($user->id,
+                $request->contact_address,
+                $request->mother_name);
+            return $user;
         }
-        $user->roles()->attach($role->id);
-
-        $user->addParent($user->id,
-         $request->contact_address,
-          $request->mother_name);
-        return $user;
     }
 
     /**
@@ -97,23 +113,22 @@ class ParentInfoController extends Controller
     public function show($id)
     {
         // $this->authorize('isAdmin');
-  if (Gate::allows('isAdmin')) {
-        $parent = ParentInfo::where('id', $id)
-            ->with('childinfos')
-            ->with('user')
-            ->first();
+        if (Gate::allows('isAdmin')) {
+            $parent = ParentInfo::where('id', $id)
+                ->with('childinfos')
+                ->with('user')
+                ->first();
 
-        return $parent;
-    }
-    else{
-        $parentid     = Auth::id();
-    $parent = ParentInfo::where('userid', $parentid)
-            ->with('childinfos')
-            ->with('user')
-            ->first();
+            return $parent;
+        } else {
+            $parentid = Auth::id();
+            $parent   = ParentInfo::where('userid', $parentid)
+                ->with('childinfos')
+                ->with('user')
+                ->first();
 
-        return $parent;
-    }
+            return $parent;
+        }
 
     }
 
@@ -137,25 +152,38 @@ class ParentInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $parent = ParentInfo::findOrfail($id);
+        } elseif (Gate::allows('isParent')) {
+            $userid = Auth::id();
+            $parent = ParentInfo::where([
+                'id'     => $id,
+                'userid' => $userid,
 
-            'mother_name'     => 'required',
-            'father_name'     => 'required',
-            'contact_number'  => 'required',
-            'contact_address' => 'required',
-            'email'           => 'required',
+            ])->firstOrfail();
+        }
+        if (!empty($parent)) {
+            $this->validate($request, [
 
-        ]);
+                'mother_name'     => 'required',
+                'father_name'     => 'required',
 
-        $parent                       = ParentInfo::findOrfail($id);
-        $parent->mother_name          = $request->mother_name;
-        $parent->user->email          = $request->email;
-        $parent->user->name           = $request->father_name;
-        $parent->user->contact_number = $request->contact_number;
-        $parent->contact_address      = $request->contact_address;
-        $parent->save();
-        $parent->user->save();
-        return $parent;
+                'contact_address' => 'required',
+                'email'           => 'required|email|unique:users,email,' . $parent->user->id,
+                'contact_number'  => 'required|numeric|unique:users,contact_number,' . $parent->user->id,
+
+            ]);
+
+            $parent->mother_name          = $request->mother_name;
+            $parent->user->email          = $request->email;
+            $parent->user->name           = $request->father_name;
+            $parent->user->contact_number = $request->contact_number;
+            $parent->contact_address      = $request->contact_address;
+            $parent->save();
+            $parent->user->save();
+            return $parent;
+        }
+
     }
 
     /**

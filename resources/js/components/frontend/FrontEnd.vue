@@ -6,9 +6,7 @@
                       <div class="col-md-12 " >     
                  <div class="well">{{ header_content }}</div>
  </div>
-                 
-                    
-                <div class="col-md-6" >
+ <div class="col-md-6" >
                  
                     <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -56,8 +54,8 @@
                         <div class="panel-body" style="height: 20em" >
                             <div id="general" class="tab-pane fade in active">
     <ul >
-            <li v-for="generalnotice in generalnotices"><router-link :to="{ name: 'singlegeneralnotice', params: { id: generalnotice.id }}" :style="{ color: 'black'}">{{ generalnotice.title }}</router-link></li>
-            
+            <li v-for="generalnotice in generalnotices.data"><router-link :to="{ name: 'singlegeneralnotice', params: { id: generalnotice.id }}" :style="{ color: 'black'}"><h5>{{ generalnotice.title }}</h5></router-link></li>
+            <pagination :data="generalnotices" @pagination-change-page="fgeneralnotice"></pagination>  
 
             
             
@@ -98,9 +96,9 @@
    }
         )
         },
-        fgeneralnotice () {
+        fgeneralnotice (page = 1) {
         // Submit the form via a POST request
-       axios.get('/generalnoticeinfo')
+       axios.get('/generalnoticeinfo?page=' + page)
         .then(({ data }) => 
         {    
         

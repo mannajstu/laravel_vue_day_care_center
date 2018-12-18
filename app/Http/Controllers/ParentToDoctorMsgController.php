@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ParentToDoctorMsg;
 use Gate;
+use Auth;
 use Illuminate\Http\Request;
 
 class ParentToDoctorMsgController extends Controller
@@ -70,13 +71,17 @@ class ParentToDoctorMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-            return ParentToDoctorMsg::where('childid', $id)->get();
+            return ParentToDoctorMsg::where('childid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         }elseif (Gate::allows('isParent')) {
             $childs = Auth::user()->parent->childinfos->where('id', $id);
             foreach ($childs as $child) {
                 return ParentToDoctorMsg::where([          
                     'childid' => $child->id,
-                ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                ->paginate(4);
             }
         }
         elseif (Gate::allows('isDoctor')) {
@@ -84,7 +89,9 @@ class ParentToDoctorMsgController extends Controller
             foreach ($childs as $child) {
                 return ParentToDoctorMsg::where([          
                     'childid' => $child->id,
-                ])->get();
+                ])->orderBy('created_at', 'desc')
+
+                ->paginate(4);
             }
         }
     }

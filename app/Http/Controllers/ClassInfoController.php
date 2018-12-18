@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ClassInfo;
 use App\ChildInfo;
+use Auth;
+use Gate;
 use Illuminate\Http\Request;
 
 class ClassInfoController extends Controller
@@ -19,18 +21,25 @@ class ClassInfoController extends Controller
      */
     public function index()
     {
-        $classs = ClassInfo::all();
+        if (Gate::allows('isAdmin')) {
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return ClassInfo::Where('class_number', 'like', '%' . $search . '%')
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->orWhere('class_description', 'like', '%' . $search . '%')                    
+                    ->paginate(5);
+            } else {
+                $class = ClassInfo::paginate(5);
 
-        return $classs;
+                return $class;
+            }
+        }
     }
     public function classnumber()
     {
-        $classs = ClassInfo::all();
-        $cl     = array();
-        foreach ($classs as $class) {
-            $cl[] = $class->class_number;
-        }
-        return $cl;
+        if (Gate::allows('isAdmin')) {
+             return ClassInfo::all();
+    }
     }
 
     /**
@@ -40,7 +49,9 @@ class ClassInfoController extends Controller
      */
     public function create()
     {
-        //
+         if (Gate::allows('isAdmin')) {
+             return ClassInfo::all();
+    }
     }
 
     /**
@@ -51,6 +62,7 @@ class ClassInfoController extends Controller
      */
     public function store(Request $request)
     {
+       if (Gate::allows('isAdmin')) {
         $this->validate($request, [
 
             'class_number'      => 'required',
@@ -67,6 +79,7 @@ class ClassInfoController extends Controller
         return $class;
 
     }
+    }
 
     /**
      * Display the specified resource.
@@ -76,9 +89,11 @@ class ClassInfoController extends Controller
      */
     public function show($id)
     {
-        $class = ClassInfo::where('class_number', $id)->with('childinfos')->first();
+        if (Gate::allows('isAdmin')) {
+            $class = ClassInfo::where('class_number', $id)->with('childinfos')->first();
 
         return $class;
+    }
     }
 
     /**
@@ -101,7 +116,8 @@ class ClassInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
             'class_number'      => 'required|numeric',
 
@@ -118,6 +134,7 @@ class ClassInfoController extends Controller
         $class->save();
 
         return $class;
+    }
     }
 
     /**

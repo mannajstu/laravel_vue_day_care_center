@@ -22,7 +22,9 @@ class AdminToDoctorMsgController extends Controller
     {
         if (Gate::allows('isDoctor')) {
             $id = Auth::user()->doctor->id;
-            return AdminToDoctorMsg::where('doctorid', $id)->get();
+            return AdminToDoctorMsg::where('doctorid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         }
     }
 
@@ -75,7 +77,9 @@ class AdminToDoctorMsgController extends Controller
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-            return AdminToDoctorMsg::where('doctorid', $id)->get();
+            return AdminToDoctorMsg::where('doctorid', $id)->orderBy('created_at', 'desc')
+
+                ->paginate(4);
         }
     }
     public function singleadmintodoctormsg($id)

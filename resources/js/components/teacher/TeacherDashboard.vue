@@ -131,7 +131,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="teachertoadminmsg in teachertoadminmsgs">
+<tr v-for="teachertoadminmsg in teachertoadminmsgs.data">
 
 <td>{{ teachertoadminmsg.id }}</td>
 <td>{{ teachertoadminmsg.subject }}</td>
@@ -146,7 +146,7 @@
 
 
 </tr>
-
+<pagination :data="teachertoadminmsgs" @pagination-change-page="loadteachertoadminmsg"></pagination>
                    
                 </tbody>
             </table>
@@ -179,7 +179,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="admintoteachermsg in admintoteachermsgs">
+<tr v-for="admintoteachermsg in admintoteachermsgs.data">
 
 <td>{{ admintoteachermsg.id }}</td>
 <td>{{ admintoteachermsg.subject }}</td>
@@ -194,6 +194,7 @@
 
 
 </tr>
+<pagination :data="admintoteachermsgs" @pagination-change-page="loadadmintoteachermsg"></pagination>
    </tbody>
             </table>
    
@@ -274,10 +275,10 @@ teachertoadmin () {
         )
 // alert(this.form)
         },
-          loadteachertoadminmsg () {
+          loadteachertoadminmsg (page = 1) {
 // Submit the form via a POST request
 
-axios.get('/teachertoadminmsg/')
+axios.get('/teachertoadminmsg/?page=' + page)
 .then(({ data }) => 
 { 
 this.teachertoadminmsgs=data;
@@ -285,10 +286,10 @@ this.teachertoadminmsgs=data;
 }
 )
 },
-loadadmintoteachermsg () {
+loadadmintoteachermsg (page = 1) {
 // Submit the form via a POST request
  
-axios.get('/admintoteachermsg/')
+axios.get('/admintoteachermsg/?page=' + page)
 .then(({ data }) => 
 { 
 this.admintoteachermsgs=data;

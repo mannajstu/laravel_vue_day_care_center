@@ -27,7 +27,20 @@ class TeacherController extends Controller
     public function index()
     {
         if (Gate::allows('isAdmin')) {
-            return Teacher::with('user')->get();
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return Teacher::with('user')
+                    ->whereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                        $query->orWhere('contact_number', 'like', '%' . $search . '%');
+                        $query->orWhere('email', 'like', '%' . $search . '%');
+                    })
+                    ->orWhere('contact_address', 'like', '%' . $search . '%')
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->paginate(5);
+            } else {
+                return Teacher::with('user')->paginate(5);
+            }
         } else {
             $id     = Auth::id();
             $teacher = Teacher::where('userid', $id)
@@ -46,7 +59,9 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::allows('isAdmin')) {
+            return Doctor::with('user')->get();
+        }
     }
 
     /**

@@ -8,10 +8,13 @@
                                     
                                     <router-link :to="{ name: 'addroom'}" tag='button' class="btn btn-primary">Add Room</router-link>
                                     <h4 class="card-title">Room Information</h4>
-                                    </div>
+                                    <div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+            </div> 
+                                </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                                                
@@ -23,7 +26,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="room in rooms">
+                    <tr v-for="room in rooms.data">
                         
                    
                    
@@ -44,6 +47,7 @@
 
 
                     </tr>  
+                    <pagination :data="rooms" @pagination-change-page="loadrooms"></pagination>
                       </tbody>
                                     </table>
                                 </div>
@@ -65,12 +69,14 @@
     return {
       // Create a new form instance
       rooms:{},
+      search:'',
+
       
     }
   },
   methods: {
-          loadrooms(){
-          axios.get('/roominfo')
+          loadrooms(page = 1){
+          axios.get('/roominfo?page=' + page)
             .then(({ data }) => 
             { 
                this.rooms=data;
@@ -79,6 +85,17 @@
             }
             )
           },
+           searchit() {
+     axios.get('/roominfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.rooms=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

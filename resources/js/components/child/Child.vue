@@ -9,32 +9,38 @@
                                     Add Child
                                     </button>
                                     <h4 class="card-title">Children Information</h4>
+            <div class="form-group" ><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchchild'>
+
+            </div> 
                                 </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                         <th>ID</th>
                         <th>Child Name</th>
                         <th>Father Name</th>
-                        <th>Mother Name</th> 
+                        <th>Mother Name</th>
                         <th>Contact Number</th>
+                                               
 
                         <th>Birth Reg No</th>
+                        <th>Birth Day</th>
                         <th>Action</th>
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="child in children">
+                    <tr v-for="child in children.data">
                         
                     <td>{{ child.id }}</td>
                     <td>{{ child.child_name }}</td>
                     <td>{{ child.parentinfo.user.name }}</td>
                     <td>{{ child.parentinfo.mother_name }}</td>
                     <td>{{ child.parentinfo.user.contact_number }}</td>
-
+                    
                     <td>{{ child.birth_reg_no }}</td>
+                    <td>{{ child.birth_date }}</td>
 
 
                     <td>
@@ -46,6 +52,7 @@
 
 
                     </tr>
+                    <pagination :data="children" @pagination-change-page="loadchild"></pagination>
 
                                            
                                         </tbody>
@@ -76,6 +83,7 @@
       // Create a new form instance
       
      children:{},
+     search:'',
       
     }
   },
@@ -88,8 +96,8 @@
     },
     
       
-    loadchild(){
-axios.get('/childinfo')
+    loadchild(page = 1){
+axios.get('/childinfo?page=' + page)
         .then(({ data }) => 
         { 
            this.children=data;
@@ -97,6 +105,17 @@ axios.get('/childinfo')
             
         }
         )
+    },
+     searchchild() {
+     axios.get('/childinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.children=data;
+               console.log(data);
+                
+            }
+            )
+   
     },
         
   },
@@ -111,6 +130,7 @@ if(!this.$gate.isAdmin()){
             //     this.loadchild();
             // });
         },
+
   //       computed: {
   //   filteredList() {
   //     return this.children.filter(childrens => {

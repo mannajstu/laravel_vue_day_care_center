@@ -25,11 +25,30 @@ class ChildInfoController extends Controller
     }
     public function index()
     {
-          if (Gate::allows('isAdmin')) {
-            $child = ChildInfo::with('parentinfo.user')->get();
-        return $child;
+        if (Gate::allows('isAdmin')) {
 
-    }
+            $search = \Request::get('q');
+            if (!empty($search)) {
+
+                $child = ChildInfo::with('parentinfo.user')->whereHas('parentinfo.user', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                    $query->orWhere('contact_number', 'like', '%' . $search . '%');
+                    $query->orWhere('mother_name', 'like', '%' . $search . '%');
+                })
+                    ->orWhere('child_name', 'like', '%' . $search . '%')
+                    ->orWhere('birth_date', 'like', '%' . $search . '%')
+                    ->orWhere('birth_reg_no', 'like', '%' . $search . '%')
+->orderBy('created_at', 'desc')
+                    ->paginate(50);
+                return $child;
+            } else {
+                $child = ChildInfo::with('parentinfo.user')
+->orderBy('created_at', 'desc')
+                ->paginate(5);
+                return $child;
+            }
+
+        }
     }
 
     /**
@@ -51,66 +70,78 @@ class ChildInfoController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-            'mother_name'     => 'required',
-            'father_name'     => 'required',
+                'mother_name'     => 'required',
+                'father_name'     => 'required',
 
-            'contact_address' => 'required',
-            'child_name'      => 'required',
+                'contact_address' => 'required',
+                'child_name'      => 'required',
 
-            'email'           => 'required',
-            'contact_number'  => 'required',
+                'email'           => 'required|email',
+                'contact_number'  => 'required|numeric',
 
-            'birth_date'      => 'required',
-            'birth_reg_no'    => 'required',
-            'gender'          => 'required',
-            'doctorid'        => 'required',
-            'teacherid'       => 'required',
-            'class_number'    => 'required',
-            'room_number'     => 'required',
+                'birth_date'      => 'required',
+                'birth_reg_no'    => 'required|unique:child_infos,birth_reg_no',
+                'gender'          => 'required',
+                'doctorid'        => 'required',
+                'teacherid'       => 'required',
+                'class_number'    => 'required',
+                'room_number'     => 'required',
 
-        ]);
-        $user = new User;
+            ]);
 
-        $user->name           = $request->father_name;
-        $user->email          = $request->email;
-        $user->password       = Hash::make('password');
-        $user->contact_number = $request->contact_number;
-        $user->save();
+            $user = User::where('email', $request->email)
+                ->orWhere('contact_number', $request->contact_number)->firstOrfail();
 
-        $role = Role::where('name', 'parent')->first();
-        // return $role;
-        if (empty($role)) {
-            $role       = new Role;
-            $role->name = "parent";
-            $role->save();
+            if (empty($user)) {
+                $user = new User;
+
+                $user->name           = $request->father_name;
+                $user->email          = $request->email;
+                $user->password       = Hash::make('password');
+                $user->contact_number = $request->contact_number;
+                $user->save();
+            }
+
+            $parent = ParentInfo::where('userid', $user->id)
+                ->firstOrfail();
+// return $parent;
+            if (empty($parent)) {
+                $role = Role::where('name', 'parent')->first();
+                // return $role;
+                if (empty($role)) {
+                    $role       = new Role;
+                    $role->name = "parent";
+                    $role->save();
+                }
+                $user->roles()->attach($role->id);
+
+                $parent = new ParentInfo;
+
+                $parent->mother_name     = $request->mother_name;
+                $parent->contact_address = $request->contact_address;
+                $parent->userid          = $user->id;
+                $parent->save();
+
+            }
+
+            $child = new ChildInfo;
+
+            $child->child_name = $request->child_name;
+            $child->parentid   = $parent->id;
+
+            $child->birth_date   = $request->birth_date;
+            $child->birth_reg_no = $request->birth_reg_no;
+            $child->gender       = $request->gender;
+            $child->doctorid     = $request->doctorid;
+            $child->teacherid    = $request->teacherid;
+            $child->room_number  = $request->room_number;
+            $child->class_number = $request->class_number;
+            $child->save();
+
         }
-        $user->roles()->attach($role->id);
-
-        $parent = new ParentInfo;
-
-        $parent->mother_name     = $request->mother_name;
-        $parent->contact_address = $request->contact_address;
-        $parent->userid          = $user->id;
-        $parent->save();
-
-        // }
-
-        $child = new ChildInfo;
-
-        $child->child_name = $request->child_name;
-        $child->parentid   = $parent->id;
-
-        $child->birth_date   = $request->birth_date;
-        $child->birth_reg_no = $request->birth_reg_no;
-        $child->gender       = $request->gender;
-        $child->doctorid     = $request->doctorid;
-        $child->teacherid    = $request->teacherid;
-        $child->room_number  = $request->room_number;
-        $child->class_number = $request->class_number;
-        $child->save();
-
     }
 
     /**
@@ -129,13 +160,13 @@ class ChildInfoController extends Controller
                 ->firstOrFail();
 
             return $child;
-        } elseif(Gate::allows('isDoctor')) {
-            $doctorid =Auth::user()->doctor->id;
+        } elseif (Gate::allows('isDoctor')) {
+            $doctorid = Auth::user()->doctor->id;
 
             $child = ChildInfo::where([
-                'id' => $id,
+                'id'       => $id,
                 'doctorid' => $doctorid,
-                
+
             ])
                 ->with('parentinfo.user')
                 ->with('doctor.user')
@@ -143,16 +174,14 @@ class ChildInfoController extends Controller
                 ->firstOrFail();
 
             return $child;
-           
 
-        }
-        elseif(Gate::allows('isTeacher')) {
-            $teacherid =Auth::user()->teacher->id;
+        } elseif (Gate::allows('isTeacher')) {
+            $teacherid = Auth::user()->teacher->id;
 
             $child = ChildInfo::where([
-                'id' => $id,
+                'id'        => $id,
                 'teacherid' => $teacherid,
-                
+
             ])
                 ->with('parentinfo.user')
                 ->with('doctor.user')
@@ -160,16 +189,14 @@ class ChildInfoController extends Controller
                 ->firstOrFail();
 
             return $child;
-           
 
-        }
-        elseif(Gate::allows('isParent')) {
-            $parentid =Auth::user()->parent->id;
+        } elseif (Gate::allows('isParent')) {
+            $parentid = Auth::user()->parent->id;
 
             $child = ChildInfo::where([
-                'id' => $id,
+                'id'       => $id,
                 'parentid' => $parentid,
-                
+
             ])
                 ->with('parentinfo.user')
                 ->with('doctor.user')
@@ -177,7 +204,6 @@ class ChildInfoController extends Controller
                 ->firstOrFail();
 
             return $child;
-           
 
         }
     }
@@ -203,25 +229,26 @@ class ChildInfoController extends Controller
     public function update(Request $request, $id)
     {
         if (Gate::allows('isAdmin')) {
+            $child = ChildInfo::where('id', $id)
+                ->with('parentinfo.user')
+                ->first();
             $this->validate($request, [
                 'child_name'      => 'required',
                 'mother_name'     => 'required',
                 'father_name'     => 'required',
-                'email'           => 'required',
-                'contact_number'  => 'required',
+
+                'email'           => 'required|email|unique:users,email,' . $child->parentinfo->user->id,
+                'contact_number'  => 'required|numeric|unique:users,contact_number,' . $child->parentinfo->user->id,
+
                 'contact_address' => 'required',
                 'birth_date'      => 'required',
-                'birth_reg_no'    => 'required',
+                'birth_reg_no'    => 'required|unique:child_infos,birth_reg_no,' . $id,
                 'gender'          => 'required',
                 'doctorid'        => 'required',
                 'teacherid'       => 'required',
                 'class_number'    => 'required',
                 'room_number'     => 'required',
             ]);
-
-            $child = ChildInfo::where('id', $id)
-                ->with('parentinfo.user')
-                ->first();
 
             $child->child_name = $request->child_name;
 
@@ -250,7 +277,7 @@ class ChildInfoController extends Controller
                 'child_name'   => 'required',
 
                 'birth_date'   => 'required',
-                'birth_reg_no' => 'required',
+                'birth_reg_no' => 'required|unique:child_infos,birth_reg_no,' . $id,
                 'gender'       => 'required',
 
             ]);

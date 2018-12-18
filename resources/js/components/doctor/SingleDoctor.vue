@@ -131,7 +131,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="doctortoadminmsg in doctortoadminmsgs">
+<tr v-for="doctortoadminmsg in doctortoadminmsgs.data">
 
 <td>{{ doctortoadminmsg.id }}</td>
 <td>{{ doctortoadminmsg.subject }}</td>
@@ -147,7 +147,7 @@
 
 </tr>
 
-                   
+  <pagination :data="doctortoadminmsgs" @pagination-change-page="loaddoctortoadminmsg"></pagination>                  
                 </tbody>
             </table>
    
@@ -166,9 +166,8 @@
 </div>
 
 
-<div class="panel-body">
-  
-  <table class="table table-hover table-striped">
+<div class="panel-bodytable-full-width table-responsive">
+<table class="table table-hover table-striped table-bordered">
 <thead>
 <tr>
 <th>ID</th>
@@ -179,7 +178,7 @@
 </tr>
 </thead>
                 <tbody>
-<tr v-for="admintodoctormsg in admintodoctormsgs">
+<tr v-for="admintodoctormsg in admintodoctormsgs.data">
 
 <td>{{ admintodoctormsg.id }}</td>
 <td>{{ admintodoctormsg.subject }}</td>
@@ -195,7 +194,7 @@
 
 </tr>
 
-                   
+        <pagination :data="admintodoctormsgs" @pagination-change-page="loadadmintodoctormsg"></pagination>            
                 </tbody>
             </table>
    
@@ -271,10 +270,10 @@ contact_number:'',
         )
 // alert(this.form)
         },
-        loadadmintodoctormsg () {
+        loadadmintodoctormsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/admintodoctormsg/'+id)
+axios.get('/admintodoctormsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.admintodoctormsgs=data;
@@ -282,10 +281,10 @@ console.log(data);
 }
 )
 },
-loaddoctortoadminmsg () {
+loaddoctortoadminmsg (page = 1) {
 // Submit the form via a POST request
 let id=this.$route.params.id;
-axios.get('/doctortoadminmsg/'+id)
+axios.get('/doctortoadminmsg/'+id+'?page=' + page)
 .then(({ data }) => 
 { 
 this.doctortoadminmsgs=data;

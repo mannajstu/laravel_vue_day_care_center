@@ -25,9 +25,21 @@ class UserController extends Controller
     public function index()
     {
         if (Gate::allows('isAdmin')) {
-            return User::with('roles')->get();
+
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return User::where('id', 'like', '%' . $search . '%')->orWhere('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('contact_number', 'like', '%' . $search . '%')
+                    ->with('roles')
+                    ->paginate(100);
+            } else {
+                return User::with('roles')->paginate(5);
+            }
+
         }
     }
+
     // public function adminActivation(Request $request)
     // {
     //     $activationCode = 'activationCode';
@@ -69,14 +81,19 @@ class UserController extends Controller
                 'contact_number' => 'required|numeric|unique:users,contact_number',
 
                 'name'           => 'required',
+                'active'           => 'required',
+
+                'password'       => 'required|string|min:6|confirmed',
 
             ]);
             $user = new User;
 
             $user->name           = $request->name;
             $user->email          = $request->email;
-            $user->password       = Hash::make('password');
             $user->contact_number = $request->contact_number;
+            $user->password       = Hash::make($request->password);
+            
+            $user->active = $request->active;
             $user->save();
 
             $role = Role::where('name', 'admin')->first();
@@ -130,10 +147,13 @@ class UserController extends Controller
         if (Gate::allows('isAdmin')) {
             $this->validate($request, [
 
-                'email'          => 'required|email|unique:users,email,'.$id,
-                'contact_number' => 'required|numeric|unique:users,contact_number,'.$id,
+                'email'          => 'required|email|unique:users,email,' . $id,
+                'contact_number' => 'required|numeric|unique:users,contact_number,' . $id,
 
                 'name'           => 'required',
+                 'active'           => 'required',
+
+                'password'       => 'required|string|min:6|confirmed',
 
             ]);
             $user = User::findOrfail($id);
@@ -141,6 +161,9 @@ class UserController extends Controller
             $user->email          = $request->email;
             $user->name           = $request->name;
             $user->contact_number = $request->contact_number;
+            $user->password       = Hash::make($request->password);
+            
+            $user->active = $request->active;
 
             $user->save();
             $user->roles()->detach();

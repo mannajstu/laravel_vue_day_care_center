@@ -52,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name'           => 'required|string|max:255',
             'email'          => 'required|string|email|max:255|unique:users',
-            'contact_number' => 'required|unique:users',
+            'contact_number' => 'required|numeric|unique:users,contact_number',
             'password'       => 'required|string|min:6|confirmed',
         ]);
     }
@@ -70,7 +70,6 @@ class RegisterController extends Controller
         $user->email          = $data['email'];
         $user->password       = Hash::make($data['password']);
         $user->contact_number = $data['contact_number'];
-        $user->save();
 
         $role      = Role::where('name', 'parent')->first();
         $adminrole = Role::where('name', 'admin')->first();
@@ -88,14 +87,16 @@ class RegisterController extends Controller
             $trole       = new Role;
             $trole->name = "teacher";
             $trole->save();
+            $user->active = 1;
         } else {
             if (empty($role)) {
                 $role       = new Role;
                 $role->name = "parent";
                 $role->save();
             }
+            $user->active = 0;
         }
-
+        $user->save();
         $user->addParent($user->id, 'Update Your Address', 'Update Info');
         $user->roles()->attach($role->id);
         return $user;

@@ -5,10 +5,15 @@
                            
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
-                                    
+                                   
+               
                                     <router-link :to="{ name: 'adduser'}" tag='button' class="btn btn-primary">Add Admin</router-link>
+            
                                     <h4 class="card-title">All User Information</h4>
-                                    </div>
+                <div class="form-group" ><input type="text" class="form-control" placeholder="Search for users..." v-model='search' @keyup='searchit'>
+                
+                </div> 
+              </div>
 
                                 <div class="card-body table-full-width table-responsive">
                                     <table class="table table-hover table-striped table-bordered">
@@ -24,7 +29,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="user in users">
+                    <tr v-for="user in users.data">
                         
                    
                    
@@ -53,6 +58,7 @@
 
 
                     </tr>  
+                    <pagination :data="users" @pagination-change-page="loadusers"></pagination>
                       </tbody>
                                     </table>
                                 </div>
@@ -75,11 +81,22 @@
       // Create a new form instance
       users:{},
       
+      search:'',
+      
+      
     }
   },
   methods: {
-          loadusers(){
-          axios.get('/userinfo')
+          loadusers(page = 1){
+          axios.get('/userinfo?page=' + page)
+        .then(response => {
+          this.users = response.data;
+        });
+          },
+         
+     
+    searchit() {
+ axios.get('/userinfo?q=' + this.search)
             .then(({ data }) => 
             { 
                this.users=data;
@@ -87,7 +104,7 @@
                 
             }
             )
-          },
+    },
   
     
   },
@@ -96,17 +113,11 @@ if(!this.$gate.isAdmin()){
     this.$router.push({ name: 'notfound'})
 }
 },
+
         created() {
-            this.loadusers();
-           
-        },
-  //       computed: {
-  //   filteredList() {
-  //     return this.children.filter(childrens => {
-  //       return childrens.child_name.toLowerCase().includes(this.search.toLowerCase())
-  //     })
-  //   }
-  // }
+           this.loadusers();            
+       },
+
      
 
     }

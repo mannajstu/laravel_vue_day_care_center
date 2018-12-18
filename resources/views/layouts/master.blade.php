@@ -6,12 +6,14 @@
                 <!-- CSRF Token -->
                 <meta content="{{ csrf_token() }}" name="csrf-token">
                     <title>
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Day Care Center') }}
                     </title>
                     <!-- Fonts -->
                     <link href="https://fonts.gstatic.com" rel="dns-prefetch">
                         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
                             <!-- Styles -->
+                            
+
                             <link href="{{ asset('css/app.css') }}" rel="stylesheet">
                                 <!-- BOOTSTRAP STYLES-->
                                 <!-- GOOGLE FONTS-->
@@ -59,7 +61,13 @@
         <script src="{{ asset('assets/js/morris/morris.js') }}">
         </script>
         <!-- CUSTOM SCRIPTS -->
-        <script src="{{ asset('assets/js/custom.js') }}">
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+
+
+
+
+
         </script>
         <!-- Scripts -->
         <script defer="" src="{{ asset('js/app.js') }}">
@@ -78,9 +86,7 @@
            if($urole->name===Session::get('role')){
             $role= true;
            }
-           
-
-        }
+              }
 
         @endphp
         @if($role)

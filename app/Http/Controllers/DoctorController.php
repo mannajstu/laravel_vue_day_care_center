@@ -24,10 +24,23 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        
 
         if (Gate::allows('isAdmin')) {
-            return Doctor::with('user')->get();
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return Doctor::with('user')
+                    ->whereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                        $query->orWhere('contact_number', 'like', '%' . $search . '%');
+                        $query->orWhere('email', 'like', '%' . $search . '%');
+                    })
+                    ->orWhere('contact_address', 'like', '%' . $search . '%')
+                    ->orWhere('id', 'like', '%' . $search . '%')
+                    ->paginate(5);
+            } else {
+                return Doctor::with('user')->paginate(5);
+            }
+
         } else {
             $id     = Auth::id();
             $parent = Doctor::where('userid', $id)
@@ -46,8 +59,11 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::allows('isAdmin')) {
+            return Doctor::with('user')->get();
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -57,36 +73,36 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-if (Gate::allows('isAdmin')) {
-        $this->validate($request, [
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
 
-            'doctor_name'     => 'required',
-            'doctor_email'    => 'required',
-            'contact_number'  => 'required',
-            'contact_address' => 'required',
+                'doctor_name'     => 'required',
+                'doctor_email'    => 'required',
+                'contact_number'  => 'required',
+                'contact_address' => 'required',
 
-        ]);
+            ]);
 
-        $user = new User;
+            $user = new User;
 
-        $user->name           = $request->doctor_name;
-        $user->email          = $request->doctor_email;
-        $user->password       = Hash::make('password');
-        $user->contact_number = $request->contact_number;
-        $user->save();
+            $user->name           = $request->doctor_name;
+            $user->email          = $request->doctor_email;
+            $user->password       = Hash::make('password');
+            $user->contact_number = $request->contact_number;
+            $user->save();
 
-        $role = Role::where('name', 'doctor')->first();
-        // return $role;
-        if (empty($role)) {
-            $role       = new Role;
-            $role->name = "doctor";
-            $role->save();
+            $role = Role::where('name', 'doctor')->first();
+            // return $role;
+            if (empty($role)) {
+                $role       = new Role;
+                $role->name = "doctor";
+                $role->save();
+            }
+            $user->roles()->attach($role->id);
+
+            $user->addDoctor($user->id, $request->contact_address);
+            return $user;
         }
-        $user->roles()->attach($role->id);
-        
-        $user->addDoctor($user->id, $request->contact_address);
-        return $user;
-    }
     }
 
     /**
@@ -98,23 +114,21 @@ if (Gate::allows('isAdmin')) {
     public function show($id)
     {
         if (Gate::allows('isAdmin')) {
-        $doctor = Doctor::where('id', $id)
-        ->with('childinfos')
-        ->with('user')
-        ->first();
+            $doctor = Doctor::where('id', $id)
+                ->with('childinfos')
+                ->with('user')
+                ->first();
 
-        return $doctor;
-    }
-    else
-    {
-        $doctorid     = Auth::user()->doctor->id;
-        $doctor = Doctor::where('id', $doctorid )
-        ->with('childinfos')
-        ->with('user')
-        ->first();
-        return $doctor;
+            return $doctor;
+        } else {
+            $doctorid = Auth::user()->doctor->id;
+            $doctor   = Doctor::where('id', $doctorid)
+                ->with('childinfos')
+                ->with('user')
+                ->first();
+            return $doctor;
 
-    }
+        }
     }
 
     /**
@@ -136,7 +150,6 @@ if (Gate::allows('isAdmin')) {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-
     {
         $this->validate($request, [
 
@@ -146,15 +159,15 @@ if (Gate::allows('isAdmin')) {
             'contact_address' => 'required',
 
         ]);
-        $doctor                =Doctor::findOrfail($id);
-            
-            $doctor->user->email     = $request->doctor_email;
-            $doctor->user->name     = $request->doctor_name;
-            $doctor->user->contact_number  = $request->contact_number;
-            $doctor->contact_address = $request->contact_address;
-            $doctor->save();
-            $doctor->user->save();
-            return $doctor;
+        $doctor = Doctor::findOrfail($id);
+
+        $doctor->user->email          = $request->doctor_email;
+        $doctor->user->name           = $request->doctor_name;
+        $doctor->user->contact_number = $request->contact_number;
+        $doctor->contact_address      = $request->contact_address;
+        $doctor->save();
+        $doctor->user->save();
+        return $doctor;
 
     }
 

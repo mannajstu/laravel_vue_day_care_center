@@ -28,11 +28,39 @@
                     class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
                     <has-error :form="form" field="email"></has-error>
                     </div>
+                    
                     <div class="form-group col-md-4">
                     <label>Contact Number</label>
                     <input v-model="form.contact_number" type="number" name="contact_number"
                     class="form-control" :class="{ 'is-invalid': form.errors.has('contact_number') }">
                     <has-error :form="form" field="contact_number"></has-error>
+                    </div>
+
+
+ <div class="form-group col-md-4">
+                    <label>Password</label>
+                    <input v-model="form.password" type="password" name="password"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                    <has-error :form="form" field="password"></has-error>
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label>Confirm Password</label>
+                    <input v-model="form.password_confirmation" type="password" name="password_confirmation"
+                    class="form-control" :class="{ 'is-invalid': form.errors.has('password_confirmation') }">
+                    <has-error :form="form" field="password_confirmation"></has-error>
+                    </div>
+
+
+
+
+                    <div class="form-group col-md-4">
+                    <label>Status</label>
+                 <select class="form-control" v-model='form.active'>
+                        <option value="1">Active</option>
+                        <option value="0">Deactive</option>
+                        
+                    </select>                   
+                    <has-error :form="form" field="active"></has-error>
                     </div>
 
                     <div v-if="editmode" class="form-group col-md-4">
@@ -90,6 +118,8 @@ id:'',
 name: '',
 email: '',
 contact_number: '',
+password: '',
+password_confirmation:'',
 
 role:[],
 })

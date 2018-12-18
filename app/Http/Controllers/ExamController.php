@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Exam;
 use App\User;
+use Auth;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ExamController extends Controller
 {
-    
 
     public function __construct()
     {
-         $this->middleware('auth');
+        $this->middleware('auth');
     }/**
      * Display a listing of the resource.
      *
@@ -21,7 +22,54 @@ class ExamController extends Controller
      */
     public function index()
     {
-        return Exam::all();
+        if (Gate::allows('isAdmin')) {
+            $search = \Request::get('q');
+            if (!empty($search)) {
+                return Exam::Where('id', 'like', '%' . $search . '%')
+                    ->orWhere('exam_title', 'like', '%' . $search . '%')
+                    ->orWhere('exam_title', 'like', '%' . $search . '%')
+                    ->orWhere('exam_date', 'like', '%' . $search . '%')
+                    ->orWhere('exam_time', 'like', '%' . $search . '%')
+                    ->paginate(5);
+            } else {
+                return Exam::paginate(5);
+
+            }
+
+        }
+    }
+
+    public function childexaminfo($id)
+    {
+        if (Gate::allows('isAdmin')) {
+
+            return Exam::with('classinfo.childinfos')->whereHas('classinfo.childinfos', function ($query) use ($id) {
+                $query->where('id', $id);
+            })->orderBy('created_at', 'desc')
+
+                ->paginate(5);
+
+        }{
+            if (Gate::allows('isParent')) {
+                $parentid = Auth::user()->parent->id;
+
+                // return ChildInfo::where([
+                //     'id'       => $id,
+                //     'parentid' => $parentid,
+
+                // ])->with('classinfo.exams')->orderBy('created_at', 'desc')
+
+                //     ->paginate(5);
+                return Exam::with('classinfo.childinfos')->whereHas('classinfo.childinfos', function ($query) use ($id,$parentid) {
+                    $query->where([
+                        'id'       => $id,
+                        'parentid' => $parentid,
+                    ]);
+                })->orderBy('created_at', 'desc')
+
+                    ->paginate(5);
+            }
+        }
     }
 
     /**
@@ -43,23 +91,25 @@ class ExamController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
-            'exam_title'       => 'required',
-            'exam_description' => 'required',
-            'exam_date'        => 'required',
-            'exam_time'        => 'required',
-            'class_number'     => 'required',
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
+                'exam_title'       => 'required',
+                'exam_description' => 'required',
+                'exam_date'        => 'required',
+                'exam_time'        => 'required',
+                'class_number'     => 'required',
 
-        ]);
-        $exam                   = new Exam;
-        $exam->exam_title       = $request->exam_title;
-        $exam->exam_description = $request->exam_description;
-        $exam->exam_date        = $request->exam_date;
-        $exam->exam_time        = $request->exam_time;
-        $exam->exam_mark        = $request->exam_mark;
-        $exam->class_number     = $request->class_number;
-        $exam->save();
-        return $exam;
+            ]);
+            $exam                   = new Exam;
+            $exam->exam_title       = $request->exam_title;
+            $exam->exam_description = $request->exam_description;
+            $exam->exam_date        = $request->exam_date;
+            $exam->exam_time        = $request->exam_time;
+            $exam->exam_mark        = $request->exam_mark;
+            $exam->class_number     = $request->class_number;
+            $exam->save();
+            return $exam;
+        }
     }
 
     /**
@@ -71,9 +121,11 @@ class ExamController extends Controller
     public function show($id)
     {
 
-        $exam = Exam::where('id', $id)->with('classinfo.childinfos')->first();
+        if (Gate::allows('isAdmin')) {
+            $exam = Exam::where('id', $id)->with('classinfo.childinfos')->first();
 
-        return $exam;
+            return $exam;
+        }
     }
     public function notifyinfo(Request $request)
     {
@@ -97,8 +149,13 @@ class ExamController extends Controller
             foreach ($users as $user) {
                 $useremail[]         = $user->email;
                 $usercontactnumber[] = $user->contact_number;
-            }
-            return $useremail;
+            };
+            // $email=['manna.jstu@gmail.com','waleur.jessore@gmail.com'];
+            $examinfo = Exam::findorfail($request->id)->toArray();
+            Mail::send('exammail', ["data" => $examinfo], function ($message) use ($useremail) {
+                $message->to($useremail)->subject('Exam Notification');
+                $message->from('admin@gmail.com', 'Day Care Center');
+            });
         }
 
     }
@@ -123,21 +180,25 @@ class ExamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'exam_title'       => 'required',
-            'exam_description' => 'required',
-            'exam_date'        => 'required',
-            'exam_time'        => 'required',
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
+                'exam_title'       => 'required',
+                'exam_description' => 'required',
+                'exam_date'        => 'required',
+                'exam_time'        => 'required',
+                'exam_mark'        => 'required',
 
-        ]);
+            ]);
 
-        $exam                   = Exam::find($id);
-        $exam->exam_title       = $request->exam_title;
-        $exam->exam_description = $request->exam_description;
-        $exam->exam_date        = $request->exam_date;
-        $exam->exam_time        = $request->exam_time;
-        $exam->save();
-        return $exam;
+            $exam                   = Exam::find($id);
+            $exam->exam_title       = $request->exam_title;
+            $exam->exam_description = $request->exam_description;
+            $exam->exam_date        = $request->exam_date;
+            $exam->exam_time        = $request->exam_time;
+            $exam->exam_mark        = $request->exam_mark;
+            $exam->save();
+            return $exam;
+        }
     }
 
     /**

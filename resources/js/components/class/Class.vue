@@ -7,11 +7,13 @@
                                 <div class="card-header ">
                                     
                                     <router-link :to="{ name: 'addclass'}" tag='button' class="btn btn-primary">Add Class</router-link>
-                                    <h4 class="card-title">Class Information</h4>
-                                    </div>
+                                    <h4 class="card-title">Class Information</h4><input type="text" class="form-control" placeholder="Search for children..." v-model='search' @keyup='searchit'>
+
+            </div> 
+                                </div>
 
                                 <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
+                                    <table class="table table-hover table-striped table-bordered">
                         <thead>
                         <tr>
                                                
@@ -23,7 +25,7 @@
                         </tr>
                         </thead>
                                         <tbody>
-                    <tr v-for="classinfo in classinfos">
+                    <tr v-for="classinfo in classinfos.data">
                         
                    
                    
@@ -43,7 +45,8 @@
                   </td>
 
 
-                    </tr>  
+                    </tr> 
+                    <pagination :data="classinfos" @pagination-change-page="loadclasss"></pagination> 
                       </tbody>
                                     </table>
                                 </div>
@@ -69,8 +72,8 @@
     }
   },
   methods: {
-          loadclasss(){
-          axios.get('/classinfo')
+          loadclasss(page = 1){
+          axios.get('/classinfo?page=' + page)
             .then(({ data }) => 
             { 
                this.classinfos=data;
@@ -79,6 +82,17 @@
             }
             )
           },
+          searchit() {
+     axios.get('/classinfo?q=' + this.search)
+            .then(({ data }) => 
+            { 
+               this.classinfos=data;
+               console.log(data);
+                
+            }
+            )
+   
+    },
   
     
   },

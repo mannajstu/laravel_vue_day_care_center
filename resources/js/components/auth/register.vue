@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="form-group col-md-4">
-                    <label>Father Name</label>
+                    <label>Father Name/Name</label>
                     <input v-model="form.name" type="text" name="name"
                     class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
                     <has-error :form="form" field="name"></has-error>
@@ -83,8 +83,9 @@ return {
 
 form: new Form({
 email: '',
-namel: '',
+name: '',
 password: '',
+contact_number: '',
 password_confirmation:'',
 role: '',
 
