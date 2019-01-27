@@ -46,7 +46,7 @@
                     <td>
                        <router-link :to="{ name: 'singlechild', params: { id: child.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
                        <router-link :to="{ name: 'editchild', params: { id: child.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i></router-link>
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deletechild(child.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -76,60 +76,65 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      
-     children:{},
-     search:'',
-      
-    }
+
+      children: {},
+      search: ""
+    };
   },
   methods: {
-    addchild () {
+    addchild() {
       // Submit the form via a POST request
-      
-            this.$router.push('/home' );
-        
+
+      this.$router.push("/home");
     },
-    
-      
-    loadchild(page = 1){
-axios.get('/childinfo?page=' + page)
-        .then(({ data }) => 
-        { 
-           this.children=data;
-           console.log(data);
-            
-        }
-        )
+
+    loadchild(page = 1) {
+      axios.get("/childinfo?page=" + page).then(({ data }) => {
+        this.children = data;
+        console.log(data);
+      });
     },
-     searchchild() {
-     axios.get('/childinfo?q=' + this.search)
-            .then(({ data }) => 
-            { 
-               this.children=data;
-               console.log(data);
-                
-            }
-            )
-   
+    searchchild() {
+      axios.get("/childinfo?q=" + this.search).then(({ data }) => {
+        this.children = data;
+        console.log(data);
+      });
     },
-        
-  },
-   beforeCreate(){
-if(!this.$gate.isAdmin()){
-    this.$router.push({ name: 'notfound'})
-}
-},
-        created() {
+    deletechild(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/childinfo/" + id).then(({ data }) => {
             this.loadchild();
-            // this.$on('updatechild',()=>{
-            //     this.loadchild();
-            // });
-        },
+            this.successmsg();
+            console.log(data);
+          });
+        }
+      });
+    }
+  },
+  beforeCreate() {
+    if (!this.$gate.isAdmin()) {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created() {
+    this.loadchild();
+    // this.$on('updatechild',()=>{
+    //     this.loadchild();
+    // });
+  }
 
   //       computed: {
   //   filteredList() {
@@ -138,7 +143,5 @@ if(!this.$gate.isAdmin()){
   //     })
   //   }
   // }
-     
-
-    }
+};
 </script>

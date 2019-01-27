@@ -192,8 +192,22 @@ class ParentInfoController extends Controller
      * @param  \App\ParentInfo  $parentInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ParentInfo $parentInfo)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            $parent = ParentInfo::where('id', $id)
+                ->with('user')
+                ->first();
+               $user = User::where('id', $parent->user->id)
+               ->first();
+               $role = Role::where('name', 'parent')->get();
+               $user->roles()->detach($role);
+               // return $user;
+            ParentInfo::destroy($id);
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

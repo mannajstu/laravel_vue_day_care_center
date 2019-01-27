@@ -37,8 +37,8 @@
                     
                     <div class="col-md-12">
 <div class="form-group">
-                     <button :disabled="form.busy" v-show='!editmode' type="submit" class="btn btn-primary btn-lg btn-block">Add Room</button>
-    <button :disabled="form.busy" v-show='editmode' type="submit" class="btn btn-primary btn-lg btn-block">Update Room</button></div></div>
+                     <button :disabled="form.busy" v-show='!editmode' type="submit" class="btn btn-primary btn-lg btn-block">Add Header Content</button>
+    <button :disabled="form.busy" v-show='editmode' type="submit" class="btn btn-primary btn-lg btn-block">Update Header Content</button></div></div>
                     </form>
                     </div> 
                     <!--  end of row -->
@@ -48,87 +48,62 @@
                     </template>
 
 <script>
-
 export default {
+    data() {
+        return {
+            // Create a new form instance
 
-data () {
-return {
-// Create a new form instance
+            editmode: false,
+            old_content: "",
 
-editmode:false,
-old_content:'',
-
-form: new Form({
-
-id:'',
-header_content: '',
-
-})
-}
-},
-methods: {
-        addheadercontent () {
-        // Submit the form via a POST request
-        this.form.post('/homecontent')
-        .then(({ data }) => 
-        { 
-
-        this.successmsg();
-        this.$router.push('/headercontent');
-        this.oldheadercontent(); 
-        
-}
-        )
+            form: new Form({
+                id: "",
+                header_content: ""
+            })
+        };
+    },
+    methods: {
+        addheadercontent() {
+            // Submit the form via a POST request
+            this.form.post("/homecontent").then(({ data }) => {
+                this.successmsg();
+                this.$router.push("/headercontent");
+                this.oldheadercontent();
+            });
         },
-        updateheadercontent () {
-        // Submit the form via a POST request
-        
-        this.form.put('/homecontent/'+this.form.id)
-        .then(({ data }) => 
-        { 
+        updateheadercontent() {
+            // Submit the form via a POST request
 
-        this.successmsg();
-        this.$router.push('/headercontent');
-        
-}
-        )
+            this.form.put("/homecontent/" + this.form.id).then(({ data }) => {
+                this.successmsg();
+                this.$router.push("/headercontent");
+            });
         },
-        oldheadercontent () {
-        // Submit the form via a POST request
-        this.form.get('/homecontent')
-        .then(({ data }) => 
-        { 
-            
-                
-        this.form.id=data[0].id;
-        this.form.header_content=data[0].header_content;
-        this.editmode=true;
-        
+        oldheadercontent() {
+            // Submit the form via a POST request
+            this.form.get("/homecontent").then(({ data }) => {
+                this.form.id = data[0].id;
+                this.form.header_content = data[0].header_content;
+                this.editmode = true;
+            });
+        }
 
-  }
-        )
-        },
+        // method end
+    },
+    created() {
+        this.oldheadercontent();
+    }
+    // watch: {
+    //     '$route' (to, from) {
+    //       //update the variables with new route params
+    //       Object.assign(this.$data, this.$options.data());
+    //     }
+    //   },
+    //       computed: {
 
-// method end
-},
-created() {
-    
-       this.oldheadercontent(); 
-
-},
-// watch: {
-//     '$route' (to, from) {
-//       //update the variables with new route params
-//       Object.assign(this.$data, this.$options.data());
-//     }
-//   },
-//       computed: {
-  
-//   updateinfo(){
-//     return this.loadchild();
-//   }
-// }
-
-
-}
+    //   updateinfo(){
+    //     return this.loadchild();
+    //   }
+    // }
+};
 </script>

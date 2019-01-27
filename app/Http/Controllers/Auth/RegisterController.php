@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+
 
 class RegisterController extends Controller
 {
@@ -99,6 +101,14 @@ class RegisterController extends Controller
         $user->save();
         $user->addParent($user->id, 'Update Your Address', 'Update Info');
         $user->roles()->attach($role->id);
+
+       if(!empty($user)){
+        Mail::send('useremail', ["data" => $data], function ($message) use ($user) {
+            $message->to($user->email)->subject('Login Info');
+            $message->from('admin@gmail.com', 'Day Care Center');
+        });
+       } 
+
         return $user;
     }
 }

@@ -38,13 +38,13 @@ class ChildInfoController extends Controller
                     ->orWhere('child_name', 'like', '%' . $search . '%')
                     ->orWhere('birth_date', 'like', '%' . $search . '%')
                     ->orWhere('birth_reg_no', 'like', '%' . $search . '%')
-->orderBy('created_at', 'desc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate(50);
                 return $child;
             } else {
                 $child = ChildInfo::with('parentinfo.user')
-->orderBy('created_at', 'desc')
-                ->paginate(5);
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
                 return $child;
             }
 
@@ -92,10 +92,17 @@ class ChildInfoController extends Controller
 
             ]);
 
-            $user = User::where('email', $request->email)
-                ->orWhere('contact_number', $request->contact_number)->firstOrfail();
+            if ($request->userstatus) {
+                $user = User::where('email', $request->email)
+                    ->orWhere('contact_number', $request->contact_number)->firstOrfail();
+            } else {
+                $this->validate($request, [
 
-            if (empty($user)) {
+                    'email'          => 'required|email|unique:users,email',
+                    'contact_number' => 'required|numeric|unique:users,contact_number',
+
+                ]);
+
                 $user = new User;
 
                 $user->name           = $request->father_name;
@@ -105,17 +112,19 @@ class ChildInfoController extends Controller
                 $user->save();
             }
 
-            $parent = ParentInfo::where('userid', $user->id)
-                ->firstOrfail();
+            if ($request->userstatus) {
+                $parent = ParentInfo::where('userid', $user->id)
+                    ->firstOrfail();
+            }
 // return $parent;
-            if (empty($parent)) {
+            else {
                 $role = Role::where('name', 'parent')->first();
-                // return $role;
-                if (empty($role)) {
-                    $role       = new Role;
-                    $role->name = "parent";
-                    $role->save();
-                }
+                // // return $role;
+                // if (empty($role)) {
+                //     $role       = new Role;
+                //     $role->name = "parent";
+                //     $role->save();
+                // }
                 $user->roles()->attach($role->id);
 
                 $parent = new ParentInfo;
@@ -306,8 +315,14 @@ class ChildInfoController extends Controller
      * @param  \App\ChildInfo  $childInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ChildInfo $childInfo)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            ChildInfo::destroy($id);
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

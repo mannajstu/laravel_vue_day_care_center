@@ -155,214 +155,159 @@
 
 <script>
 export default {
-  
+    data() {
+        return {
+            // Create a new form instance
 
-data () {
-return {
-// Create a new form instance
-
-editmode:false,
-children:{},
-oldparent:false,
-roominfo:{},
-rooms:{},
-classinfos:{},
-doctors:{},
-teachers:{},
-timeoptions: {
-        format: 'LT',
-        useCurrent: true,           
-    },  
-    options: {
-        format: 'DD/MM/YYYY',
-        useCurrent: true, 
-
+            editmode: false,
+            children: {},
+            oldparent: false,
+            roominfo: {},
+            rooms: {},
+            classinfos: {},
+            doctors: {},
+            teachers: {},
+            timeoptions: {
+                format: "LT",
+                useCurrent: true
+            },
+            options: {
+                format: "DD/MM/YYYY",
+                useCurrent: true
+            },
+            form: new Form({
+                id: "",
+                child_name: "",
+                mother_name: "",
+                father_name: "",
+                contact_number: "",
+                email: "",
+                contact_address: "",
+                birth_date: "",
+                birth_reg_no: "",
+                gender: "",
+                doctorid: "",
+                teacherid: "",
+                room_number: "",
+                class_number: "",
+                userstatus: false
+            })
+        };
     },
-form: new Form({
-
-id:'',
-child_name: '',
-mother_name: '',
-father_name: '',
-contact_number: '',
-email: '',
-contact_address:'',
-birth_date: '',
-birth_reg_no: '',
-gender:'',
-doctorid:'',
-teacherid: '',
-room_number: '',
-class_number: '',
-
-
-})
-}
-},
-methods: {
-        addchild () {
-        // Submit the form via a POST request
-        this.form.post('/childinfo')
-        .then(({ data }) => 
-        { 
-
-        this.restform();
-        this.successmsg();
-
-
-        }
-        )
+    methods: {
+        addchild() {
+            // Submit the form via a POST request
+            this.form.post("/childinfo").then(({ data }) => {
+                this.restform();
+                this.successmsg();
+            });
         },
-oldparentshow(){
-this.oldparent=true;
-},
-        newparentshow(){
-        this.oldparent=false;
+        oldparentshow() {
+            this.oldparent = true;
+            this.form.userstatus = true;
         },
-updatechild () {
-// Submit the form via a POST request
-this.form.put('/childinfo/'+this.form.id)
-.then(({ data }) => 
-{ 
-this.successmsg();
-this.$router.push('/child/');
+        newparentshow() {
+            this.oldparent = false;
+            this.form.userstatus = false;
+        },
+        updatechild() {
+            // Submit the form via a POST request
+            this.form.put("/childinfo/" + this.form.id).then(({ data }) => {
+                this.successmsg();
+                this.$router.push("/child/");
+            });
+            // console.log("")
+        },
+        loadchild() {
+            let id = this.$route.params.id;
+            if (id) {
+                this.form.get("/childinfo/" + id).then(({ data }) => {
+                    this.editmode = true;
+                    this.form.id = data.id;
+                    this.form.child_name = data.child_name;
 
-}
-)
-// console.log("")
-},
-loadchild(){
-let id=this.$route.params.id;
-if(id){
-this.form.get('/childinfo/'+id)
-  .then(({ data }) => 
-  { 
-    this.editmode=true;
-    this.form.id=data.id;
-    this.form.child_name=data.child_name;
-    
-    this.form.birth_date=data.birth_date;
-    this.form.birth_reg_no=data.birth_reg_no;
-    
-    this.form.gender=data.gender;
-    
-    this.form.mother_name=data.parentinfo.mother_name;
-    this.form.father_name=data.parentinfo.user.name;
-    this.form.email=data.parentinfo.user.email;
-    this.form.contact_number=data.parentinfo.user.contact_number;
-    this.form.contact_address=data.parentinfo.contact_address;
+                    this.form.birth_date = data.birth_date;
+                    this.form.birth_reg_no = data.birth_reg_no;
 
-    this.form.doctorid=data.doctorid;
-    this.form.teacherid=data.teacherid;
-    this.form.room_number=data.room_number;
-    this.form.class_number=data.class_number;
-    console.log(data);
+                    this.form.gender = data.gender;
 
-    
-    
-  
-  }
-  )
-}
+                    this.form.mother_name = data.parentinfo.mother_name;
+                    this.form.father_name = data.parentinfo.user.name;
+                    this.form.email = data.parentinfo.user.email;
+                    this.form.contact_number =
+                        data.parentinfo.user.contact_number;
+                    this.form.contact_address = data.parentinfo.contact_address;
 
+                    this.form.doctorid = data.doctorid;
+                    this.form.teacherid = data.teacherid;
+                    this.form.room_number = data.room_number;
+                    this.form.class_number = data.class_number;
+                    console.log(data);
+                });
+            }
+        },
+        loadrooms() {
+            this.form.get("/roomnumber").then(({ data }) => {
+                this.rooms = data;
+                console.log(data);
+            });
+        },
+        loadclasss() {
+            this.form.get("/classinfo/create").then(({ data }) => {
+                this.classinfos = data;
+                console.log(data);
+            });
+        },
+        loaddoctors() {
+            this.form.get("/doctorinfo/create").then(({ data }) => {
+                this.doctors = data;
 
+                console.log(data);
+            });
+        },
+        loadteachers() {
+            this.form.get("/teacherinfo/create").then(({ data }) => {
+                this.teachers = data;
 
-},
-loadrooms(){
-    this.form.get('/roomnumber')
-        .then(({ data }) => 
-        { 
-            
-this.rooms=data;
-console.log(data);
-
-
+                console.log(data);
+            });
         }
-        );
-},
-loadclasss(){
-    this.form.get('/classinfo/create')
-        .then(({ data }) => 
-        { 
-            
-this.classinfos=data;
-console.log(data);
 
-
+        // method end
+    },
+    beforeCreate() {
+        if (this.$gate.isAdmin()) {
+            if (this.editmode) {
+                this.$router.push({ name: "adminhome" });
+            }
+        } else if (this.$gate.isParent()) {
+            this.$router.push({ name: "parentdashboard" });
+        } else if (this.$gate.isDoctor()) {
+            this.$router.push({ name: "doctordashboard" });
+        } else if (this.$gate.isTeacher()) {
+            this.$router.push({ name: "teacherdashboard" });
+        } else {
+            this.$router.push({ name: "notfound" });
         }
-        );
-},
-loaddoctors(){
-    this.form.get('/doctorinfo/create')
-        .then(({ data }) => 
-        { 
-            
-this.doctors=data;
-
-console.log(data);
-
-
+    },
+    created() {
+        this.loadchild();
+        this.loadrooms();
+        this.loaddoctors();
+        this.loadteachers();
+        this.loadclasss();
+    },
+    watch: {
+        $route(to, from) {
+            //update the variables with new route params
+            Object.assign(this.$data, this.$options.data());
         }
-        );
-},
-loadteachers(){
-    this.form.get('/teacherinfo/create')
-        .then(({ data }) => 
-        { 
-            
-this.teachers=data;
-
-console.log(data);
-
-
-        }
-        );
-},
-
-// method end
-},
-beforeCreate(){
-    if(this.$gate.isAdmin()){
-        if(this.editmode){
-            this.$router.push({ name: 'adminhome'})
-        }
-    
-}
-else if(this.$gate.isParent()){
-    this.$router.push({ name: 'parentdashboard'})
-}
-else if(this.$gate.isDoctor()){
-    this.$router.push({ name: 'doctordashboard'})
-}
-else if(this.$gate.isTeacher()){
-    this.$router.push({ name: 'teacherdashboard'})
-}
-else{
-    this.$router.push({ name: 'notfound'})
-}
-},
-created() {
-    
-       this.loadchild(); 
-       this.loadrooms();
-       this.loaddoctors();
-       this.loadteachers();
-        this.loadclasss(); 
-
-},
-watch: {
-    '$route' (to, from) {
-      //update the variables with new route params
-      Object.assign(this.$data, this.$options.data());
     }
-  },
-//       computed: {
-  
-//   updateinfo(){
-//     return this.loadchild();
-//   }
-// }
+    //       computed: {
 
-
-}
+    //   updateinfo(){
+    //     return this.loadchild();
+    //   }
+    // }
+};
 </script>

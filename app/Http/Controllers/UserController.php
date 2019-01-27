@@ -8,8 +8,10 @@ use App\Role;
 use App\Teacher;
 use App\User;
 use Gate;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -81,7 +83,7 @@ class UserController extends Controller
                 'contact_number' => 'required|numeric|unique:users,contact_number',
 
                 'name'           => 'required',
-                'active'           => 'required',
+                'active'         => 'required',
 
                 'password'       => 'required|string|min:6|confirmed',
 
@@ -92,7 +94,7 @@ class UserController extends Controller
             $user->email          = $request->email;
             $user->contact_number = $request->contact_number;
             $user->password       = Hash::make($request->password);
-            
+
             $user->active = $request->active;
             $user->save();
 
@@ -104,6 +106,13 @@ class UserController extends Controller
                 $role->save();
             }
             $user->roles()->attach($role->id);
+
+            if (!empty($user)) {
+                Mail::send('useremail', ["data" => $request], function ($message) use ($user) {
+                    $message->to($user->email)->subject('Login Info');
+                    $message->from('admin@gmail.com', 'Day Care Center');
+                });
+            }
             return $user;
         }
     }
@@ -151,7 +160,7 @@ class UserController extends Controller
                 'contact_number' => 'required|numeric|unique:users,contact_number,' . $id,
 
                 'name'           => 'required',
-                 'active'           => 'required',
+                'active'         => 'required',
 
                 'password'       => 'required|string|min:6|confirmed',
 
@@ -162,7 +171,7 @@ class UserController extends Controller
             $user->name           = $request->name;
             $user->contact_number = $request->contact_number;
             $user->password       = Hash::make($request->password);
-            
+
             $user->active = $request->active;
 
             $user->save();
@@ -198,6 +207,12 @@ class UserController extends Controller
 
             }
 
+            // if (!empty($user)) {
+            //     Mail::send('useremail', ["data" => $request], function ($message) use ($user) {
+            //         $message->to($user->email)->subject('Update Login Info');
+            //         $message->from('admin@gmail.com', 'Day Care Center');
+            //     });
+            // }
             return $user;
         }
     }
@@ -210,6 +225,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin') && Auth::id()===1) {
+
+            User::destroy($id);
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

@@ -42,7 +42,7 @@
                     <router-link :to="{ name: 'editparent', params: { id: parent.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
 
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deleteparent(parent.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -64,50 +64,54 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      parents:{},
-      
-    }
+      parents: {}
+    };
   },
   methods: {
-          loadparents(page = 1){
-          axios.get('/parentinfo?page=' + page)
-            .then(({ data }) => 
-            { 
-               this.parents=data;
-               console.log(data);
-            }
-            )
-          },
-          searchit() {
-     axios.get('/parentinfo?q=' + this.search)
-            .then(({ data }) => 
-            { 
-               this.parents=data;
-               console.log(data);
-                
-            }
-            )
-   
+    loadparents(page = 1) {
+      axios.get("/parentinfo?page=" + page).then(({ data }) => {
+        this.parents = data;
+        console.log(data);
+      });
     },
-  
-    
-  },
-  beforeCreate(){
-
-if(this.$gate.isParent()){
-    this.$router.push({ name: 'parentdashboard'})
-}
-
-},
-        created() {
+    searchit() {
+      axios.get("/parentinfo?q=" + this.search).then(({ data }) => {
+        this.parents = data;
+        console.log(data);
+      });
+    },
+    deleteparent(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/parentinfo/" + id).then(({ data }) => {
             this.loadparents();
-           
-        },
+            this.successmsg();
+            console.log(data);
+          });
+        }
+      });
+    }
+  },
+  beforeCreate() {
+    if (this.$gate.isParent()) {
+      this.$router.push({ name: "parentdashboard" });
+    }
+  },
+  created() {
+    this.loadparents();
+  }
   //       computed: {
   //   filteredList() {
   //     return this.children.filter(childrens => {
@@ -115,7 +119,5 @@ if(this.$gate.isParent()){
   //     })
   //   }
   // }
-     
-
-    }
+};
 </script>

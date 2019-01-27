@@ -9,8 +9,8 @@
                         
                         <div class="panel-heading">
 
-                    <router-link :to="{ name: 'editparent', params: { id: parent.id }}" class="btn btn-primary">Edit
-                    </router-link>
+                    <!-- <router-link :to="{ name: 'editparent', params: { id: parent.id }}" class="btn btn-primary">Edit
+                    </router-link> -->
                     
                            <h3>Parent Information</h3> 
                             
@@ -74,55 +74,42 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      
-      parent:{},
-      children:{},
-     
-      
-    }
+
+      parent: {},
+      children: {}
+    };
   },
   methods: {
-    singleparent () {
+    singleparent() {
       // Submit the form via a POST request
-     
-      axios.get('/parentinfo/')
-        .then(({ data }) => 
-        { 
-           this.parent=data;
-           this.children=data.childinfos;
 
-           console.log(data);
-        }
-        )
-    },
-   
-  },
-  beforeCreate(){
-if(this.$gate.isAdmin()){
-    this.$router.push({ name: 'home'})
-}
-else if(this.$gate.isParent()){
-    this.$router.push({ name: 'parentdashboard'})
-}
-else if(this.$gate.isDoctor()){
-    this.$router.push({ name: 'doctordashboard'})
-}
-else if(this.$gate.isTeacher()){
-    this.$router.push({ name: 'teacherdashboard'})
-}
-else{
-    this.$router.push({ name: 'notfound'})
-}
-},
-        created() {
-            this.singleparent()
-        },
-     
+      axios.get("/parentinfo/").then(({ data }) => {
+        this.parent = data;
+        this.children = data.childinfos;
 
+        console.log(data);
+      });
     }
+  },
+  beforeCreate() {
+    if (this.$gate.isAdmin()) {
+      this.$router.push({ name: "home" });
+    } else if (this.$gate.isParent()) {
+      this.$router.push({ name: "parentdashboard" });
+    } else if (this.$gate.isDoctor()) {
+      this.$router.push({ name: "doctordashboard" });
+    } else if (this.$gate.isTeacher()) {
+      this.$router.push({ name: "teacherdashboard" });
+    } else {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created() {
+    this.singleparent();
+  }
+};
 </script>

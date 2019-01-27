@@ -15,7 +15,7 @@
 
                         <router-link to='/parent' tag='button' class='btn btn-primary'>Back</router-link>
                     
-                           <h3>Parent Information</h3> 
+                                    <h3>Parent Information</h3> 
                             
                         </div>
                     
@@ -76,43 +76,34 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      
-      parent:{},
-      children:{},
-     
-      
-    }
+
+      parent: {},
+      children: {}
+    };
   },
   methods: {
-    singleparent () {
+    singleparent() {
       // Submit the form via a POST request
-      let id=this.$route.params.id;
-      axios.get('/parentinfo/'+id)
-        .then(({ data }) => 
-        { 
-           this.parent=data;
-           this.children=data.childinfos;
+      let id = this.$route.params.id;
+      axios.get("/parentinfo/" + id).then(({ data }) => {
+        this.parent = data;
+        this.children = data.childinfos;
 
-           console.log(data);
-        }
-        )
-    },
-   
-  },
-  beforeCreate(){
-if(!this.$gate.isParent()){
-    this.$router.push({ name: 'notfound'})
-}
-},
-        created() {
-            this.singleparent()
-        },
-     
-
+        console.log(data);
+      });
     }
+  },
+  beforeCreate() {
+    if (!this.$gate.isParent()) {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created() {
+    this.singleparent();
+  }
+};
 </script>

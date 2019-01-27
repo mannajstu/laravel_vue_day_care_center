@@ -60,7 +60,7 @@ class TeacherController extends Controller
     public function create()
     {
         if (Gate::allows('isAdmin')) {
-            return Doctor::with('user')->get();
+            return Teacher::with('user')->get();
         }
     }
 
@@ -175,8 +175,22 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            $teacher = Teacher::where('id', $id)
+                ->with('user')
+                ->first();
+               $user = User::where('id', $teacher->user->id)
+               ->first();
+               $role = Role::where('name', 'teacher')->get();
+               $user->roles()->detach($role);
+               // return $user;
+            Teacher::destroy($id);
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

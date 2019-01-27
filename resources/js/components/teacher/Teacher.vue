@@ -46,7 +46,7 @@
                     <router-link :to="{ name: 'editteacher', params: { id: teacher.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
 
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deleteteacher(teacher.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -68,52 +68,57 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      teachers:{},
-      search:'',
-      
-    }
+      teachers: {},
+      search: ""
+    };
   },
   methods: {
-          loadteachers(page = 1){
-          axios.get('/teacherinfo?page=' + page)
-            .then(({ data }) => 
-            { 
-               this.teachers=data;
-               console.log(data);
-                
-            }
-            )
-          },
-           searchit() {
-     axios.get('/teacherinfo?q=' + this.search)
-            .then(({ data }) => 
-            { 
-               this.teachers=data;
-               console.log(data);
-                
-            }
-            )
-   
+    loadteachers(page = 1) {
+      axios.get("/teacherinfo?page=" + page).then(({ data }) => {
+        this.teachers = data;
+        console.log(data);
+      });
     },
-  
-    
+    searchit() {
+      axios.get("/teacherinfo?q=" + this.search).then(({ data }) => {
+        this.teachers = data;
+        console.log(data);
+      });
+    },
+    deleteteacher(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/teacherinfo/" + id).then(({ data }) => {
+            this.loadteachers();
+            this.successmsg();
+            console.log(data);
+          });
+        }
+      });
+    }
   },
   //method end
 
-  beforeCreate(){
-if(!this.$gate.isAdmin()){
-    this.$router.push({ name: 'notfound'})
-}
-},
-        created() {
-            this.loadteachers();
-           
-        },
+  beforeCreate() {
+    if (!this.$gate.isAdmin()) {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created() {
+    this.loadteachers();
+  }
   //       computed: {
   //   filteredList() {
   //     return this.children.filter(childrens => {
@@ -121,7 +126,5 @@ if(!this.$gate.isAdmin()){
   //     })
   //   }
   // }
-     
-
-    }
+};
 </script>

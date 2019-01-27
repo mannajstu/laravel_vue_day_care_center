@@ -51,8 +51,9 @@
 
                     <router-link :to="{ name: 'edituser', params: { id: user.id }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
+                    
 
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deleteuser(user.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -74,51 +75,56 @@
 </template>
 
 <script>
-    export default {
-
-        data () {
+export default {
+  data() {
     return {
       // Create a new form instance
-      users:{},
-      
-      search:'',
-      
-      
-    }
+      users: {},
+
+      search: ""
+    };
   },
   methods: {
-          loadusers(page = 1){
-          axios.get('/userinfo?page=' + page)
-        .then(response => {
-          this.users = response.data;
-        });
-          },
-         
-     
-    searchit() {
- axios.get('/userinfo?q=' + this.search)
-            .then(({ data }) => 
-            { 
-               this.users=data;
-               console.log(data);
-                
-            }
-            )
+    loadusers(page = 1) {
+      axios.get("/userinfo?page=" + page).then(response => {
+        this.users = response.data;
+      });
     },
-  
-    
-  },
-  beforeCreate(){
-if(!this.$gate.isAdmin()){
-    this.$router.push({ name: 'notfound'})
-}
-},
 
-        created() {
-           this.loadusers();            
-       },
-
-     
-
+    searchit() {
+      axios.get("/userinfo?q=" + this.search).then(({ data }) => {
+        this.users = data;
+        console.log(data);
+      });
+    },
+    deleteuser(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/userinfo/" + id).then(({ data }) => {
+            this.loadusers();
+            console.log(data);
+          });
+        }
+      });
     }
+  },
+  //end method
+  beforeCreate() {
+    if (!this.$gate.isAdmin()) {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+
+  created() {
+    this.loadusers();
+  }
+};
 </script>

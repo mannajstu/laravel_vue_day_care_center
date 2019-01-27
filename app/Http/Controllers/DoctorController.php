@@ -177,8 +177,22 @@ class DoctorController extends Controller
      * @param  \App\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy($id)
     {
-        //
+         if (Gate::allows('isAdmin')) {
+
+            $doctor = Doctor::where('id', $id)
+                ->with('user')
+                ->first();
+               $user = User::where('id', $doctor->user->id)
+               ->first();
+               $role = Role::where('name', 'doctor')->get();
+               $user->roles()->detach($role);
+               // return $user;
+            Doctor::destroy($id);
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

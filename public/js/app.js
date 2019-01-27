@@ -75500,19 +75500,18 @@ module.exports = function (css) {
 /* 185 */
 /***/ (function(module, exports) {
 
-
 Vue.mixin({
   methods: {
     progressmsg: function progressmsg() {
       var timerInterval = void 0;
       swal({
-        title: 'Task Will Be Done Shortly',
-        html: 'I will close in <strong></strong> seconds.',
+        title: "Task Will Be Done Shortly",
+        html: "I will close in <strong></strong> seconds.",
         timer: 4000,
         onOpen: function onOpen() {
           swal.showLoading();
           timerInterval = setInterval(function () {
-            swal.getContent().querySelector('strong').textContent = swal.getTimerLeft();
+            swal.getContent().querySelector("strong").textContent = swal.getTimerLeft();
           }, 100);
         },
         onClose: function onClose() {
@@ -75522,33 +75521,31 @@ Vue.mixin({
         if (
         // Read more about handling dismissals
         result.dismiss === swal.DismissReason.timer) {
-          console.log('I was closed by the timer');
+          console.log("I was closed by the timer");
         }
       });
     },
     successmsg: function successmsg() {
       swal({
-        position: 'top-end',
-        type: 'success',
-        title: 'Your Info Has Been Saved',
+        position: "top-end",
+        type: "success",
+        title: "Your Info Has Been Saved",
         showConfirmButton: false,
         timer: 1800
       });
     },
     errormsg: function errormsg() {
       swal({
-        type: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!'
+        type: "error",
+        title: "Oops...",
+        text: "Something went wrong!"
       });
     },
     restform: function restform() {
-
       this.form.reset();
       this.form.clear();
     }
   }
-
 });
 
 /***/ }),
@@ -77474,6 +77471,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -77502,7 +77501,13 @@ var staticRenderFns = [
     return _c("div", [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
-          _c("h1", [_vm._v("Not Found")])
+          _c("h1", [_vm._v("Not Found")]),
+          _vm._v(" "),
+          _c("h1", [_vm._v("Or Unauthorized")]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "alert-danger" }, [
+            _vm._v("Contact With Administration ")
+          ])
         ])
       ])
     ])
@@ -77693,31 +77698,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             doctors: {},
             teachers: {},
             timeoptions: {
-                format: 'LT',
+                format: "LT",
                 useCurrent: true
             },
             options: {
-                format: 'DD/MM/YYYY',
+                format: "DD/MM/YYYY",
                 useCurrent: true
-
             },
             form: new Form({
-
-                id: '',
-                child_name: '',
-                mother_name: '',
-                father_name: '',
-                contact_number: '',
-                email: '',
-                contact_address: '',
-                birth_date: '',
-                birth_reg_no: '',
-                gender: '',
-                doctorid: '',
-                teacherid: '',
-                room_number: '',
-                class_number: ''
-
+                id: "",
+                child_name: "",
+                mother_name: "",
+                father_name: "",
+                contact_number: "",
+                email: "",
+                contact_address: "",
+                birth_date: "",
+                birth_reg_no: "",
+                gender: "",
+                doctorid: "",
+                teacherid: "",
+                room_number: "",
+                class_number: "",
+                userstatus: false
             })
         };
     },
@@ -77727,9 +77730,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             // Submit the form via a POST request
-            this.form.post('/childinfo').then(function (_ref) {
+            this.form.post("/childinfo").then(function (_ref) {
                 var data = _ref.data;
-
 
                 _this.restform();
                 _this.successmsg();
@@ -77737,19 +77739,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         oldparentshow: function oldparentshow() {
             this.oldparent = true;
+            this.form.userstatus = true;
         },
         newparentshow: function newparentshow() {
             this.oldparent = false;
+            this.form.userstatus = false;
         },
         updatechild: function updatechild() {
             var _this2 = this;
 
             // Submit the form via a POST request
-            this.form.put('/childinfo/' + this.form.id).then(function (_ref2) {
+            this.form.put("/childinfo/" + this.form.id).then(function (_ref2) {
                 var data = _ref2.data;
 
                 _this2.successmsg();
-                _this2.$router.push('/child/');
+                _this2.$router.push("/child/");
             });
             // console.log("")
         },
@@ -77758,7 +77762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var id = this.$route.params.id;
             if (id) {
-                this.form.get('/childinfo/' + id).then(function (_ref3) {
+                this.form.get("/childinfo/" + id).then(function (_ref3) {
                     var data = _ref3.data;
 
                     _this3.editmode = true;
@@ -77787,9 +77791,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadrooms: function loadrooms() {
             var _this4 = this;
 
-            this.form.get('/roomnumber').then(function (_ref4) {
+            this.form.get("/roomnumber").then(function (_ref4) {
                 var data = _ref4.data;
-
 
                 _this4.rooms = data;
                 console.log(data);
@@ -77798,9 +77801,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadclasss: function loadclasss() {
             var _this5 = this;
 
-            this.form.get('/classinfo/create').then(function (_ref5) {
+            this.form.get("/classinfo/create").then(function (_ref5) {
                 var data = _ref5.data;
-
 
                 _this5.classinfos = data;
                 console.log(data);
@@ -77809,9 +77811,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loaddoctors: function loaddoctors() {
             var _this6 = this;
 
-            this.form.get('/doctorinfo/create').then(function (_ref6) {
+            this.form.get("/doctorinfo/create").then(function (_ref6) {
                 var data = _ref6.data;
-
 
                 _this6.doctors = data;
 
@@ -77821,33 +77822,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         loadteachers: function loadteachers() {
             var _this7 = this;
 
-            this.form.get('/teacherinfo/create').then(function (_ref7) {
+            this.form.get("/teacherinfo/create").then(function (_ref7) {
                 var data = _ref7.data;
-
 
                 _this7.teachers = data;
 
                 console.log(data);
             });
         }
+
+        // method end
+
     },
     beforeCreate: function beforeCreate() {
         if (this.$gate.isAdmin()) {
             if (this.editmode) {
-                this.$router.push({ name: 'adminhome' });
+                this.$router.push({ name: "adminhome" });
             }
         } else if (this.$gate.isParent()) {
-            this.$router.push({ name: 'parentdashboard' });
+            this.$router.push({ name: "parentdashboard" });
         } else if (this.$gate.isDoctor()) {
-            this.$router.push({ name: 'doctordashboard' });
+            this.$router.push({ name: "doctordashboard" });
         } else if (this.$gate.isTeacher()) {
-            this.$router.push({ name: 'teacherdashboard' });
+            this.$router.push({ name: "teacherdashboard" });
         } else {
-            this.$router.push({ name: 'notfound' });
+            this.$router.push({ name: "notfound" });
         }
     },
     created: function created() {
-
         this.loadchild();
         this.loadrooms();
         this.loaddoctors();
@@ -77856,7 +77858,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     watch: {
-        '$route': function $route(to, from) {
+        $route: function $route(to, from) {
             //update the variables with new route params
             Object.assign(this.$data, this.$options.data());
         }
@@ -77867,8 +77869,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     //     return this.loadchild();
     //   }
     // }
-
-
 });
 
 /***/ }),
@@ -80165,69 +80165,78 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-        data: function data() {
-                return {
-                        // Create a new form instance
+    data: function data() {
+        return {
+            // Create a new form instance
 
-                        editmode: false,
-                        old_content: '',
+            editmode: false,
+            old_content: "",
 
-                        form: new Form({
+            form: new Form({
+                id: "",
+                header_content: ""
+            })
+        };
+    },
 
-                                id: '',
-                                header_content: ''
+    methods: {
+        addheadercontent: function addheadercontent() {
+            var _this = this;
 
-                        })
-                };
+            // Submit the form via a POST request
+            this.form.post("/homecontent").then(function (_ref) {
+                var data = _ref.data;
+
+                _this.successmsg();
+                _this.$router.push("/headercontent");
+                _this.oldheadercontent();
+            });
         },
+        updateheadercontent: function updateheadercontent() {
+            var _this2 = this;
 
-        methods: {
-                addheadercontent: function addheadercontent() {
-                        var _this = this;
+            // Submit the form via a POST request
 
-                        // Submit the form via a POST request
-                        this.form.post('/homecontent').then(function (_ref) {
-                                var data = _ref.data;
+            this.form.put("/homecontent/" + this.form.id).then(function (_ref2) {
+                var data = _ref2.data;
 
-
-                                _this.successmsg();
-                                _this.$router.push('/headercontent');
-                                _this.oldheadercontent();
-                        });
-                },
-                updateheadercontent: function updateheadercontent() {
-                        var _this2 = this;
-
-                        // Submit the form via a POST request
-
-                        this.form.put('/homecontent/' + this.form.id).then(function (_ref2) {
-                                var data = _ref2.data;
-
-
-                                _this2.successmsg();
-                                _this2.$router.push('/headercontent');
-                        });
-                },
-                oldheadercontent: function oldheadercontent() {
-                        var _this3 = this;
-
-                        // Submit the form via a POST request
-                        this.form.get('/homecontent').then(function (_ref3) {
-                                var data = _ref3.data;
-
-
-                                _this3.form.id = data[0].id;
-                                _this3.form.header_content = data[0].header_content;
-                                _this3.editmode = true;
-                        });
-                }
+                _this2.successmsg();
+                _this2.$router.push("/headercontent");
+            });
         },
-        created: function created() {
+        oldheadercontent: function oldheadercontent() {
+            var _this3 = this;
 
-                this.oldheadercontent();
+            // Submit the form via a POST request
+            this.form.get("/homecontent").then(function (_ref3) {
+                var data = _ref3.data;
+
+                _this3.form.id = data[0].id;
+                _this3.form.header_content = data[0].header_content;
+                _this3.editmode = true;
+            });
         }
+
+        // method end
+
+    },
+    created: function created() {
+        this.oldheadercontent();
+    }
+    // watch: {
+    //     '$route' (to, from) {
+    //       //update the variables with new route params
+    //       Object.assign(this.$data, this.$options.data());
+    //     }
+    //   },
+    //       computed: {
+
+    //   updateinfo(){
+    //     return this.loadchild();
+    //   }
+    // }
+
 });
 
 /***/ }),
@@ -80329,7 +80338,7 @@ var render = function() {
                   staticClass: "btn btn-primary btn-lg btn-block",
                   attrs: { disabled: _vm.form.busy, type: "submit" }
                 },
-                [_vm._v("Add Room")]
+                [_vm._v("Add Header Content")]
               ),
               _vm._v(" "),
               _c(
@@ -80346,7 +80355,7 @@ var render = function() {
                   staticClass: "btn btn-primary btn-lg btn-block",
                   attrs: { disabled: _vm.form.busy, type: "submit" }
                 },
-                [_vm._v("Update Room")]
+                [_vm._v("Update Header Content")]
               )
             ])
           ])
@@ -81817,6 +81826,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -81824,8 +81834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // Create a new form instance
       users: {},
 
-      search: ''
-
+      search: ""
     };
   },
 
@@ -81835,24 +81844,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      axios.get('/userinfo?page=' + page).then(function (response) {
+      axios.get("/userinfo?page=" + page).then(function (response) {
         _this.users = response.data;
       });
     },
     searchit: function searchit() {
       var _this2 = this;
 
-      axios.get('/userinfo?q=' + this.search).then(function (_ref) {
+      axios.get("/userinfo?q=" + this.search).then(function (_ref) {
         var data = _ref.data;
 
         _this2.users = data;
         console.log(data);
       });
+    },
+    deleteuser: function deleteuser(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/userinfo/" + id).then(function (_ref2) {
+            var data = _ref2.data;
+
+            _this3.loadusers();
+            console.log(data);
+          });
+        }
+      });
     }
   },
+  //end method
   beforeCreate: function beforeCreate() {
     if (!this.$gate.isAdmin()) {
-      this.$router.push({ name: 'notfound' });
+      this.$router.push({ name: "notfound" });
     }
   },
   created: function created() {
@@ -81997,7 +82029,19 @@ var render = function() {
                                     [_c("i", { staticClass: "fa fa-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(1, true)
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger ",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deleteuser(user.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash" })]
+                                  )
                                 ],
                                 1
                               )
@@ -82041,16 +82085,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -83343,48 +83377,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            // Create a new form instance
+  data: function data() {
+    return {
+      // Create a new form instance
 
-            parent: {},
-            children: {}
+      parent: {},
+      children: {}
+    };
+  },
 
-        };
-    },
+  methods: {
+    singleparent: function singleparent() {
+      var _this = this;
 
-    methods: {
-        singleparent: function singleparent() {
-            var _this = this;
+      // Submit the form via a POST request
 
-            // Submit the form via a POST request
+      axios.get("/parentinfo/").then(function (_ref) {
+        var data = _ref.data;
 
-            axios.get('/parentinfo/').then(function (_ref) {
-                var data = _ref.data;
+        _this.parent = data;
+        _this.children = data.childinfos;
 
-                _this.parent = data;
-                _this.children = data.childinfos;
-
-                console.log(data);
-            });
-        }
-    },
-    beforeCreate: function beforeCreate() {
-        if (this.$gate.isAdmin()) {
-            this.$router.push({ name: 'home' });
-        } else if (this.$gate.isParent()) {
-            this.$router.push({ name: 'parentdashboard' });
-        } else if (this.$gate.isDoctor()) {
-            this.$router.push({ name: 'doctordashboard' });
-        } else if (this.$gate.isTeacher()) {
-            this.$router.push({ name: 'teacherdashboard' });
-        } else {
-            this.$router.push({ name: 'notfound' });
-        }
-    },
-    created: function created() {
-        this.singleparent();
+        console.log(data);
+      });
     }
+  },
+  beforeCreate: function beforeCreate() {
+    if (this.$gate.isAdmin()) {
+      this.$router.push({ name: "home" });
+    } else if (this.$gate.isParent()) {
+      this.$router.push({ name: "parentdashboard" });
+    } else if (this.$gate.isDoctor()) {
+      this.$router.push({ name: "doctordashboard" });
+    } else if (this.$gate.isTeacher()) {
+      this.$router.push({ name: "teacherdashboard" });
+    } else {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created: function created() {
+    this.singleparent();
+  }
 });
 
 /***/ }),
@@ -83399,25 +83432,7 @@ var render = function() {
     _c("div", { attrs: { "col-md-12": "" } }, [
       _c("div", { staticClass: "col-md-6" }, [
         _c("div", { staticClass: "panel panel-default" }, [
-          _c(
-            "div",
-            { staticClass: "panel-heading" },
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: {
-                    to: { name: "editparent", params: { id: _vm.parent.id } }
-                  }
-                },
-                [_vm._v("Edit\n                    ")]
-              ),
-              _vm._v(" "),
-              _c("h3", [_vm._v("Parent Information")])
-            ],
-            1
-          ),
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "panel-body" }, [
             _c("div", { staticClass: "table-responsive" }, [
@@ -83480,7 +83495,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h3", [_vm._v("Parent Information")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -83614,7 +83638,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       // Create a new form instance
       parents: {}
-
     };
   },
 
@@ -83624,7 +83647,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      axios.get('/parentinfo?page=' + page).then(function (_ref) {
+      axios.get("/parentinfo?page=" + page).then(function (_ref) {
         var data = _ref.data;
 
         _this.parents = data;
@@ -83634,23 +83657,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     searchit: function searchit() {
       var _this2 = this;
 
-      axios.get('/parentinfo?q=' + this.search).then(function (_ref2) {
+      axios.get("/parentinfo?q=" + this.search).then(function (_ref2) {
         var data = _ref2.data;
 
         _this2.parents = data;
         console.log(data);
       });
+    },
+    deleteparent: function deleteparent(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/parentinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadparents();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   beforeCreate: function beforeCreate() {
-
     if (this.$gate.isParent()) {
-      this.$router.push({ name: 'parentdashboard' });
+      this.$router.push({ name: "parentdashboard" });
     }
   },
   created: function created() {
     this.loadparents();
   }
+  //       computed: {
+  //   filteredList() {
+  //     return this.children.filter(childrens => {
+  //       return childrens.child_name.toLowerCase().includes(this.search.toLowerCase())
+  //     })
+  //   }
+  // }
+
 });
 
 /***/ }),
@@ -83775,7 +83828,19 @@ var render = function() {
                                 [_c("i", { staticClass: "fa fa-eye" })]
                               ),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger ",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.deleteparent(parent.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
                             ],
                             1
                           )
@@ -83818,16 +83883,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -83918,87 +83973,98 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-        data: function data() {
-                return {
-                        // Create a new form instance
+    data: function data() {
+        return {
+            // Create a new form instance
 
-                        editmode: false,
-                        children: {},
+            editmode: false,
+            children: {},
 
-                        form: new Form({
+            form: new Form({
+                id: "",
 
-                                id: '',
+                mother_name: "",
+                father_name: "",
+                contact_number: "",
+                email: "",
+                contact_address: ""
+            })
+        };
+    },
 
-                                mother_name: '',
-                                father_name: '',
-                                contact_number: '',
-                                email: '',
-                                contact_address: ''
+    methods: {
+        addparent: function addparent() {
+            var _this = this;
 
-                        })
-                };
+            // Submit the form via a POST request
+            this.form.post("/parentinfo").then(function (_ref) {
+                var data = _ref.data;
+
+                _this.restform();
+                _this.successmsg();
+                _this.$router.push("/parent");
+            });
         },
+        updateparent: function updateparent() {
+            var _this2 = this;
 
-        methods: {
-                addparent: function addparent() {
-                        var _this = this;
+            // Submit the form via a POST request
+            this.form.put("/parentinfo/" + this.form.id).then(function (_ref2) {
+                var data = _ref2.data;
 
-                        // Submit the form via a POST request
-                        this.form.post('/parentinfo').then(function (_ref) {
-                                var data = _ref.data;
+                _this2.successmsg();
+                _this2.$router.push("/parent");
+            });
 
-
-                                _this.restform();
-                                _this.successmsg();
-                                _this.$router.push('/parent');
-                        });
-                },
-                updateparent: function updateparent() {
-                        var _this2 = this;
-
-                        // Submit the form via a POST request
-                        this.form.put('/parentinfo/' + this.form.id).then(function (_ref2) {
-                                var data = _ref2.data;
-
-                                _this2.successmsg();
-                                _this2.$router.push('/parent');
-                        });
-
-                        // console.log("")
-                },
-                loadparent: function loadparent() {
-                        var _this3 = this;
-
-                        var id = this.$route.params.id;
-                        if (id) {
-                                this.form.get('/parentinfo/' + id).then(function (_ref3) {
-                                        var data = _ref3.data;
-
-                                        _this3.editmode = true;
-                                        _this3.form.id = data.id;
-                                        _this3.form.mother_name = data.mother_name;
-
-                                        _this3.form.father_name = data.user.name;
-                                        _this3.form.email = data.user.email;
-                                        _this3.form.contact_number = data.user.contact_number;
-                                        _this3.form.contact_address = data.contact_address;
-
-                                        console.log(data);
-                                });
-                        }
-                }
+            // console.log("")
         },
-        beforeCreate: function beforeCreate() {
-                if (!this.$gate.isAdmin() && !this.$gate.isParent()) {
-                        this.$router.push({ name: 'notfound' });
-                }
-        },
-        created: function created() {
+        loadparent: function loadparent() {
+            var _this3 = this;
 
-                this.loadparent();
+            var id = this.$route.params.id;
+            if (id) {
+                this.form.get("/parentinfo/" + id).then(function (_ref3) {
+                    var data = _ref3.data;
+
+                    _this3.editmode = true;
+                    _this3.form.id = data.id;
+                    _this3.form.mother_name = data.mother_name;
+
+                    _this3.form.father_name = data.user.name;
+                    _this3.form.email = data.user.email;
+                    _this3.form.contact_number = data.user.contact_number;
+                    _this3.form.contact_address = data.contact_address;
+
+                    console.log(data);
+                });
+            }
         }
+
+        // method end
+
+    },
+    beforeCreate: function beforeCreate() {
+        if (!this.$gate.isAdmin()) {
+            this.$router.push({ name: "notfound" });
+        }
+    },
+    created: function created() {
+        this.loadparent();
+    }
+    // watch: {
+    //     '$route' (to, from) {
+    //       //update the variables with new route params
+    //       Object.assign(this.$data, this.$options.data());
+    //     }
+    //   },
+    //       computed: {
+
+    //   updateinfo(){
+    //     return this.loadchild();
+    //   }
+    // }
+
 });
 
 /***/ }),
@@ -84695,56 +84761,87 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            // Create a new form instance
+  data: function data() {
+    return {
+      // Create a new form instance
 
-            children: {},
-            search: ''
+      children: {},
+      search: ""
+    };
+  },
 
-        };
+  methods: {
+    addchild: function addchild() {
+      // Submit the form via a POST request
+
+      this.$router.push("/home");
     },
+    loadchild: function loadchild() {
+      var _this = this;
 
-    methods: {
-        addchild: function addchild() {
-            // Submit the form via a POST request
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            this.$router.push('/home');
-        },
-        loadchild: function loadchild() {
-            var _this = this;
+      axios.get("/childinfo?page=" + page).then(function (_ref) {
+        var data = _ref.data;
 
-            var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+        _this.children = data;
+        console.log(data);
+      });
+    },
+    searchchild: function searchchild() {
+      var _this2 = this;
 
-            axios.get('/childinfo?page=' + page).then(function (_ref) {
-                var data = _ref.data;
+      axios.get("/childinfo?q=" + this.search).then(function (_ref2) {
+        var data = _ref2.data;
 
-                _this.children = data;
-                console.log(data);
-            });
-        },
-        searchchild: function searchchild() {
-            var _this2 = this;
+        _this2.children = data;
+        console.log(data);
+      });
+    },
+    deletechild: function deletechild(id) {
+      var _this3 = this;
 
-            axios.get('/childinfo?q=' + this.search).then(function (_ref2) {
-                var data = _ref2.data;
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/childinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
 
-                _this2.children = data;
-                console.log(data);
-            });
+            _this3.loadchild();
+            _this3.successmsg();
+            console.log(data);
+          });
         }
-    },
-    beforeCreate: function beforeCreate() {
-        if (!this.$gate.isAdmin()) {
-            this.$router.push({ name: 'notfound' });
-        }
-    },
-    created: function created() {
-        this.loadchild();
-        // this.$on('updatechild',()=>{
-        //     this.loadchild();
-        // });
+      });
     }
+  },
+  beforeCreate: function beforeCreate() {
+    if (!this.$gate.isAdmin()) {
+      this.$router.push({ name: "notfound" });
+    }
+  },
+  created: function created() {
+    this.loadchild();
+    // this.$on('updatechild',()=>{
+    //     this.loadchild();
+    // });
+  }
+
+  //       computed: {
+  //   filteredList() {
+  //     return this.children.filter(childrens => {
+  //       return childrens.child_name.toLowerCase().includes(this.search.toLowerCase())
+  //     })
+  //   }
+  // }
+
 });
 
 /***/ }),
@@ -84878,7 +84975,19 @@ var render = function() {
                                 [_c("i", { staticClass: "fa fa-eye" })]
                               ),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger ",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.deletechild(child.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
                             ],
                             1
                           )
@@ -84925,16 +85034,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -90129,8 +90228,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       // Create a new form instance
       doctors: {},
-      search: ''
-
+      search: ""
     };
   },
 
@@ -90140,7 +90238,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      axios.get('/doctorinfo?page=' + page).then(function (_ref) {
+      axios.get("/doctorinfo?page=" + page).then(function (_ref) {
         var data = _ref.data;
 
         _this.doctors = data;
@@ -90150,17 +90248,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     searchit: function searchit() {
       var _this2 = this;
 
-      axios.get('/doctorinfo?q=' + this.search).then(function (_ref2) {
+      axios.get("/doctorinfo?q=" + this.search).then(function (_ref2) {
         var data = _ref2.data;
 
         _this2.doctors = data;
         console.log(data);
+      });
+    },
+    deletedoctor: function deletedoctor(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/doctorinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loaddoctors();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
       });
     }
   },
   created: function created() {
     this.loaddoctors();
   }
+  //       computed: {
+  //   filteredList() {
+  //     return this.children.filter(childrens => {
+  //       return childrens.child_name.toLowerCase().includes(this.search.toLowerCase())
+  //     })
+  //   }
+  // }
+
 });
 
 /***/ }),
@@ -90285,7 +90414,19 @@ var render = function() {
                                 [_c("i", { staticClass: "fa fa-eye" })]
                               ),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger ",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.deletedoctor(doctor.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
                             ],
                             1
                           )
@@ -90328,16 +90469,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -92488,8 +92619,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       // Create a new form instance
       teachers: {},
-      search: ''
-
+      search: ""
     };
   },
 
@@ -92499,7 +92629,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      axios.get('/teacherinfo?page=' + page).then(function (_ref) {
+      axios.get("/teacherinfo?page=" + page).then(function (_ref) {
         var data = _ref.data;
 
         _this.teachers = data;
@@ -92509,11 +92639,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     searchit: function searchit() {
       var _this2 = this;
 
-      axios.get('/teacherinfo?q=' + this.search).then(function (_ref2) {
+      axios.get("/teacherinfo?q=" + this.search).then(function (_ref2) {
         var data = _ref2.data;
 
         _this2.teachers = data;
         console.log(data);
+      });
+    },
+    deleteteacher: function deleteteacher(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/teacherinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadteachers();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
       });
     }
   },
@@ -92521,12 +92674,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   beforeCreate: function beforeCreate() {
     if (!this.$gate.isAdmin()) {
-      this.$router.push({ name: 'notfound' });
+      this.$router.push({ name: "notfound" });
     }
   },
   created: function created() {
     this.loadteachers();
   }
+  //       computed: {
+  //   filteredList() {
+  //     return this.children.filter(childrens => {
+  //       return childrens.child_name.toLowerCase().includes(this.search.toLowerCase())
+  //     })
+  //   }
+  // }
+
 });
 
 /***/ }),
@@ -92651,7 +92812,19 @@ var render = function() {
                                 [_c("i", { staticClass: "fa fa-eye" })]
                               ),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger ",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.deleteteacher(teacher.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
                             ],
                             1
                           )
@@ -92694,16 +92867,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true

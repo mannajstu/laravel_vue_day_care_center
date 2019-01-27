@@ -71,113 +71,83 @@
                     </template>
 
 <script>
-
 export default {
+    data() {
+        return {
+            // Create a new form instance
 
-data () {
-return {
-// Create a new form instance
+            editmode: false,
+            children: {},
 
-editmode:false,
-children:{},
+            form: new Form({
+                id: "",
 
-form: new Form({
-
-id:'',
-
-mother_name: '',
-father_name: '',
-contact_number: '',
-email: '',
-contact_address:'',
-
-
-})
-}
-},
-methods: {
-        addparent () {
-        // Submit the form via a POST request
-        this.form.post('/parentinfo')
-        .then(({ data }) => 
-        { 
-
-        this.restform();
-        this.successmsg();
-        this.$router.push('/parent');
-        
-
-
-
-        }
-        )
+                mother_name: "",
+                father_name: "",
+                contact_number: "",
+                email: "",
+                contact_address: ""
+            })
+        };
+    },
+    methods: {
+        addparent() {
+            // Submit the form via a POST request
+            this.form.post("/parentinfo").then(({ data }) => {
+                this.restform();
+                this.successmsg();
+                this.$router.push("/parent");
+            });
         },
 
-        
-updateparent () {
-// Submit the form via a POST request
-this.form.put('/parentinfo/'+this.form.id)
-.then(({ data }) => 
-{ 
-this.successmsg();
-this.$router.push('/parent');
+        updateparent() {
+            // Submit the form via a POST request
+            this.form.put("/parentinfo/" + this.form.id).then(({ data }) => {
+                this.successmsg();
+                this.$router.push("/parent");
+            });
 
-}
-)
+            // console.log("")
+        },
+        loadparent() {
+            let id = this.$route.params.id;
+            if (id) {
+                this.form.get("/parentinfo/" + id).then(({ data }) => {
+                    this.editmode = true;
+                    this.form.id = data.id;
+                    this.form.mother_name = data.mother_name;
 
-// console.log("")
-},
-loadparent(){
-let id=this.$route.params.id;
-if(id){
-this.form.get('/parentinfo/'+id)
-  .then(({ data }) => 
-  { 
-    this.editmode=true;
-    this.form.id=data.id;
-    this.form.mother_name=data.mother_name;
+                    this.form.father_name = data.user.name;
+                    this.form.email = data.user.email;
+                    this.form.contact_number = data.user.contact_number;
+                    this.form.contact_address = data.contact_address;
 
-    this.form.father_name=data.user.name;
-    this.form.email=data.user.email;
-    this.form.contact_number=data.user.contact_number;
-    this.form.contact_address=data.contact_address;
-    
-    
-    
-    console.log(data);
-  }
-  )
-}
-},
+                    console.log(data);
+                });
+            }
+        }
 
+        // method end
+    },
+    beforeCreate() {
+        if (!this.$gate.isAdmin()) {
+            this.$router.push({ name: "notfound" });
+        }
+    },
+    created() {
+        this.loadparent();
+    }
+    // watch: {
+    //     '$route' (to, from) {
+    //       //update the variables with new route params
+    //       Object.assign(this.$data, this.$options.data());
+    //     }
+    //   },
+    //       computed: {
 
-
-
-// method end
-},
-beforeCreate(){
-if(!this.$gate.isAdmin() && !this.$gate.isParent()){
-    this.$router.push({ name: 'notfound'})
-}
-},
-created() {
-    
-       this.loadparent(); 
-
-},
-// watch: {
-//     '$route' (to, from) {
-//       //update the variables with new route params
-//       Object.assign(this.$data, this.$options.data());
-//     }
-//   },
-//       computed: {
-  
-//   updateinfo(){
-//     return this.loadchild();
-//   }
-// }
-
-
-}
+    //   updateinfo(){
+    //     return this.loadchild();
+    //   }
+    // }
+};
 </script>
