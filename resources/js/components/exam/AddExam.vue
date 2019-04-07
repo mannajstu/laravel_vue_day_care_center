@@ -161,7 +161,7 @@ this.form.get('/examinfo/'+id)
 }
 },
 loadclasss(){
-    this.form.get('/classinfo')
+    this.form.get('/classnumber')
         .then(({ data }) => 
         { 
             

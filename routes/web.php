@@ -25,6 +25,7 @@ Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');
 Route::get('roomnumber', 'RoomController@roomnumber');
 Route::resource('classinfo', 'ClassInfoController');
+Route::get('classnumber', 'ClassInfoController@classnumber');
 
 
 Route::resource('doctorinfo', 'DoctorController');

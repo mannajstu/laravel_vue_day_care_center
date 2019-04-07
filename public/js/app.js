@@ -94578,7 +94578,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 loadclasss: function loadclasss() {
                         var _this4 = this;
 
-                        this.form.get('/classinfo').then(function (_ref4) {
+                        this.form.get('/classnumber').then(function (_ref4) {
                                 var data = _ref4.data;
 
 
