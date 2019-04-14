@@ -5,8 +5,8 @@
             <meta content="width=device-width, initial-scale=1" name="viewport">
                 <!-- CSRF Token -->
                 <meta content="{{ csrf_token() }}" name="csrf-token">
-                    <title>
-                        {{ config('app.name', 'Day Care Center') }}
+                    <title> 
+                        {{-- {{ config('app.name', '--}}Day Care Center
                     </title>
                     <!-- Fonts -->
                     <link href="https://fonts.gstatic.com" rel="dns-prefetch">

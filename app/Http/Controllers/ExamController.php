@@ -7,7 +7,7 @@ use App\User;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class ExamController extends Controller
 {
@@ -15,7 +15,8 @@ class ExamController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }/**
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -33,9 +34,7 @@ class ExamController extends Controller
                     ->paginate(5);
             } else {
                 return Exam::paginate(5);
-
             }
-
         }
     }
 
@@ -48,8 +47,7 @@ class ExamController extends Controller
             })->orderBy('created_at', 'desc')
 
                 ->paginate(5);
-
-        }{
+        } {
             if (Gate::allows('isParent')) {
                 $parentid = Auth::user()->parent->id;
 
@@ -60,7 +58,7 @@ class ExamController extends Controller
                 // ])->with('classinfo.exams')->orderBy('created_at', 'desc')
 
                 //     ->paginate(5);
-                return Exam::with('classinfo.childinfos')->whereHas('classinfo.childinfos', function ($query) use ($id,$parentid) {
+                return Exam::with('classinfo.childinfos')->whereHas('classinfo.childinfos', function ($query) use ($id, $parentid) {
                     $query->where([
                         'id'       => $id,
                         'parentid' => $parentid,
@@ -137,27 +135,34 @@ class ExamController extends Controller
             $ild   = array();
             foreach ($exam->classinfo->childinfos as $childinfo) {
                 $child[] = $childinfo->parentinfo;
-
             }
             foreach ($child as $childs) {
                 $ild[] = $childs->userid;
             }
             $users = User::findOrfail($ild);
 
-            $useremail         = array();
-            $usercontactnumber = array();
+            // $useremail         = array();
+            // $usercontactnumber = array();
+            $examinfo = 'Exam ID: ' . $exam->id . ' Date: ' . $exam->exam_date . ' Time: ' . $exam->exam_time . ' Class: ' . $exam->class_number;
+            // return $examinfo;
             foreach ($users as $user) {
-                $useremail[]         = $user->email;
-                $usercontactnumber[] = $user->contact_number;
+                // $useremail[]         = $user->email;
+                // $usercontactnumber[] = $user->contact_number;
+                $usernumber = '88' . $user->contact_number;
+
+                Nexmo::message()->send([
+                    'to'   => $usernumber,
+                    'from' => '16105552344',
+                    'text' => $examinfo,
+                ]);
             };
             // $email=['manna.jstu@gmail.com','waleur.jessore@gmail.com'];
-            $examinfo = Exam::findorfail($request->id)->toArray();
-            Mail::send('exammail', ["data" => $examinfo], function ($message) use ($useremail) {
-                $message->to($useremail)->subject('Exam Notification');
-                $message->from('admin@gmail.com', 'Day Care Center');
-            });
+            // $examinfo = Exam::findorfail($request->id)->toArray();
+            // Mail::send('exammail', ["data" => $examinfo], function ($message) use ($useremail) {
+            //     $message->to($useremail)->subject('Exam Notification');
+            //     $message->from('admin@gmail.com', 'Day Care Center');
+            // });
         }
-
     }
 
     /**
