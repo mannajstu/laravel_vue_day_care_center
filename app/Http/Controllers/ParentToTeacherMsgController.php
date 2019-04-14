@@ -59,6 +59,17 @@ class ParentToTeacherMsgController extends Controller
             $parenttoteachermsg->subject        = $request->subject;
             $parenttoteachermsg->message        = $request->message;
             $parenttoteachermsg->save();
+            
+            $messageinfo = 'Sub: ' . $parenttoteachermsg->subject . ' Details: ' . $parenttoteachermsg->message;
+
+            $usernumber = '88' . $parenttoteachermsg->contact_number;
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
+            
             return $parenttoteachermsg;
         }
     }

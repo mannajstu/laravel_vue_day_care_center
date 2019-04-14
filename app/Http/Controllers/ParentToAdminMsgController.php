@@ -59,6 +59,17 @@ class ParentToAdminMsgController extends Controller
         $parenttoadminmsg->subject        = $request->subject;
         $parenttoadminmsg->message        = $request->message;
         $parenttoadminmsg->save();
+
+        $messageinfo = 'Sub: ' . $parenttoadminmsg->subject . ' Details: ' . $parenttoadminmsg->message;
+
+            $usernumber = '88' . env('Admin_Contact_Number');
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
+            
         return $parenttoadminmsg;
     }
     }

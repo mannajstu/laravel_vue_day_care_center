@@ -60,6 +60,17 @@ class DoctorToParentMsgController extends Controller
             $doctortoparentmsg->subject        = $request->subject;
             $doctortoparentmsg->message        = $request->message;
             $doctortoparentmsg->save();
+
+            $messageinfo = 'Sub: ' . $doctortoparentmsg->subject . ' Details: ' . $doctortoparentmsg->message;
+
+            $usernumber = '88' . $doctortoparentmsg->contact_number;
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
+            
             return $doctortoparentmsg;
         }
     }

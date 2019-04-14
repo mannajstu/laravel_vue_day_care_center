@@ -62,6 +62,18 @@ class TeacherToAdminMsgController extends Controller
         $teachertoadminmsg->subject=$request->subject;
         $teachertoadminmsg->message=$request->message;
         $teachertoadminmsg->save();
+
+
+         $messageinfo = 'Sub: ' . $teachertoadminmsg->subject . ' Details: ' . $teachertoadminmsg->message;
+
+            $usernumber = '88' . env('Admin_Contact_Number');
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
+            
         return $teachertoadminmsg;
     }
     }

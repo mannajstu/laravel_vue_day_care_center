@@ -63,6 +63,16 @@ class DoctorToAdminMsgController extends Controller
         $doctortoadminmsg->subject        = $request->subject;
         $doctortoadminmsg->message        = $request->message;
         $doctortoadminmsg->save();
+        
+        $messageinfo = 'Sub: ' . $doctortoadminmsg->subject . ' Details: ' . $doctortoadminmsg->message;
+
+            $usernumber = '88' . env('Admin_Contact_Number');
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
         return $doctortoadminmsg;
     }
     }

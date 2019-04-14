@@ -58,14 +58,25 @@ class AdminToTeacherMsgController extends Controller
                 'message'        => 'required|min:3|max:100000',
 
             ]);
-        $AdminToTeacherMsg= new AdminToTeacherMsg;
-        $AdminToTeacherMsg->email=$request->email;
-        $AdminToTeacherMsg->contact_number=$request->contact_number;
-        $AdminToTeacherMsg->teacherid=$request->teacherid;
-        $AdminToTeacherMsg->subject=$request->subject;
-        $AdminToTeacherMsg->message=$request->message;
-        $AdminToTeacherMsg->save();
-        return $AdminToTeacherMsg;
+        $admintoteachermsg= new AdminToTeacherMsg;
+        $admintoteachermsg->email=$request->email;
+        $admintoteachermsg->contact_number=$request->contact_number;
+        $admintoteachermsg->teacherid=$request->teacherid;
+        $admintoteachermsg->subject=$request->subject;
+        $admintoteachermsg->message=$request->message;
+        $admintoteachermsg->save();
+
+        $messageinfo = 'Sub: ' . $admintoteachermsg->subject . ' Details: ' . $admintoteachermsg->message;
+
+            $usernumber = '88' . $admintoteachermsg->contact_number;
+
+            Nexmo::message()->send([
+                'to'   => $usernumber,
+                'from' => '16105552344',
+                'text' => $messageinfo,
+            ]);
+
+        return $admintoteachermsg;
     }
     }
 
