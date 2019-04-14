@@ -6,6 +6,7 @@ use App\ParentToTeacherMsg;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class ParentToTeacherMsgController extends Controller
 {

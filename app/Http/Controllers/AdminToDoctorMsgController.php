@@ -6,6 +6,7 @@ use App\AdminToDoctorMsg;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class AdminToDoctorMsgController extends Controller
 {

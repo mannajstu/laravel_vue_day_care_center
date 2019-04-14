@@ -6,6 +6,7 @@ use App\AdminToParentMsg;
 use Auth;
 use Gate;
 use Illuminate\Http\Request;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class AdminToParentMsgController extends Controller
 {
@@ -58,6 +59,17 @@ class AdminToParentMsgController extends Controller
         $admintoparentmsg->subject        = $request->subject;
         $admintoparentmsg->message        = $request->message;
         $admintoparentmsg->save();
+
+        $messageinfo = 'Sub: ' . $admintoparentmsg->subject  . ' Details: ' . $admintoparentmsg->message  ;
+
+        $usernumber = '88' . $admintoparentmsg->contact_number;
+
+                Nexmo::message()->send([
+                    'to'   => $usernumber,
+                    'from' => '16105552344',
+                    'text' =>  $messageinfo,
+                ]);
+
         return $admintoparentmsg;
     }
     }
