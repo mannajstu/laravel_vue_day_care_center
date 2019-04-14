@@ -116,8 +116,15 @@ class GeneralNoticeController extends Controller
      * @param  \App\GeneralNotice  $generalNotice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GeneralNotice $generalNotice)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+           
+            GeneralNotice::destroy($id);
+            return $id;
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

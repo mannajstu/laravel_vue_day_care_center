@@ -212,8 +212,16 @@ class ExamController extends Controller
      * @param  \App\Exam  $exam
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Exam $exam)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            
+            Exam::destroy($id);
+            return $id;
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

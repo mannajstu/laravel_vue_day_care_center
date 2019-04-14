@@ -73,11 +73,7 @@ class ChildInfoController extends Controller
         if (Gate::allows('isAdmin')) {
             $this->validate($request, [
 
-                'mother_name'     => 'required',
-                'father_name'     => 'required',
-
-                'contact_address' => 'required',
-                'child_name'      => 'required',
+               'child_name'      => 'required',
 
                 'email'           => 'required|email',
                 'contact_number'  => 'required|numeric',
@@ -93,15 +89,19 @@ class ChildInfoController extends Controller
             ]);
 
             if ($request->userstatus) {
+                
                 $user = User::where('email', $request->email)
                     ->orWhere('contact_number', $request->contact_number)->firstOrfail();
             } else {
                 $this->validate($request, [
 
-                    'email'          => 'required|email|unique:users,email',
-                    'contact_number' => 'required|numeric|unique:users,contact_number',
+                'mother_name'     => 'required',
+                'father_name'     => 'required',
 
-                ]);
+                'contact_address' => 'required',
+                
+
+            ]);
 
                 $user = new User;
 
@@ -136,7 +136,8 @@ class ChildInfoController extends Controller
 
             }
 
-            $child = new ChildInfo;
+            if (!empty($parent)) {
+                $child = new ChildInfo;
 
             $child->child_name = $request->child_name;
             $child->parentid   = $parent->id;
@@ -149,6 +150,10 @@ class ChildInfoController extends Controller
             $child->room_number  = $request->room_number;
             $child->class_number = $request->class_number;
             $child->save();
+            } else {
+                return "Worng";
+            }
+            
 
         }
     }

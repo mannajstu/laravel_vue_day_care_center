@@ -144,8 +144,16 @@ class RoomController extends Controller
      * @param  \App\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy( $id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            
+            Room::destroy($id);
+            return $id;
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Gallery;
-use Auth;
+use File;
 use Gate;
 use Illuminate\Http\Request;
 
@@ -26,10 +26,9 @@ class GalleryController extends Controller
                 return Gallery::paginate(5);
             }
 
-        }else{
-             return Gallery::paginate(5);
+        } else {
+            return Gallery::paginate(5);
         }
-
 
     }
     public function slider()
@@ -116,40 +115,40 @@ class GalleryController extends Controller
      */
     public function update(Request $request, $id)
     {
-         if (Gate::allows('isAdmin')) {
-          $this->validate($request, [
-            'title' => 'required',
-            'image' => 'required| mimes:jpeg,jpg,png | max:2000',
+        if (Gate::allows('isAdmin')) {
+            $this->validate($request, [
+                'title' => 'required',
+                'image' => 'required| mimes:jpeg,jpg,png | max:2000',
 
-        ]);
+            ]);
 
-        $gallery = Gallery::findOrfail($id);
-        // $gallery->title     = $request->title;
-        // $gallery->save();
-        return $gallery;
+            $gallery = Gallery::findOrfail($id);
+            // $gallery->title     = $request->title;
+            // $gallery->save();
+            return $gallery;
 //         if ($request->hasFile('image')) {
 
 //             $file = $request->file('image');
-        //             unlink($request->imagelink);
+            //             unlink($request->imagelink);
 
 //             $fileName           = time() . $file->getClientOriginalName();
-        //             $gallery->title     = $request->title;
-        //             $gallery->imagelink = '/uploads/' . $fileName;
-        //             if (!empty($request->slider)) {
-        //                 $gallery->slider = 1;
-        // }
-        //                 else{
-        //                     $gallery->slider = 0;
-        //                 }
-        //                 $file->move('uploads', $fileName);
-        //                 $gallery->save();
-        //                 return $gallery;
+            //             $gallery->title     = $request->title;
+            //             $gallery->imagelink = '/uploads/' . $fileName;
+            //             if (!empty($request->slider)) {
+            //                 $gallery->slider = 1;
+            // }
+            //                 else{
+            //                     $gallery->slider = 0;
+            //                 }
+            //                 $file->move('uploads', $fileName);
+            //                 $gallery->save();
+            //                 return $gallery;
 
 //             }
-        //             else{
-        // return 'fail';
-        //             }
-    }
+            //             else{
+            // return 'fail';
+            //             }
+        }
     }
 
     /**
@@ -158,8 +157,20 @@ class GalleryController extends Controller
      * @param  \App\Gallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gallery $gallery)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            $gallery = Gallery::where('id', $id)->first();
+
+            $path = public_path() . $gallery->imagelink;
+
+            unlink($path);
+            Gallery::destroy($id);
+            return $gallery;
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

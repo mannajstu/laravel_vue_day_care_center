@@ -41,7 +41,7 @@
                     <router-link :to="{ name: 'editroom', params: { id: room.room_number }}"tag='button' class="btn btn-info"><i class="fa fa-eye"></i>
                     </router-link>
 
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deleteroom(room.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -96,6 +96,25 @@
             )
    
     },
+    deleteroom(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/roominfo/" + id).then(({ data }) => {
+            this.loadrooms();
+            this.successmsg();
+            console.log(data);
+          });
+        }
+      });
+    }
   
     
   },

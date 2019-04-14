@@ -81062,6 +81062,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.generalnotices = data;
         console.log(data);
       });
+    },
+    deletegeneralnotice: function deletegeneralnotice(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/generalnoticeinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadgeneralnotices();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   created: function created() {
@@ -81198,7 +81221,21 @@ var render = function() {
                                     [_c("i", { staticClass: "fa fa-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(1, true)
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger ",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deletegeneralnotice(
+                                            generalnotice.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash" })]
+                                  )
                                 ],
                                 1
                               )
@@ -81240,16 +81277,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -87681,6 +87708,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.rooms = data;
         console.log(data);
       });
+    },
+    deleteroom: function deleteroom(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/roominfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadrooms();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   created: function created() {
@@ -87806,7 +87856,19 @@ var render = function() {
                                     [_c("i", { staticClass: "fa fa-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(1, true)
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger ",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deleteroom(room.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash" })]
+                                  )
                                 ],
                                 1
                               )
@@ -87846,16 +87908,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -94214,6 +94266,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.exams = data;
         console.log(data);
       });
+    },
+    deleteexam: function deleteexam(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/examinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadexams();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   created: function created() {
@@ -94343,7 +94418,19 @@ var render = function() {
                                     [_c("i", { staticClass: "fa fa-eye" })]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(1, true)
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger ",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deleteexam(exam.id)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash" })]
+                                  )
                                 ],
                                 1
                               )
@@ -94387,16 +94474,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true
@@ -95876,6 +95953,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.galleries = data;
         console.log(data);
       });
+    },
+    deleteimage: function deleteimage(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/galleryinfo/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadgalleries();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   beforeCreate: function beforeCreate() {
@@ -96004,7 +96104,19 @@ var render = function() {
                                 [_c("i", { staticClass: "fa fa-eye" })]
                               ),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger ",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.deleteimage(gallery.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fa fa-trash" })]
+                              )
                             ],
                             1
                           )
@@ -96045,16 +96157,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Action")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-trash" })]
-    )
   }
 ]
 render._withStripped = true

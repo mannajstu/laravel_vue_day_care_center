@@ -41,7 +41,7 @@
                     <router-link :to="{ name: 'singlegallery', params: { id: gallery.id }}"tag='button' class="btn btn-primary"><i class="fa fa-eye"></i></router-link>
                   
 
-                    <button type="button" class="btn btn-danger "><i class="fa fa-trash"></i>
+                    <button type="button" @click="deleteimage(gallery.id)" class="btn btn-danger "><i class="fa fa-trash"></i>
                     </button>
                   </td>
 
@@ -93,6 +93,25 @@
             }
             )
    
+    },
+    deleteimage(id) {
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(result => {
+        if (result.value) {
+          axios.delete("/galleryinfo/" + id).then(({ data }) => {
+            this.loadgalleries();
+            this.successmsg();
+            console.log(data);
+          });
+        }
+      });
     },
   
     
