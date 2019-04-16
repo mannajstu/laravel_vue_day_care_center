@@ -506,6 +506,7 @@ class ComposerStaticInit0f1aca7609ad5de88b67d958998919e9
         'App\\Teacher' => __DIR__ . '/../..' . '/app/Teacher.php',
         'App\\TeacherToAdminMsg' => __DIR__ . '/../..' . '/app/TeacherToAdminMsg.php',
         'App\\TeacherToParentMsg' => __DIR__ . '/../..' . '/app/TeacherToParentMsg.php',
+        'App\\TemChild' => __DIR__ . '/../..' . '/app/TemChild.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',

@@ -73,35 +73,33 @@ class ChildInfoController extends Controller
         if (Gate::allows('isAdmin')) {
             $this->validate($request, [
 
-               'child_name'      => 'required',
+                'child_name'   => 'required',
 
-                'email'           => 'required|email',
-                'contact_number'  => 'required|numeric',
-
-                'birth_date'      => 'required',
-                'birth_reg_no'    => 'required|unique:child_infos,birth_reg_no',
-                'gender'          => 'required',
-                'doctorid'        => 'required',
-                'teacherid'       => 'required',
-                'class_number'    => 'required',
-                'room_number'     => 'required',
+                'birth_date'   => 'required',
+                'birth_reg_no' => 'required|unique:child_infos,birth_reg_no',
+                'gender'       => 'required',
+                'doctorid'     => 'required',
+                'teacherid'    => 'required',
+                'class_number' => 'required',
+                'room_number'  => 'required',
 
             ]);
 
             if ($request->userstatus) {
-                
+
                 $user = User::where('email', $request->email)
                     ->orWhere('contact_number', $request->contact_number)->firstOrfail();
             } else {
                 $this->validate($request, [
 
-                'mother_name'     => 'required',
-                'father_name'     => 'required',
+                    'mother_name'     => 'required',
+                    'father_name'     => 'required',
 
-                'contact_address' => 'required',
-                
+                    'contact_address' => 'required',
+                    'email'           => 'required|email|unique:users,email',
+                    'contact_number'  => 'required|numeric|unique:users,contact_number',
 
-            ]);
+                ]);
 
                 $user = new User;
 
@@ -139,21 +137,20 @@ class ChildInfoController extends Controller
             if (!empty($parent)) {
                 $child = new ChildInfo;
 
-            $child->child_name = $request->child_name;
-            $child->parentid   = $parent->id;
+                $child->child_name = $request->child_name;
+                $child->parentid   = $parent->id;
 
-            $child->birth_date   = $request->birth_date;
-            $child->birth_reg_no = $request->birth_reg_no;
-            $child->gender       = $request->gender;
-            $child->doctorid     = $request->doctorid;
-            $child->teacherid    = $request->teacherid;
-            $child->room_number  = $request->room_number;
-            $child->class_number = $request->class_number;
-            $child->save();
+                $child->birth_date   = $request->birth_date;
+                $child->birth_reg_no = $request->birth_reg_no;
+                $child->gender       = $request->gender;
+                $child->doctorid     = $request->doctorid;
+                $child->teacherid    = $request->teacherid;
+                $child->room_number  = $request->room_number;
+                $child->class_number = $request->class_number;
+                $child->save();
             } else {
                 return "Worng";
             }
-            
 
         }
     }

@@ -58,6 +58,11 @@ let routes = [
 
   
   { path: '/register', component: require('./components/auth/Register.vue'),name: 'register',},
+
+  { path: '/add_tem_child', component: require('./components/child/Tem_Child.vue'),name: 'add_tem_child',},
+{ path: '/show_tem_child', component: require('./components/child/Tem_Child_Show.vue'),name: 'show_tem_child',},
+ { path: '/tem_child/:id', component: require('./components/child/Single_Tem_Child.vue'),name: 'single_tem_child',},
+
   { path: '/headercontent', component: require('./components/home/HeaderContent.vue'),name: 'headercontent',},
   { path: '/addgeneralnotice', component: require('./components/notice/AddGeneralNotice.vue'),name: 'addgeneralnotice',},
   { path: '/generalnotice/edit/:id', component: require('./components/notice/AddGeneralNotice.vue'),name: 'editgeneralnotice',},

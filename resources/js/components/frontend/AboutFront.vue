@@ -4,7 +4,7 @@
                  
                     <div col-md-12>
                       <div class="col-md-12 " >     
-                 <div class="well">{{ description }}</div>
+                 <div class="well text-justify"><h4>{{ description }}</h4></div>
  </div>
                  
                     

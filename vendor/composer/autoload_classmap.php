@@ -75,6 +75,7 @@ return array(
     'App\\Teacher' => $baseDir . '/app/Teacher.php',
     'App\\TeacherToAdminMsg' => $baseDir . '/app/TeacherToAdminMsg.php',
     'App\\TeacherToParentMsg' => $baseDir . '/app/TeacherToParentMsg.php',
+    'App\\TemChild' => $baseDir . '/app/TemChild.php',
     'App\\User' => $baseDir . '/app/User.php',
     'BeyondCode\\DumpServer\\DumpServerCommand' => $vendorDir . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
     'BeyondCode\\DumpServer\\DumpServerServiceProvider' => $vendorDir . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',

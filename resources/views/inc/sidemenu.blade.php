@@ -45,6 +45,13 @@
                 </router-link>
             </li>
             <li>
+                <router-link to="/show_tem_child">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                    Temporary Child
+                </router-link>
+            </li>
+            <li>
                 <router-link to="/exam">
                     <i class="fa fa-dashboard fa-2x">
                     </i>
@@ -181,11 +188,18 @@
                     Login
                 </router-link>
             </li>
-            <li>
+            {{-- <li>
                 <router-link to="/register">
                     <i class="fa fa-dashboard fa-2x">
                     </i>
                     Register
+                </router-link>
+            </li> --}}
+            <li>
+                <router-link to="/add_tem_child">
+                    <i class="fa fa-dashboard fa-2x">
+                    </i>
+                    Child Register
                 </router-link>
             </li>
             @endauth

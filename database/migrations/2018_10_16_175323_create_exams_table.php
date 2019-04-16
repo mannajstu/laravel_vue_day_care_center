@@ -22,7 +22,7 @@ class CreateExamsTable extends Migration
             $table->string('exam_mark');
             $table->integer('class_number')->unsigned()->nullable();
             $table->foreign('class_number')->references('class_number')
-                ->on('class_infos')->onDelete('cascade');
+                ->on('class_infos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

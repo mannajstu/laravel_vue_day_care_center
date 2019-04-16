@@ -21,6 +21,7 @@ Route::get('/usersearch','UserController@usersearch');
 
 Route::post('/adminActivation', 'UserController@adminActivation');
 Route::resource('childinfo', 'ChildInfoController');
+Route::resource('temchild', 'TemChildController');
 Route::resource('parentinfo', 'ParentInfoController');
 Route::resource('roominfo', 'RoomController');
 Route::get('roomnumber', 'RoomController@roomnumber');
