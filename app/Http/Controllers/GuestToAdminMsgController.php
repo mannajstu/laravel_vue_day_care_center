@@ -118,8 +118,16 @@ class GuestToAdminMsgController extends Controller
      * @param  \App\GuestToAdminMsg  $guestToAdminMsg
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GuestToAdminMsg $guestToAdminMsg)
+    public function destroy($id)
     {
-        //
+        if (Gate::allows('isAdmin')) {
+
+            
+            GuestToAdminMsg::destroy($id);
+            return $id;
+
+        } else {
+            return redirect('/notfound');
+        }
     }
 }

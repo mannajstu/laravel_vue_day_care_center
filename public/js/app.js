@@ -103740,6 +103740,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.guests = data;
         console.log(data);
       });
+    },
+    deletemsg: function deletemsg(id) {
+      var _this3 = this;
+
+      swal({
+        title: "Are you sure?",
+        // text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          axios.delete("/guesttoadminmsg/" + id).then(function (_ref3) {
+            var data = _ref3.data;
+
+            _this3.loadguests();
+            _this3.successmsg();
+            console.log(data);
+          });
+        }
+      });
     }
   },
   created: function created() {
@@ -103820,7 +103843,21 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(guest.contact_number))]),
                               _vm._v(" "),
-                              _vm._m(1, true)
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger ",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deletemsg(guest.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash" })]
+                                )
+                              ])
                             ])
                           }),
                           _vm._v(" "),
@@ -103858,18 +103895,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        { staticClass: "btn btn-danger ", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-trash" })]
-      )
     ])
   }
 ]

@@ -143,7 +143,7 @@ class ExamController extends Controller
 
             // $useremail         = array();
             // $usercontactnumber = array();
-            $examinfo = ' Date: ' . $exam->exam_date . ' Time: ' . $exam->exam_time . ' Class: ' . $exam->class_number . ' Title: ' . $exam->exam_title . ' Details: ' . $exam->exam_description;
+            $examinfo = ' Date: ' . $exam->exam_date.',' . ' Time: ' . $exam->exam_time.',' . ' Class: ' . $exam->class_number .','. ' Title: ' . $exam->exam_title.',' . ' Details: ' . $exam->exam_description.'.';
             // return $examinfo;
             foreach ($users as $user) {
                 // $useremail[]         = $user->email;
