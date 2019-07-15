@@ -5,14 +5,14 @@
             <meta content="width=device-width, initial-scale=1" name="viewport">
                 <!-- CSRF Token -->
                 <meta content="{{ csrf_token() }}" name="csrf-token">
-                    <title> 
+                    <title>
                         {{-- {{ config('app.name', '--}}Day Care Center
                     </title>
                     <!-- Fonts -->
                     <link href="https://fonts.gstatic.com" rel="dns-prefetch">
                         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
                             <!-- Styles -->
-                            
+
 
                             <link href="{{ asset('css/app.css') }}" rel="stylesheet">
                                 <!-- BOOTSTRAP STYLES-->
@@ -28,10 +28,10 @@
     <body>
         <div id="app">
             {{-- @if(Auth::check()) --}}
-            
+
             {{-- @else --}}
             <div id="wrapper">
-                @include('inc.topmenu') 
+                @include('inc.topmenu')
 @include('inc.sidemenu')
                 <div id="page-wrapper">
                     <div id="page-inner">
@@ -74,14 +74,14 @@
         </script>
         {{-- <script>
             window.user=@json('guest');
-            
+
         </script> --}}
         @auth
         @php
-            
+
             $roles= auth()->user()->roles()->get();
             $role= false;
-           
+
         foreach ($roles as $urole) {
            if($urole->name===Session::get('role')){
             $role= true;
@@ -92,15 +92,16 @@
         @if($role)
         <script>
             window.user=@json(Session::get('role'));
-            
+
         </script>
         @else
         <script>
             window.user=@json("parent");
-            
+
         </script>
-               
+
         @endif
+
            @endauth
     </body>
 </html>

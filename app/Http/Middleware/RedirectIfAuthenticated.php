@@ -28,8 +28,8 @@ class RedirectIfAuthenticated
                     $role = true;
                 }
             }
-            $activeuser = Auth::user()->active;
-            if ($role && $activeuser === 1) {
+            $activeuser = auth()->user()->active;
+            if ($role && $activeuser == 1) {
                 return redirect('/home');
             } else {
                 Auth::logout();

@@ -19,7 +19,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }/**
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -38,7 +39,6 @@ class UserController extends Controller
             } else {
                 return User::with('roles')->paginate(5);
             }
-
         }
     }
 
@@ -185,15 +185,12 @@ class UserController extends Controller
                 if ($role->name === 'teacher') {
                     if (Teacher::where('userid', $user->id)->first() === null) {
                         $user->addTeacher($user->id, $address);
-
                     }
-
                 }
 
                 if ($role->name === 'doctor') {
                     if (Doctor::where('userid', $user->id)->first() === null) {
                         $user->addDoctor($user->id, $address);
-
                     }
                 }
 
@@ -204,7 +201,6 @@ class UserController extends Controller
                         $user->addParent($user->id, $address, $mothername);
                     }
                 }
-
             }
 
             // if (!empty($user)) {
@@ -225,10 +221,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if (Gate::allows('isAdmin') && Auth::id()===1) {
+        if (Gate::allows('isAdmin') && Auth::id() === 1) {
 
             User::destroy($id);
-
         } else {
             return redirect('/notfound');
         }

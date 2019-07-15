@@ -27,8 +27,8 @@
             <li>
                         <a href="#"><i class="fa fa-sitemap fa-2x"></i> Admin<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            
-            
+
+
             <li>
                 <router-link to="/user" >
                     <i class="fa fa-dashboard fa-2x">
@@ -36,7 +36,7 @@
                     User
                 </router-link>
             </li>
-            
+
             <li>
                 <router-link to="/child">
                     <i class="fa fa-dashboard fa-2x">
@@ -58,7 +58,7 @@
                     Exam
                 </router-link>
             </li>
-            
+
             <li>
                 <router-link to="/generalnotice">
                     <i class="fa fa-dashboard fa-2x">
@@ -128,7 +128,7 @@
                     </i>
                    Gallery Page
                 </router-link>
-            </li>         
+            </li>
                         </ul>
                       </li>
                        @endcan
@@ -159,14 +159,14 @@
                 <router-link to="/contact">
                     <i class="fa fa-dashboard fa-2x">
                     </i>
-                    Contact 
+                    Contact
                 </router-link>
             </li>
 
-           
-                        
-            
-            
+
+
+
+
 
             @auth
             <li>
