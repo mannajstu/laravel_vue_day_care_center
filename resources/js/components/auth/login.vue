@@ -3,21 +3,24 @@
 
                     <div>
                     <div class="row">
- 
+
 
 
                     <form @submit.prevent="login()" @keydown="form.onKeydown($event)" >
 
-                
+
 
                     <!-- end col-md-12 -->
                     <div class="col-md-12">
                     <div class="panel panel-default">
                     <div class="panel-heading">
                     <h3>Login Info</h3>
-                     
-                    </div> 
-                    <div class="panel-body">  
+                    <h3>Email:admintest@gmail.com</h3>
+                    <h3>Pass:admintest</h3>
+
+
+                    </div>
+                    <div class="panel-body">
                     <div class="form-group col-md-4">
                     <label>Email</label>
                     <input v-model="form.email" type="text" name="email"
@@ -45,8 +48,8 @@
                     </div>
                     </div>
                     <!-- end col-md-12 -->
-                    
-                    
+
+
                     <div class="col-md-12">
 <div class="form-group">
                      <button :disabled="form.busy" type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
@@ -55,10 +58,10 @@
 
 
                     </form>
-                    
-                    </div> 
+
+                    </div>
                     <!--  end of row -->
-                                 
+
                     </div>
 
                     </template>
@@ -82,12 +85,12 @@ role: '',
 }
 },
 methods: {
-        
+
 login(){
 // Submit the form via a POST request
 this.form.post('/login')
-.then(({ data }) => 
-{ 
+.then(({ data }) =>
+{
 
 
 this.$router.go('/home')
@@ -106,8 +109,8 @@ beforeCreate(){
 // }
 },
 created() {
-    
-       // this.loadparent(); 
+
+       // this.loadparent();
 
 },
 // watch: {
@@ -117,7 +120,7 @@ created() {
 //     }
 //   },
 //       computed: {
-  
+
 //   updateinfo(){
 //     return this.loadchild();
 //   }
